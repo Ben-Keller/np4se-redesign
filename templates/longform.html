@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set og_image = lf.banner %}
+{% set legal = lf.label == 'Legal' %}
+{% block main %}
+<article class="detail">
+  <header class="wrap dhead">
+    {% if not legal %}<span class="label"><a href="/resources-and-publications/">Resources</a></span>{% endif %}
+    <h1 class="{{ 'd2' if lf.title|length > 34 else 'd1' }}">{{ lf.title }}</h1>
+    {% if lf.lead %}<p class="lead">{{ lf.lead }}</p>{% endif %}
+  </header>
+  {% if lf.banner %}{{ ui.ph(lf.banner, lf.banner_alt, None, 'wide-ph slim', eager=True) }}{% endif %}
+  <div class="wrap dgrid{{ ' legal' if legal }}">
+    <div class="dmain">
+      <div class="prose{{ ' small-prose' if legal }}" data-toc-source>{{ lf.html }}</div>
+    </div>
+    <aside class="dside">
+      <nav class="toc" data-toc aria-label="On this page" hidden><span class="label">On this page</span><ol></ol></nav>
+      {% if not legal %}
+      <div class="side-sec"><span class="label">Contact us</span><p class="small">You can also email us:</p><p class="mt-s">{{ ui.copy(site.emails.contact) }}</p></div>
+      {% endif %}
+    </aside>
+  </div>
+</article>
+{% if lf.related %}
+<section class="band tint">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Related') }}
+    <div class="cards3">{% for ref in lf.related %}{% set r = item_by_ref(ref) %}{% if r %}{% if r.kind == 'publication' %}{{ ui.pub_card(r) }}{% else %}{{ ui.ev_card(r) }}{% endif %}{% endif %}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block bodyclass %}home{% endblock %}
+{% block head %}
+<script type="application/ld+json">{{ {"@context":"https://schema.org","@type":"NGO","name":site.name,"alternateName":["NP4SE","New Producers Group"],"url":site.url,"logo":site.url ~ "/assets/img/apple-touch-icon.png","email":site.emails.contact,"sameAs":[site.linkedin],"address":{"@type":"PostalAddress","streetAddress":"71-75 Shelton Street, Covent Garden","addressLocality":"London","postalCode":"WC2H 9JQ","addressCountry":"GB"}}|tojson_attr }}</script>
+{% endblock %}
+{% set H = P.home %}
+{% block main %}
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-tx">
+      <h1 class="d1">{{ H.hero_heading|markup }}</h1>
+      <p class="lead">{{ H.hero_lead }}</p>
+      <div class="ctas"><a class="btn" href="/members/">Member countries</a>{% if flagship %}<a class="btn line" href="{{ flagship.url }}">Guidelines for Good Governance 2026</a>{% endif %}</div>
+    </div>
+    <div class="mosaic">
+      {{ ui.stock('coast-boats', 'a', eager=True, dot=HEX.savanna) }}
+      {{ ui.stock('rig-blue', 'b', caption=False) }}
+      <div class="ringbadge" aria-hidden="true">{{ ui.ring() }}</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="stats">
+    <div><div class="v num">{{ N_COUNTRIES }}</div><p>countries: {{ N_MEMBERS }} members and {{ N_OBSERVERS }} observers</p></div>
+    {% for s in H.stats %}<div><div class="v num">{{ s.value }}<small>{{ s.suffix }}</small></div><p>{{ s.text }}</p></div>{% endfor %}
+  </div>
+  <p class="stats-more"><a class="arrow" href="/impact/">Impact</a></p>
+</div>
+
+<section class="band">
+  <div class="wrap split">
+    {{ ui.ph(H.helping.image, H.helping.alt, H.helping.caption, 'helping') }}
+    <div>
+      <h2 class="d2">{{ H.helping.title }}</h2>
+      {% for p in H.helping.paragraphs %}<p class="body mt-m">{{ p }}</p>{% endfor %}
+      <p class="mt-l"><a class="arrow" href="/what-we-do/">How we work</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="band tint" id="map">
+  <div class="wrap">
+    {{ ui.sec_head(None, H.members.title, H.members.paragraphs[0]) }}
+    <div class="mapwrap">
+      <div class="map" data-map="home" role="group" aria-label="World map of the network. Select a country to open its page."></div>
+      <div class="legend" data-legend="region"></div>
+      <p class="map-note">{{ H.members.paragraphs[2] }}</p>
+    </div>
+    <div class="regions">
+      {% for k in ['car', 'wa', 'ces', 'mea'] %}{% set r = regions[k] %}{% set ms = active|selectattr('region', 'equalto', k)|list %}
+      <div class="region" style="--c:{{ r.hex }}">
+        {{ ui.stock(r.photo.key, dot=r.hex) }}
+        <div class="rn"><h3>{{ r.name }}</h3><span class="num">{{ ms|length }}</span></div>
+        <p class="rc">{% for m in ms %}<a href="{{ m.url }}">{{ m.name }}</a>{% if m.role == 'observer' %} <small>observer</small>{% endif %}{% if not loop.last %}<span class="sep">, </span>{% endif %}{% endfor %}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="after-regions">{{ H.members.paragraphs[1] }} <a class="arrow" href="/get-involved/#member">Become a member</a></p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'How we work', P.how.approach_intro, '/what-we-do/', P.how.approach_title) }}
+    <div class="ws">
+      {% for w in P.how.workstreams %}{% set tone = ['lagoon', 'savanna', 'laterite', 'atlantic'][loop.index0] %}
+      <article style="--c:{{ INK[tone] }}">
+        {{ ui.ph(w.image, w.alt) }}
+        <h3>{{ w.title }}</h3>
+        <p>{{ w.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if flagship %}
+<section class="band t-savanna">
+  <div class="wrap feature">
+    <a class="cover" href="{{ flagship.url }}" tabindex="-1" aria-hidden="true">
+      <span class="ed">Guidelines · 4th edition · 2026</span>
+      <span class="cv-t"><b>Guidelines for Good Governance in Emerging Oil and Gas Producers</b><span class="au">{{ flagship.authors|replace(', ', ' · ') }}</span></span>
+      <span class="ft">{{ ui.ring('#FFFFFF') }}<b>NP4SE</b></span>
+    </a>
+    <div>
+      <span class="label c-savanna">{{ flagship.type }} · {{ flagship.date_display }}</span>
+      <h2 class="d3 mt-s">{{ flagship.title }}</h2>
+      <p class="lead mt-m">{{ flagship.summary }}</p>
+      {% for para in H.flagship.paragraphs %}<p class="body mt-m">{{ para }}</p>{% endfor %}
+      <div class="btnrow mt-l">{% for d in flagship.documents[:1] %}<a class="btn" href="{{ d.url }}" target="_blank" rel="noopener">{{ d.label }}</a>{% endfor %}<a class="btn line" href="{{ flagship.url }}">Read more</a></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Highlights', None, '/resources-and-publications/', 'All publications') }}
+    <div class="cards4">
+      {% for p in highlights if p is not sameas flagship %}{{ ui.pub_card(p) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set q = P.impact.voices[H.quote] %}{% set qp = photo(H.quote_photo) %}
+<section class="qband">
+  {{ ui.img(qp.src, qp.alt) }}
+  <div class="wrap">
+    <figure class="q"><blockquote><p>{{ q.quote|quoted }}</p></blockquote><figcaption>{{ q.source }}</figcaption></figure>
+    <span class="qcap">{{ qp.place }}</span>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Activities and events', P.events.intro ~ '.', '/activities-and-events/', 'All events') }}
+    <div class="cards3">{% for e in latest_events %}{{ ui.ev_card(e) }}{% endfor %}</div>
+  </div>
+</section>
+
+{% set SA = P.sovereign_ai %}
+<section class="band t-atlantic">
+  <div class="wrap ai">
+    {{ ui.ph(SA.banner, SA.banner_alt) }}
+    <div>
+      <h2 class="d2">Sovereign AI Initiative</h2>
+      <p class="lead mt-m">{{ SA.question }}</p>
+      <div class="comp">
+        {% for c in SA.components %}<div><b>{{ c.title }}</b><p>{{ c.paras[0]|plain|excerpt(170) }}</p></div>{% endfor %}
+      </div>
+      <p class="mt-l"><a class="arrow c-atl" href="/resources-and-publications/sovereign-ai-initiative/">Read more</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Get involved', P.get_involved.intro) }}
+    <div class="paths">
+      <a class="path" href="/get-involved/#member" style="--c:{{ HEX.lagoon }}">{{ ui.stock('accra-gate', dot=HEX.savanna) }}<h3>Become a member</h3><p>{{ P.get_involved.member.countries|excerpt(150) }}</p></a>
+      <a class="path" href="/get-involved/#sponsor" style="--c:{{ HEX.savanna }}">{{ ui.stock('solar') }}<h3>Sponsor us</h3><p>{{ P.get_involved.sponsor.paragraphs[0].text }} {{ P.get_involved.sponsor.paragraphs[1].text|excerpt(90) }}</p></a>
+      <a class="path" href="/get-involved/#partner" style="--c:{{ HEX.atlantic }}">{{ ui.stock('meeting') }}<h3>Become a partner</h3><p>{{ P.get_involved.partner.intro|excerpt(150) }}</p></a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/assets/js/world.js"></script><script src="/assets/js/np-data.js"></script>{% endblock %}

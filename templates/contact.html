@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set C = P.contact %}
+{% block main %}
+<section class="band pt-m">
+  <div class="wrap split top">
+    <div>
+      <h1 class="d1">Contact us</h1>
+      <p class="lead mt-m">You can also email us:</p>
+      <div class="contact-list mt-m">
+        <div>{{ ui.copy(site.emails.contact) }}</div>
+        <div>{{ ui.copy(site.emails.members) }}</div>
+      </div>
+      <div class="contact-list mt-l">
+        <div><span class="label">Registered office</span><p class="body">{{ site.charity.office }}</p></div>
+        <div><span class="label">Discussion platform</span><p class="body"><a href="{{ site.forum }}" rel="noopener">forum.newproducersgroup.org</a> · for governments and NOCs only</p></div>
+      </div>
+    </div>
+    <div class="form-card">
+      {{ ui.form_open('contact') }}
+        <div class="r2">{{ ui.field('c-name', 'Name', 'name', required=True, autocomplete='name') }}{{ ui.field('c-position', 'Position', 'position', autocomplete='organization-title') }}</div>
+        <div class="r2">{{ ui.field('c-org', 'Organisation', 'organisation', autocomplete='organization') }}{{ ui.select('c-topic', 'Enquiry about', ['Membership', 'Sponsorship', 'Partnership'], 'enquiry') }}</div>
+        <div class="r2">{{ ui.field('c-email', 'Email', 'email', 'email', required=True, autocomplete='email') }}{{ ui.select('c-country', 'Country', country_options, 'country') }}</div>
+        {{ ui.field('c-comments', 'Comments', 'comments', 'textarea', required=True) }}
+      {{ ui.form_close() }}
+    </div>
+  </div>
+</section>
+{{ ui.ph(C.banner, C.banner_alt, None, 'wide-ph slim') }}
+{% endblock %}

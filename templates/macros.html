@@ -1,0 +1,123 @@
+{# ---------- brand ---------- #}
+{% macro ring(colour=None, cls='') -%}
+<svg class="ring {{ cls }}" viewBox="0 0 40 40" aria-hidden="true">{% for x, y, c in RING %}<circle cx="{{ x }}" cy="{{ y }}" r="2.05" fill="{{ colour or c }}"/>{% endfor %}</svg>
+{%- endmacro %}
+
+{# ---------- images ---------- #}
+{% macro img(src, alt='', eager=False, cls='', sizes=None) -%}
+{%- set wh = dims(src) -%}
+<img src="{{ src }}" alt="{{ alt }}"{% if wh[0] %} width="{{ wh[0] }}" height="{{ wh[1] }}"{% endif %}{% if cls %} class="{{ cls }}"{% endif %}{% if eager %} fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
+{%- endmacro %}
+
+{% macro ph(src, alt='', caption=None, cls='', dot=None, eager=False) -%}
+<figure class="ph {{ cls }}">{{ img(src, alt, eager) }}{% if caption %}<figcaption>{% if dot %}<i style="background:{{ dot }}"></i>{% endif %}{{ caption }}</figcaption>{% endif %}</figure>
+{%- endmacro %}
+
+{% macro stock(key, cls='', eager=False, caption=True, dot=None) -%}
+{%- set p = photo(key) -%}
+{{ ph(p.src, p.alt, p.place if caption and p.place else None, cls, dot, eager) }}
+{%- endmacro %}
+
+{# ---------- labels ---------- #}
+{% macro type_pill(t) -%}
+{%- set cls = {'Annual meeting':'', 'Training':'atl', 'Workshop':'lat', 'Virtual meeting':'sav'}.get(t, 'plain') -%}
+<span class="pill {{ cls }}">{{ t }}</span>
+{%- endmacro %}
+
+{% macro theme_chips(slugs) -%}
+{% if slugs %}<ul class="chiplist">{% for s in slugs %}{% set t = s|theme %}{% if t %}<li><a class="tchip" href="{{ t.url }}"><i style="background:{{ t.hex }}"></i>{{ t.name }}</a></li>{% endif %}{% endfor %}</ul>{% endif %}
+{%- endmacro %}
+
+{% macro topic_tags(slugs) -%}
+{% if slugs %}<ul class="taglist">{% for s in slugs %}{% set t = s|topic %}{% if t %}<li><a class="tag" href="{{ t.url }}">{{ t.name|label_case }}</a></li>{% endif %}{% endfor %}</ul>{% endif %}
+{%- endmacro %}
+
+{% macro country_links(names) -%}
+{% for n in names %}{% set c = n|country %}{% if c and c.url %}<a href="{{ c.url }}">{{ n }}</a>{% else %}<span>{{ n }}</span>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
+{%- endmacro %}
+
+{% macro sec_head(label, title, lead=None, link=None, link_text=None, id=None, h='h2', cls='') -%}
+<div class="sec-head {{ cls }}">
+  <div>{% if label %}<span class="label">{{ label }}</span>{% endif %}<{{ h }} class="d2"{% if id %} id="{{ id }}"{% endif %}>{{ title }}</{{ h }}></div>
+  {% if lead or link %}<div class="sh-r">{% if lead %}<p class="lead">{{ lead }}</p>{% endif %}{% if link %}<p><a class="arrow" href="{{ link }}">{{ link_text }}</a></p>{% endif %}</div>{% endif %}
+</div>
+{%- endmacro %}
+
+{# ---------- covers & cards ---------- #}
+{% macro cover(item) -%}
+{%- set col = item|cover_colour -%}
+<div class="tcov c-{{ col }}"><span>{{ item.year }} · {{ item.type }}</span><b>{{ item.title|short_title }}</b>{{ ring('#FFFFFF' if col != 'savanna' else '#0F2B3D', 'cv-ring') }}</div>
+{%- endmacro %}
+
+{% macro thumb(item, eager=False) -%}
+<div class="thumb{{ ' slide' if item.image and 'screenshot' in item.image }}">{% if item.image %}{{ img(item.image, '', eager) }}{% else %}{{ cover(item) }}{% endif %}</div>
+{%- endmacro %}
+
+{% macro pub_card(p, filterable=False, h='h3') -%}
+{%- set col = p|cover_colour -%}
+<a class="card" href="{{ p.url }}"{% if filterable %} data-type="{{ p.type }}" data-themes="{{ p.themes|join(' ') }}" data-countries="{{ p.countries|join('|') }}" data-year="{{ p.year }}" data-q="{{ (p.title ~ ' ' ~ (p.authors or '') ~ ' ' ~ p.summary ~ ' ' ~ p.countries|join(' ') ~ ' ' ~ p.topics|join(' '))|lower }}"{% endif %}>
+  {{ thumb(p) }}
+  <span class="meta"><i style="background:{{ HEX[col] }}"></i>{{ p.type }} · {{ p.date_display }}</span>
+  <{{ h }} class="ct">{{ p.title }}</{{ h }}>
+  {% if p.authors %}<span class="by">{{ p.authors }}</span>{% endif %}
+</a>
+{%- endmacro %}
+
+{% macro ev_card(e, h='h3') -%}
+<a class="card ev" href="{{ e.url }}">
+  {{ thumb(e) }}
+  <span class="meta"><time datetime="{{ e.date_start }}">{{ e.date_display }}</time>{% if e.types %} · {{ e.types|join(', ') }}{% endif %}</span>
+  <{{ h }} class="ct">{{ e.title }}</{{ h }}>
+  {% if e.countries %}<span class="by">{{ e.countries|join(', ') }}</span>{% endif %}
+</a>
+{%- endmacro %}
+
+{% macro ev_row(e, filterable=False) -%}
+<article class="evrow"{% if filterable %} data-type="{{ e.types|join('|') }}" data-themes="{{ e.themes|join(' ') }}" data-countries="{{ e.countries|join('|') }}" data-year="{{ e.year }}" data-q="{{ (e.title ~ ' ' ~ e.summary ~ ' ' ~ e.countries|join(' ') ~ ' ' ~ e.topics|join(' '))|lower }}"{% endif %}>
+  <div class="when"><b class="num">{{ e.day }}</b><span>{{ e.mon }} {{ e.year }}</span></div>
+  <div class="what">
+    <div class="rowtags">{% for t in e.types %}{{ type_pill(t) }}{% endfor %}{% if e.countries %}<span class="where">{{ e.countries|join(', ') }}</span>{% endif %}</div>
+    <h3><a href="{{ e.url }}">{{ e.title }}</a></h3>
+    <p>{{ e.summary|excerpt(230) }}</p>
+  </div>
+  <div class="side">{% if e.summary_pub %}<a class="textlink" href="{{ e.summary_pub.url }}">Read the summary</a>{% endif %}</div>
+</article>
+{%- endmacro %}
+
+{% macro docs(documents) -%}
+{% if documents %}<div class="docs">{% for d in documents %}<a class="doc" href="{{ d.url }}" target="_blank" rel="noopener"><span>{{ d.label }}</span><small>{% if d.url.lower().endswith('.pdf') %}PDF{% elif 'newproducersgroup.org' in d.url %}Document{% else %}{{ d.url.split('/')[2]|replace('www.','') }}{% endif %}</small></a>{% endfor %}</div>{% endif %}
+{%- endmacro %}
+
+{# ---------- people ---------- #}
+{% macro person(p, tone='lagoon') -%}
+<div class="person t-{{ tone }}"><div class="av" aria-hidden="true">{{ p.name|initials }}</div><div><b>{{ p.name }}</b>{% for r in p.roles %}<span>{{ r }}</span>{% endfor %}</div></div>
+{%- endmacro %}
+
+{# ---------- forms ---------- #}
+{% macro form_open(name, cls='form') -%}
+<form class="{{ cls }}" name="{{ name }}" method="post"{% if site.form_action %} action="{{ site.form_action }}"{% else %} action="/thank-you/" data-netlify="true" netlify-honeypot="company_website"{% endif %} data-form>
+  <input type="hidden" name="form-name" value="{{ name }}">
+  <p class="hp" aria-hidden="true"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off"></label></p>
+{%- endmacro %}
+
+{% macro field(id, label, name=None, type='text', required=False, autocomplete=None, placeholder=None) -%}
+<div class="field"><label for="{{ id }}">{{ label }}{% if required %} <span class="req" aria-hidden="true">*</span>{% endif %}</label>
+{% if type == 'textarea' %}<textarea id="{{ id }}" name="{{ name or id }}" rows="5"{% if required %} required{% endif %}></textarea>
+{% else %}<input id="{{ id }}" name="{{ name or id }}" type="{{ type }}"{% if required %} required{% endif %}{% if autocomplete %} autocomplete="{{ autocomplete }}"{% endif %}{% if placeholder %} placeholder="{{ placeholder }}"{% endif %}>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro select(id, label, options, name=None, required=False, prompt='Please choose an option') -%}
+<div class="field"><label for="{{ id }}">{{ label }}{% if required %} <span class="req" aria-hidden="true">*</span>{% endif %}</label>
+<select id="{{ id }}" name="{{ name or id }}"{% if required %} required{% endif %}><option value="">{{ prompt }}</option>{% for o in options %}<option>{{ o }}</option>{% endfor %}</select></div>
+{%- endmacro %}
+
+{% macro form_close(button='Submit', ok='Thank you for your message. It has been sent.') -%}
+  <div class="form-foot"><button class="btn" type="submit">{{ button }}</button></div>
+  <p class="notice" role="status" data-ok hidden>{{ ok }}</p>
+</form>
+{%- endmacro %}
+
+{% macro copy(email) -%}
+<span class="copy"><a href="mailto:{{ email }}">{{ email }}</a><button type="button" data-copy="{{ email }}">Copy</button></span>
+{%- endmacro %}

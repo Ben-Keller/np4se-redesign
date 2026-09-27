@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set A = P.members_area %}
+{% macro items(sec) -%}
+{% set its = sec['items'] %}
+{% for it in its %}
+  {% if it.link and it.text == it.link_text %}
+    {# a button on the old site #}
+  {% elif it.kind == 'li' %}
+    <li>{{ it|link_text }}{% if it.sub %}<ul>{% for s in it.sub %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}</li>
+  {% else %}
+    <p class="body">{{ it|link_text }}</p>
+  {% endif %}
+{% endfor %}
+{%- endmacro %}
+{% block main %}
+<section class="portal">
+  <div class="portal-grid">
+    {{ ui.ph(A.slides[0], A.slide_alts[0], None, 'portal-ph', eager=True) }}
+    <div class="tx">
+      <h1 class="d1">Members area</h1>
+      <p class="body mt-m">{{ A.membership['items'][0].text }}</p>
+      <div class="btnrow mt-l">
+        <a class="btn" href="{{ site.forum }}" rel="noopener">Log in</a>
+        <a class="btn line" href="/contact-us/">Request log in details</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap tiles3">
+    <div class="tile" id="membership">
+      <h2 class="d3">{{ A.membership.title }}</h2>
+      <ul class="ticklist mt-m">
+        <li>{{ A.membership['items'][1]|link_text }} <a class="arrow" href="{{ site.forum }}" rel="noopener">Log in</a></li>
+        <li>{{ A.membership['items'][3].text }}</li>
+        <li>{{ A.membership['items'][4].text }} <a class="arrow" href="{{ A.membership['items'][5].link }}">Invite</a></li>
+      </ul>
+    </div>
+    <div class="tile" id="helpdesk">
+      <h2 class="d3">{{ A.helpdesk.title }}</h2>
+      <ul class="ticklist mt-m">{{ items(A.helpdesk) }}</ul>
+      <p class="small mt-m">Email {{ ui.copy(site.emails.members) }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="band tint" id="exchange">
+  <div class="wrap">
+    {{ ui.sec_head(None, A.exchange.title, A.exchange['items'][0].text) }}
+    <div class="cards3">
+      {% for ex in A.exchanges %}
+      <figure class="exch">{{ ui.ph(ex.image, ex.alt) }}<figcaption><b>{{ ex.title|replace('-', '–') }}</b><span>{{ ex.date|replace('-', '–') }}</span></figcaption></figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band" id="labs">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><h2 class="d2">{{ A.labs_title }}</h2></div>
+      <div class="sh-r"><p class="lead">{{ A.labs_intro[0] }}</p>
+        <ul class="inline-list mt-m">{% for l in A.labs_list %}<li>{{ l }}</li>{% endfor %}</ul></div>
+    </div>
+    <div class="labs">
+      {% for lab in A.labs %}{% set tone = ['lagoon', 'laterite', 'savanna'][loop.index0] %}
+      <article class="lab" style="--c:{{ HEX[tone] }}">
+        {{ ui.ph(lab.image, lab.alt) }}
+        <div class="lab-tx">
+          <h3 class="d4">{{ lab.title }}</h3>
+          {% for p in lab.paragraphs %}<p>{{ p }}</p>{% endfor %}
+          {% if lab.link %}<p><a class="arrow" href="{{ lab.link }}">Find out more</a></p>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band t-atlantic">
+  <div class="wrap cta-row">
+    <div><h2 class="d3">{{ P.get_involved.member.individuals_title }}</h2><p class="body mt-s">{{ P.get_involved.member.individuals[0] }}</p></div>
+    <div class="btnrow"><a class="btn" href="/get-involved/#member">Become a member</a><a class="btn line" href="/contact-us/">Contact us</a></div>
+  </div>
+</section>
+{% endblock %}

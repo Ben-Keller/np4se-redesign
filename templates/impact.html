@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set I = P.impact %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label">About us</span>
+  <h1 class="d1">Impact</h1>
+  <p class="lead">{{ I.stats|last }}</p>
+</div>
+{{ ui.ph(I.banner, I.banner_alt, None, 'wide-ph', eager=True) }}
+
+<div class="wrap">
+  <div class="stats impact-stats">
+    {% for s in I.stats %}{% set st = s|stat %}{% if st %}
+    <div><div class="v num">{{ st.v|replace('%', '') }}{% if '%' in st.v %}<small>%</small>{% endif %}</div>{% if st.title %}<b>{{ st.title }}</b>{% endif %}<p>{{ st.text }}</p></div>
+    {% endif %}{% endfor %}
+  </div>
+</div>
+
+<section class="band" id="spotlights">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Spotlights') }}
+    <div class="spots">
+      {% for s in I.spotlights %}
+      <article class="spot" id="spotlight-{{ loop.index }}">
+        <div class="spot-media">
+          {{ ui.ph(s.photo, s.title, s.photo_caption or None) }}
+          <div class="spot-where">{% if s.countries %}{% for n in s.countries %}{% set c = n|country %}<a class="pill {{ c.colour|pillcls }}" href="{{ c.url }}">{{ n }}</a>{% endfor %}{% else %}<span class="pill plain">{{ s.country }}</span>{% endif %}</div>
+        </div>
+        <div class="spot-tx">
+          <h3 class="d3">{{ s.title }}</h3>
+          <dl class="steps3">
+            {% for sec in s.sections %}
+            <dt>{{ sec.label }}</dt>
+            <dd>{% if sec.text %}{{ sec.text|markup }}{% endif %}{% if sec.list %}<ul>{% for li in sec.list %}<li>{{ li }}</li>{% endfor %}</ul>{% endif %}</dd>
+            {% endfor %}
+          </dl>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band tint" id="voices">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Voices from our member countries') }}
+    <div class="voices">
+      {% for v in I.voices %}
+      <figure class="voice{% if v.quote|length > 220 %} long{% endif %}"><blockquote><p>{{ v.quote|quoted }}</p></blockquote><figcaption>{{ v.source }}</figcaption></figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band t-savanna">
+  <div class="wrap cta-row">
+    <div><h2 class="d3">Get involved</h2><p class="body mt-s">{{ P.get_involved.intro }}</p></div>
+    <div class="btnrow"><a class="btn" href="/get-involved/">Get involved</a><a class="btn line" href="/annual-report-2024-25/">Annual report 2024–25</a></div>
+  </div>
+</section>
+{% endblock %}

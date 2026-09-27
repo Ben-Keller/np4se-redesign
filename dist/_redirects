@@ -1,0 +1,23 @@
+# Old WordPress addresses -> new pages (Netlify format; see README for other hosts)
+/map-4/                         /members/                  301
+/sa%cc%83o-tome-e-principe/     /sao-tome-e-principe/      301
+/sa%CC%83o-tome-e-principe/     /sao-tome-e-principe/      301
+/slide-anything-popup-preview/  /                          301
+/sliders/*                      /                          301
+/event/                         /activities-and-events/    301
+/events/                        /activities-and-events/    301
+/events/list/                   /activities-and-events/    301
+/category/uncategorized/        /resources-and-publications/ 301
+/events/:slug/                  /category/:slug/           301
+/event-tag/:slug/               /tag/:slug/                301
+/national-seminar-for-uganda-2019-2/  /national-seminar-for-uganda-2019/  301
+/event/government-review-of-field-development-plans-12-21-october-2020/  /event/government-review-of-field-development-plans/  301
+/feed/                          /                          301
+/são-tome-e-principe/       /sao-tome-e-principe/      301
+/são-tome-e-principe/      /sao-tome-e-principe/      301
+
+/tag/socio-economic-returns/  /category/socio-economic-returns/  301
+
+# Documents: while WordPress still serves /wp-content/uploads/, nothing is needed here.
+# When this site replaces WordPress on the same domain, point the uploads at their new home, e.g.:
+# /wp-content/uploads/*  https://archive.newproducersgroup.org/wp-content/uploads/:splat  301

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block main %}
+<section class="band pt-m">
+  <div class="wrap split">
+    <div>
+      <h1 class="d1">Page not found</h1>
+      <p class="lead mt-m">The website has been rebuilt and some addresses have changed. Try the search, or start from one of these pages.</p>
+      <div class="btnrow mt-l"><button class="btn" type="button" data-search-open>Search the site</button><a class="btn line" href="/">Home</a></div>
+      <ul class="nlist mt-l">
+        <li><a href="/resources-and-publications/"><i></i>Resources and publications</a></li>
+        <li><a href="/activities-and-events/"><i></i>Activities and events</a></li>
+        <li><a href="/members/"><i></i>Member countries</a></li>
+        <li><a href="/contact-us/"><i></i>Contact us</a></li>
+      </ul>
+    </div>
+    {{ ui.stock('calm', caption=False) }}
+  </div>
+</section>
+{% endblock %}

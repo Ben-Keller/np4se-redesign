@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set SA = P.sovereign_ai %}
+{% set og_image = SA.banner %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label c-atlantic"><a href="/resources-and-publications/">Resources</a></span>
+  <h1 class="d1">Sovereign AI Initiative</h1>
+</div>
+{{ ui.ph(SA.banner, SA.banner_alt, None, 'wide-ph', eager=True) }}
+
+<section class="band">
+  <div class="wrap split top">
+    <h2 class="d3">{{ SA.question }}</h2>
+    <div class="prose flush">
+      {% for p in SA.intro %}<p>{{ p|markup }}</p>{% endfor %}
+    </div>
+  </div>
+</section>
+
+{% for c in SA.components %}
+<section class="band {{ 't-atlantic' if loop.first else '' }}">
+  <div class="wrap split{{ ' rev' if not loop.first }}">
+    {% if loop.first %}{{ ui.stock('laptops', caption=False) }}{% else %}{{ ui.stock('flare', caption=False) }}{% endif %}
+    <div>
+      <h2 class="d2">{{ c.title }}</h2>
+      {% for p in c.paras %}<p class="lead mt-m">{{ p|markup }}</p>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+<section class="band tint">
+  <div class="wrap">
+    <p class="statement st-wide">{{ SA.principle }}</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap cta-row">
+    <div><h2 class="d3">{{ SA.support.title }}</h2>{% for p in SA.support.paras %}<p class="body mt-s">{{ p|markup }}</p>{% endfor %}</div>
+    <div class="btnrow"><a class="btn" href="/contact-us/">Get in touch</a><a class="btn line" href="/get-involved/#sponsor">Sponsor us</a></div>
+  </div>
+</section>
+{% endblock %}

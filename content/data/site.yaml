@@ -1,0 +1,87 @@
+# Site-wide settings. Edit here; every page picks these up on the next build.
+name: New Producers for Sustainable Energy
+short_name: NP4SE
+network_name: New Producers Group
+url: https://www.newproducersgroup.org
+description: NP4SE is a South-South group of 22 countries new to oil and gas, looking for a path to prosperity while protecting the environment.
+tagline: A collaborative network of governments from 22 countries helping each other navigate their new petroleum sector and achieve a just transition.
+og_image: /assets/img/og-image.jpg
+
+charity:
+  name: New Producers for Sustainable Energy
+  number: "1208629"
+  company_number: "15558027"
+  registered_in: England & Wales
+  office: 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ
+  register_url: https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/5237292/accounts-and-annual-returns?_uk_gov_ccew_onereg_charitydetails_web_portlet_CharityDetailsPortlet_organisationNumber=5237292
+  annual_report_url: https://drive.google.com/file/d/1zL4YCFvP7IldO9M-3rW_lKYfu88ni30A/view?usp=sharing
+
+emails:
+  contact: contact@newproducersgroup.org
+  members: members@newproducersgroup.org
+forum: https://forum.newproducersgroup.org
+linkedin: https://www.linkedin.com/groups/7448187/
+
+# Forms post to Netlify Forms in production (see README). To use another provider, set form_action to its
+# endpoint (for example a Formspree URL) and every form on the site posts there instead.
+form_action: ""
+
+# Where the PDFs and audio files live. They are still served by the WordPress site; when this site replaces
+# WordPress on the same domain, change this to the uploads' new home (see README, 'Documents').
+documents_host: https://www.newproducersgroup.org/wp-content/uploads/
+
+nav:
+  - label: About us
+    key: about
+    children:
+      - {label: Governance, url: /about-us/}
+      - {label: How we work, url: /what-we-do/}
+      - {label: Impact, url: /impact/}
+      - {label: Annual report 2024–25, url: /annual-report-2024-25/}
+  - {label: Members, key: members, url: /members/}
+  - label: Events
+    key: events
+    url: /activities-and-events/
+    children:
+      - {label: All events, url: /activities-and-events/}
+      - {label: Annual meeting, url: /annual-meeting/}
+      - {label: Training, url: /training/}
+  - label: Resources
+    key: resources
+    url: /resources-and-publications/
+    children:
+      - {label: All publications, url: /resources-and-publications/}
+      - {label: Sovereign AI Initiative, url: /resources-and-publications/sovereign-ai-initiative/}
+      - {label: Field development plans, url: /resources-and-publications/field-development-plans/}
+      - {label: Methane MMRV programme, url: /methane-programme/}
+      - {label: Energy transition, url: /category/energy-transition/}
+      - {label: Socio-economic returns, url: /category/socio-economic-returns/}
+  - {label: Get involved, key: involved, url: /get-involved/}
+
+footer:
+  - title: About us
+    links:
+      - {label: Governance, url: /about-us/}
+      - {label: How we work, url: /what-we-do/}
+      - {label: Impact, url: /impact/}
+      - {label: Annual report 2024–25, url: /annual-report-2024-25/}
+      - {label: Contact us, url: /contact-us/}
+  - title: Members
+    links:
+      - {label: Member countries, url: /members/}
+      - {label: Members area, url: /members-area/}
+      - {label: Get involved, url: /get-involved/}
+  - title: Events
+    links:
+      - {label: All events, url: /activities-and-events/}
+      - {label: Annual meeting, url: /annual-meeting/}
+      - {label: Training, url: /training/}
+  - title: Resources
+    links:
+      - {label: All publications, url: /resources-and-publications/}
+      - {label: Sovereign AI Initiative, url: /resources-and-publications/sovereign-ai-initiative/}
+      - {label: Field development plans, url: /resources-and-publications/field-development-plans/}
+      - {label: Methane MMRV programme, url: /methane-programme/}
+      - {label: Energy transition, url: /category/energy-transition/}
+      - {label: Socio-economic returns, url: /category/socio-economic-returns/}
+

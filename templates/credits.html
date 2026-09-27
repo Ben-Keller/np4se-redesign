@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block main %}
+<div class="wrap phead ph-tight">
+  <h1 class="d1">Photo credits</h1>
+  <p class="lead">Photographs of meetings, trainings and exchanges are the network's own. The landscape and industry photographs below are used under the Unsplash License.</p>
+</div>
+<section class="band pt-s">
+  <div class="wrap">
+    <ul class="credits-grid">
+      {% for key, ph in site_photos %}
+      <li>{{ ui.ph('/assets/img/photos/' ~ key ~ '.webp', ph.alt) }}<p><b>{{ ph.by }}</b>{% if ph.place %}<span>{{ ph.place }}</span>{% endif %}<small>Unsplash</small></p></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

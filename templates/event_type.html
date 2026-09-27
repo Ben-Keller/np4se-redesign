@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set evs = EVENTS|selectattr('types', 'contains', etype)|list %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label"><a href="/activities-and-events/">Events</a></span>
+  <h1 class="d1">{{ title }}</h1>
+  <p class="lead">{{ intro }}</p>
+</div>
+{{ ui.ph(banner, title ~ ': ' ~ banner_caption, banner_caption, 'wide-ph', HEX.lagoon, eager=True) }}
+
+<section class="band">
+  <div class="wrap">
+    {% if etype == 'Annual meeting' %}
+    <ol class="am-list">
+      {% for e in evs %}
+      <li class="am">
+        <div class="am-y num">{{ e.year }}</div>
+        <a class="am-ph" href="{{ e.url }}" tabindex="-1" aria-hidden="true">{% if e.image %}{{ ui.img(e.image, '') }}{% else %}{{ ui.cover(e) }}{% endif %}</a>
+        <div class="am-tx">
+          <span class="meta">{{ e.date_display }}{% if e.countries %} · {{ ui.country_links(e.countries) }}{% endif %}</span>
+          <h2 class="d4"><a href="{{ e.url }}">{{ e.title }}</a></h2>
+          <p>{{ e.summary|excerpt(220) }}</p>
+          {% if e.summary_pub %}<p><a class="arrow" href="{{ e.summary_pub.url }}">Read the summary</a></p>{% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <div class="sec-head"><div><h2 class="d2">{{ P.events.types[2].title }}</h2></div><div class="sh-r"><p class="lead">{{ P.events.types[2].text }}</p></div></div>
+    <div class="evlist">{% for e in evs %}{{ ui.ev_row(e) }}{% endfor %}</div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="band tint">
+  <div class="wrap cta-row">
+    <div><h2 class="d3">Subscribe to updates</h2><p class="body mt-s">{{ P.subscription.intro.split('. ')[0] }}.</p></div>
+    <div class="btnrow"><a class="btn" href="/subscription/">Subscribe to updates</a><a class="btn line" href="{{ P.events.linkedin }}" rel="noopener">Follow on LinkedIn</a></div>
+  </div>
+</section>
+{% endblock %}

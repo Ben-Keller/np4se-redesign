@@ -1,0 +1,381 @@
+regions:
+  car:
+    name: Caribbean & Latin America
+    photo: /assets/img/photos/river.webp
+    photo_caption: Boven Suriname, Suriname
+  wa:
+    name: West Africa
+    photo: /assets/img/photos/boats-color.webp
+    photo_caption: Elmina, Ghana
+  ces:
+    name: Central, East & Southern Africa
+    photo: /assets/img/photos/dunes.webp
+    photo_caption: Namib coast, Namibia
+  mea:
+    name: Middle East & Asia-Pacific
+    photo: /assets/img/photos/timor-coast.webp
+    photo_caption: Adara, Timor-Leste
+members:
+- name: Bahamas
+  slug: bahamas
+  region: car
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '044'
+  capital: Nassau
+  lon: -77.35
+  lat: 25.06
+  banner: null
+  has_legacy_page: false
+  photo: null
+  photo_caption: null
+- name: Barbados
+  slug: barbados
+  region: car
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: ''
+  capital: Bridgetown
+  lon: -59.62
+  lat: 13.1
+  banner: null
+  has_legacy_page: false
+  photo: null
+  photo_caption: null
+- name: Belize
+  slug: belize
+  region: car
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: 084
+  capital: Belmopan
+  lon: -88.77
+  lat: 17.25
+  banner: null
+  has_legacy_page: false
+  photo: null
+  photo_caption: null
+- name: Guyana
+  slug: guyana
+  region: car
+  role: member
+  stage: Production
+  legacy_production: false
+  atlas_id: '328'
+  capital: Georgetown
+  lon: -58.16
+  lat: 6.8
+  banner: /assets/img/wp/2021-01-img-8669-scaled-e1609934806874-1980x1079.webp
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+- name: Suriname
+  slug: suriname
+  region: car
+  role: member
+  stage: Development of significant discoveries
+  legacy_production: true
+  atlas_id: '740'
+  capital: Paramaribo
+  lon: -55.17
+  lat: 5.85
+  banner: null
+  has_legacy_page: true
+  photo: /assets/img/photos/river.webp
+  photo_caption: Boven Suriname, Suriname
+- name: Uruguay
+  slug: uruguay
+  region: car
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '858'
+  capital: Montevideo
+  lon: -56.16
+  lat: -34.9
+  banner: null
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+- name: Ghana
+  slug: ghana
+  region: wa
+  role: member
+  stage: Production
+  legacy_production: false
+  atlas_id: '288'
+  capital: Accra
+  lon: -0.19
+  lat: 5.6
+  banner: /assets/img/wp/2021-01-vm-ghana-scaled-e1609934133168-1980x737.webp
+  has_legacy_page: true
+  photo: /assets/img/photos/fishers.webp
+  photo_caption: Elmina, Ghana
+- name: Guinea
+  slug: guinea
+  region: wa
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '324'
+  capital: Conakry
+  lon: -13.71
+  lat: 9.64
+  banner: null
+  has_legacy_page: false
+  photo: null
+  photo_caption: null
+- name: Liberia
+  slug: liberia
+  region: wa
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '430'
+  capital: Monrovia
+  lon: -10.8
+  lat: 6.3
+  banner: null
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+- name: Mauritania
+  slug: mauritania
+  region: wa
+  role: member
+  stage: Production
+  legacy_production: false
+  atlas_id: '478'
+  capital: Nouakchott
+  lon: -15.98
+  lat: 18.08
+  banner: null
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+- name: Senegal
+  slug: senegal
+  region: wa
+  role: observer
+  stage: Production
+  legacy_production: false
+  atlas_id: '686'
+  capital: Dakar
+  lon: -17.44
+  lat: 14.69
+  banner: /assets/img/wp/2023-05-img-0026-1980x1485.webp
+  has_legacy_page: true
+  photo: /assets/img/photos/dakar-boats.webp
+  photo_caption: Île de Gorée, Dakar
+- name: Sierra Leone
+  slug: sierra-leone
+  region: wa
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '694'
+  capital: Freetown
+  lon: -13.23
+  lat: 8.48
+  banner: null
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+- name: DR Congo
+  slug: democratic-republic-of-congo
+  region: ces
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '180'
+  capital: Kinshasa
+  lon: 15.31
+  lat: -4.32
+  banner: null
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+- name: Mozambique
+  slug: mozambique
+  region: ces
+  role: member
+  stage: Production
+  legacy_production: false
+  atlas_id: '508'
+  capital: Maputo
+  lon: 32.58
+  lat: -25.97
+  banner: null
+  has_legacy_page: true
+  photo: /assets/img/photos/palm-beach.webp
+  photo_caption: Mozambique
+- name: Namibia
+  slug: namibia
+  region: ces
+  role: member
+  stage: Development of significant discoveries
+  legacy_production: false
+  atlas_id: '516'
+  capital: Windhoek
+  lon: 17.08
+  lat: -22.56
+  banner: /assets/img/wp/2021-01-img-2157-e1609941092808-1980x880.webp
+  has_legacy_page: true
+  photo: /assets/img/photos/dunes.webp
+  photo_caption: Namib coast, Namibia
+- name: São Tomé e Príncipe
+  slug: sao-tome-e-principe
+  region: ces
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: ''
+  capital: São Tomé
+  lon: 6.73
+  lat: 0.34
+  banner: /assets/img/wp/2021-01-dsc00105-e1609946208850.webp
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+- name: Somalia
+  slug: somalia
+  region: ces
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '706'
+  capital: Mogadishu
+  lon: 45.34
+  lat: 2.05
+  banner: null
+  has_legacy_page: false
+  photo: null
+  photo_caption: null
+- name: Tanzania
+  slug: tanzania
+  region: ces
+  role: member
+  stage: Development of significant discoveries
+  legacy_production: false
+  atlas_id: '834'
+  capital: Dodoma
+  lon: 35.74
+  lat: -6.17
+  banner: /assets/img/wp/2021-01-img-5294-1980x922.webp
+  has_legacy_page: true
+  photo: /assets/img/photos/dar-skyline.webp
+  photo_caption: Dar es Salaam, Tanzania
+- name: Uganda
+  slug: uganda
+  region: ces
+  role: member
+  stage: Development of significant discoveries
+  legacy_production: false
+  atlas_id: '800'
+  capital: Kampala
+  lon: 32.58
+  lat: 0.35
+  banner: /assets/img/wp/2021-01-img-3893-scaled-e1609950508132-1980x688.webp
+  has_legacy_page: true
+  photo: /assets/img/photos/crater-lake.webp
+  photo_caption: Uganda
+- name: Lebanon
+  slug: lebanon
+  region: mea
+  role: member
+  stage: Frontier
+  legacy_production: false
+  atlas_id: '422'
+  capital: Beirut
+  lon: 35.5
+  lat: 33.89
+  banner: /assets/img/wp/2020-12-vcf6zul4-scaled-e1609936291474-1980x752.webp
+  has_legacy_page: true
+  photo: /assets/img/photos/beirut.webp
+  photo_caption: Beirut, Lebanon
+- name: Papua New Guinea
+  slug: papua-new-guinea
+  region: mea
+  role: observer
+  stage: Production
+  legacy_production: false
+  atlas_id: '598'
+  capital: Port Moresby
+  lon: 147.18
+  lat: -9.44
+  banner: null
+  has_legacy_page: false
+  photo: null
+  photo_caption: null
+- name: Timor-Leste
+  slug: timor-leste
+  region: mea
+  role: observer
+  stage: Production
+  legacy_production: false
+  atlas_id: '626'
+  capital: Dili
+  lon: 125.58
+  lat: -8.56
+  banner: /assets/img/wp/2021-01-dsc03497-e1609949885138.webp
+  has_legacy_page: true
+  photo: /assets/img/photos/timor-coast.webp
+  photo_caption: Adara, Timor-Leste
+- name: Kenya
+  slug: kenya
+  region: ces
+  role: former
+  stage: ''
+  atlas_id: '404'
+  capital: Nairobi
+  lon: 36.82
+  lat: -1.29
+  banner: /assets/img/wp/2021-01-vm-kenya-1980x1485.webp
+  has_legacy_page: true
+  photo: null
+  photo_caption: null
+peers:
+- name: Brazil
+  slug: brazil
+  region: peer
+  role: peer
+  stage: Production
+  atlas_id: '076'
+  capital: Brasília
+  lon: -47.88
+  lat: -15.79
+- name: Indonesia
+  slug: indonesia
+  region: peer
+  role: peer
+  stage: Production
+  atlas_id: '360'
+  capital: Jakarta
+  lon: 106.85
+  lat: -6.21
+- name: Norway
+  slug: norway
+  region: peer
+  role: peer
+  stage: Production
+  atlas_id: '578'
+  capital: Oslo
+  lon: 10.75
+  lat: 59.91
+- name: Angola
+  slug: angola
+  region: peer
+  role: peer
+  stage: Production
+  atlas_id: '024'
+  capital: Luanda
+  lon: 13.23
+  lat: -8.84
+stages:
+- Frontier
+- Development of significant discoveries
+- Production
+stage_note: 'Suriname: marginal legacy production'

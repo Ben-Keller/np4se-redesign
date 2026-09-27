@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set R = P.resources %}
+{% set flagship = PUB[R.highlights[0]] %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label">Resources</span>
+  <h1 class="d1">Resources and publications</h1>
+</div>
+{{ ui.ph(R.banner, R.banner_alt, None, 'wide-ph', eager=True) }}
+
+<section class="band">
+  <div class="wrap">
+    <div class="coll">
+      <a href="/resources-and-publications/sovereign-ai-initiative/">{{ ui.ph(P.sovereign_ai.banner, '') }}<b>Sovereign AI Initiative</b></a>
+      <a href="/resources-and-publications/field-development-plans/">{{ ui.stock('rig-supply', caption=False) }}<b>Field development plans</b></a>
+      <a href="/methane-programme/">{{ ui.stock('flare', caption=False) }}<b>Methane MMRV programme</b></a>
+      <a href="/category/energy-transition/">{{ ui.stock('wind', caption=False) }}<b>Energy transition</b><small>{{ PUBS|selectattr('themes', 'contains', 'energy-transition')|list|length }} publications</small></a>
+      <a href="/category/socio-economic-returns/">{{ ui.stock('dar-skyline', caption=False) }}<b>Socio-economic returns</b><small>{{ PUBS|selectattr('themes', 'contains', 'socio-economic-returns')|list|length }} publications</small></a>
+    </div>
+  </div>
+</section>
+
+{% if flagship %}
+<section class="band t-savanna">
+  <div class="wrap feature">
+    <a class="cover" href="{{ flagship.url }}" tabindex="-1" aria-hidden="true">
+      <span class="ed">Guidelines · 4th edition · 2026</span>
+      <span class="cv-t"><b>Guidelines for Good Governance in Emerging Oil and Gas Producers</b><span class="au">{{ flagship.authors|replace(', ', ' · ') }}</span></span>
+      <span class="ft">{{ ui.ring('#FFFFFF') }}<b>NP4SE</b></span>
+    </a>
+    <div>
+      <span class="label c-savanna">{{ flagship.type }} · {{ flagship.date_display }}</span>
+      <h2 class="d2 mt-s"><a href="{{ flagship.url }}">{{ flagship.title }}</a></h2>
+      <p class="lead mt-m">{{ flagship.summary }}</p>
+      <div class="btnrow mt-l">{% for d in flagship.documents[:1] %}<a class="btn" href="{{ d.url }}" target="_blank" rel="noopener">{{ d.label }}</a>{% endfor %}<a class="btn line" href="{{ flagship.url }}">Read more</a></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="band" id="library">
+  <div class="wrap">
+    <div class="sec-head"><div><h2 class="d2">Resource library</h2></div></div>
+    <div class="filterbar" data-filter="library">
+      <div class="filters">
+        <div class="field"><label for="lib-q">Search</label><input id="lib-q" type="search" placeholder="Title, author, country or keyword" autocomplete="off" data-q></div>
+        <div class="field"><label for="lib-type">Type</label><select id="lib-type" data-type-select><option value="">All types</option>{% for t, n in pub_types %}<option value="{{ t }}">{{ t }} ({{ n }})</option>{% endfor %}</select></div>
+        <div class="field"><label for="lib-theme">Theme</label><select id="lib-theme" data-theme-select><option value="">All themes</option>{% for t in THEME.values() if PUBS|selectattr('themes', 'contains', t.slug)|list %}<option value="{{ t.slug }}">{{ t.name }}</option>{% endfor %}</select></div>
+        <div class="field"><label for="lib-country">Country</label><select id="lib-country" data-country-select><option value="">All countries</option>{% for m in members|sort(attribute='name') if m.pubs %}<option value="{{ m.name }}">{{ m.name }}</option>{% endfor %}</select></div>
+        <div class="field"><label for="lib-year">Published</label><select id="lib-year" data-year-select><option value="">Any year</option>{% for y in [2024, 2022, 2020, 2018, 2016] %}<option value="{{ y }}">{{ y }} onwards</option>{% endfor %}</select></div>
+      </div>
+      <div class="count"><span class="small" data-count aria-live="polite">Showing all {{ PUBS|length }} publications</span><button class="textbtn" type="button" data-reset>Clear filters</button></div>
+    </div>
+    <div class="lib" data-list>
+      {% for p in PUBS %}{{ ui.pub_card(p, True) }}{% endfor %}
+      <p class="empty" data-empty hidden>Nothing matches. Try a wider date range or clear the theme.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band tint">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Working groups') }}
+    <div class="cards2">
+      {% for key in ['unsticking-the-sticky-clauses-working-group', 'working-group-information-governments-can-expect-from-operators'] %}{% set lf = LONG[key] %}
+      <a class="wg" href="{{ lf.url }}"><h3 class="d4">{{ lf.title }}</h3><p>{{ lf.html|plain|excerpt(230) }}</p><span class="arrow">Read more</span></a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

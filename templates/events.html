@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set E = P.events %}
+{% set type_counts = {} %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label">Events</span>
+  <h1 class="d1">Activities and events</h1>
+  <p class="lead">{{ E.intro }}.</p>
+</div>
+{{ ui.ph(E.banner, E.banner_alt, None, 'wide-ph', eager=True) }}
+
+<section class="band">
+  <div class="wrap">
+    <div class="etypes">
+      {% for t in E.types %}{% set key = ['Annual meeting', 'Workshop', 'Training', 'Virtual meeting'][loop.index0] %}{% set n = EVENTS|selectattr('types', 'contains', key)|list|length %}
+      {% set href = '/annual-meeting/' if loop.index0 == 0 else ('/training/' if loop.index0 == 2 else '#all-events') %}
+      <a class="etype" href="{{ href }}"{% if href == '#all-events' %} data-set-type="{{ key }}"{% endif %} style="--c:{{ HEX[['lagoon', 'laterite', 'atlantic', 'savanna'][loop.index0]] }}">
+        <span class="num">{{ n }}</span>
+        <h2 class="d4">{{ t.title }}</h2>
+        <p>{{ t.text }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band tint">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Highlights', None, E.linkedin, 'Follow on LinkedIn') }}
+    <div class="cards3">{% for e in highlights %}{{ ui.ev_card(e) }}{% endfor %}</div>
+  </div>
+</section>
+
+<section class="band" id="all-events">
+  <div class="wrap">
+    <div class="sec-head"><div><h2 class="d2">Events library</h2></div></div>
+    <div class="filterbar" data-filter="events">
+      <div class="chips" role="group" aria-label="Event type">
+        <button class="chip" type="button" data-type="" aria-pressed="true">All</button>
+        {% for key in ['Annual meeting', 'Training', 'Workshop', 'Virtual meeting'] %}<button class="chip" type="button" data-type="{{ key }}" aria-pressed="false">{{ key }}s</button>{% endfor %}
+      </div>
+      <div class="filters f3">
+        <div class="field"><label for="ev-q">Search</label><input id="ev-q" type="search" placeholder="Title, country or topic" autocomplete="off" data-q></div>
+        <div class="field"><label for="ev-theme">Theme</label><select id="ev-theme" data-theme-select><option value="">All themes</option>{% for t in THEME.values() if EVENTS|selectattr('themes', 'contains', t.slug)|list %}<option value="{{ t.slug }}">{{ t.name }}</option>{% endfor %}</select></div>
+        <div class="field"><label for="ev-country">Country</label><select id="ev-country" data-country-select><option value="">All countries</option>{% for m in members|sort(attribute='name') if m.events %}<option value="{{ m.name }}">{{ m.name }}</option>{% endfor %}</select></div>
+      </div>
+      <div class="count"><span class="small" data-count aria-live="polite">Showing all {{ EVENTS|length }} events</span><button class="textbtn" type="button" data-reset>Clear filters</button></div>
+    </div>
+    <div class="evlist" data-list>
+      {% for y, evs in EVENTS|groupby('year')|reverse %}
+      <div class="ygroup" data-ygroup>
+        <h3 class="yh num">{{ y }}</h3>
+        <div>{% for e in evs %}{{ ui.ev_row(e, True) }}{% endfor %}</div>
+      </div>
+      {% endfor %}
+      <p class="empty" data-empty hidden>No events match. Try another type or clear the filters.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

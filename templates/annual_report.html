@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set F = P.governance.financials %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label">About us</span>
+  <h1 class="d1">Annual report 2024–25</h1>
+  <p class="lead">{{ F[1].text }}</p>
+</div>
+
+<section class="band pt-0">
+  <div class="wrap split top">
+    <div class="report-card">
+      <div class="cover c-lagoon" aria-hidden="true">
+        <span class="ed">Annual report · 2024–25</span>
+        <span class="cv-t"><b>{{ site.charity.name }}</b><span class="au">Annual report and financial statements, year ending April 2025</span></span>
+        <span class="ft">{{ ui.ring('#FFFFFF') }}<b>NP4SE</b></span>
+      </div>
+    </div>
+    <div>
+      <h2 class="d3">{{ P.governance.financials_title }}</h2>
+      <div class="docs mt-m">
+        {% for f in F if f.link and f.link.startswith('http') %}<a class="doc" href="{{ f.link }}" target="_blank" rel="noopener"><span>{{ f.text|replace('-', '–') }}</span><small>{{ 'Google Drive' if 'drive.google' in f.link else 'Charity Commission' }}</small></a>{% endfor %}
+      </div>
+      <p class="body mt-l">{{ (F|last).text|replace(' To support our work, please visit the Get Involved page.', '') }}</p>
+      <dl class="kv mt-l">
+        <dt>Charity</dt><dd>{{ site.charity.name }}</dd>
+        <dt>Charity no.</dt><dd class="num">{{ site.charity.number }}</dd>
+        <dt>Company no.</dt><dd class="num">{{ site.charity.company_number }}</dd>
+        <dt>Registered in</dt><dd>{{ site.charity.registered_in }}</dd>
+        <dt>Office</dt><dd>{{ site.charity.office }}</dd>
+      </dl>
+      <div class="btnrow mt-l"><a class="btn line" href="/impact/">Impact</a><a class="btn line" href="/about-us/#financials">Governance</a></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

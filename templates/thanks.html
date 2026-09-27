@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block main %}
+<section class="band pt-m">
+  <div class="wrap split">
+    <div>
+      <h1 class="d1">Thank you</h1>
+      <p class="lead mt-m">Your message has been sent.</p>
+      <div class="btnrow mt-l"><a class="btn" href="/">Back to the home page</a><a class="btn line" href="/resources-and-publications/">All publications</a></div>
+    </div>
+    {{ ui.stock('fishers') }}
+  </div>
+</section>
+{% endblock %}

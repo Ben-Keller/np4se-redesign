@@ -1,0 +1,39 @@
+# The themes (WordPress categories) used to file publications and events.
+# colour: one of lagoon, savanna, laterite, atlantic, ink (drives covers, chips and dots).
+# photo: header image on the theme's page (/category/<slug>/).
+- slug: capacity
+  name: Building capacity
+  colour: atlantic
+  photo: /assets/img/wp/2020-11-working-groups-img.webp
+- slug: energy-transition
+  name: Energy transition
+  colour: lagoon
+  photo: /assets/img/photos/wind.webp
+- slug: socio-economic-returns
+  name: Socio-economic returns
+  colour: savanna
+  photo: /assets/img/photos/dar-skyline.webp
+- slug: fostering-resilience
+  name: Fostering resilience
+  colour: laterite
+  photo: /assets/img/photos/boats-color.webp
+- slug: strategic-vision
+  name: Strategic vision
+  colour: ink
+  photo: /assets/img/photos/rig-blue.webp
+- slug: trust-accountability
+  name: 'Trust & accountability'
+  colour: atlantic
+  photo: /assets/img/photos/accra-gate.webp
+- slug: new-path
+  name: New Path
+  colour: lagoon
+  photo: /assets/img/photos/solar.webp
+- slug: overarching-issues
+  name: Overarching issues
+  colour: ink
+  photo: /assets/img/photos/rig-haze.webp
+- slug: emissions
+  name: Emissions
+  colour: laterite
+  photo: /assets/img/photos/flare.webp

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set pubs = items|selectattr('kind', 'equalto', 'publication')|list %}
+{% set evs = items|selectattr('kind', 'equalto', 'event')|list %}
+{% block main %}
+<div class="wrap phead{{ ' ph-tight' if tax_kind == 'Topic' }}">
+  <span class="label"><a href="/resources-and-publications/">Resources</a> · {{ tax_kind }}</span>
+  <h1 class="d1">{% if tax_kind == 'Theme' %}<i class="tdot" style="background:{{ tax.hex }}" aria-hidden="true"></i>{% endif %}{{ tax.name|label_case }}</h1>
+  <p class="lead">{{ pubs|length }} publication{{ 's' if pubs|length != 1 }} and {{ evs|length }} event{{ 's' if evs|length != 1 }}{% if tax_kind == 'Theme' %} on {{ tax.name|lower }}{% else %} tagged “{{ tax.name }}”{% endif %}.</p>
+  {% if tax_kind == 'Theme' %}
+  <nav class="jump" aria-label="Other themes">{% for t in THEME.values() if t.slug != tax.slug and (PUBS + EVENTS)|selectattr('themes', 'contains', t.slug)|list %}<a href="{{ t.url }}"><i style="background:{{ t.hex }}"></i>{{ t.name }}</a>{% endfor %}</nav>
+  {% endif %}
+</div>
+{% if tax_kind == 'Theme' and tax.photo %}{{ ui.ph(tax.photo, '', None, 'wide-ph slim', eager=True) }}{% endif %}
+
+{% if pubs %}
+<section class="band{{ ' pt-s' if tax_kind == 'Topic' }}">
+  <div class="wrap">
+    <div class="sec-head"><div><h2 class="d3">Publications</h2></div></div>
+    <div class="lib">{% for p in pubs %}{{ ui.pub_card(p) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% if evs %}
+<section class="band{{ ' tint' if pubs }}">
+  <div class="wrap">
+    <div class="sec-head"><div><h2 class="d3">Events</h2></div></div>
+    <div class="evlist">{% for e in evs %}{{ ui.ev_row(e) }}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,632 @@
+home:
+  hero_title: New Producers for Sustainable Energy
+  hero_lead: A collaborative network of governments from 22 countries helping each other navigate their new petroleum sector and achieve a just transition.
+  helping:
+    title: Governments helping each other
+    paragraphs:
+    - This group was built to be a trusted space where governments can share questions and discuss solutions that can help them manage their natural resources for the greatest national benefit. Member countries offer each other help and receive expert advice to develop and implement policies which are context-appropriate, evidence-based, and transition proof.
+    - We believe that reform and change gain better acceptance if led by producer countries. Problems and solutions are defined locally. Governments learn from each other and collaborate to develop practical tools to support policy implementation.
+    image: /assets/img/wp/2020-11-governments-helping-img.webp
+    caption: Communications in Natural Resources Training, Lebanon, November 2018
+    alt: Participants at the Communications in Natural Resources training in Lebanon, November 2018
+  members:
+    title: Member Countries
+    paragraphs:
+    - We are a network of over 1,000 government officials from 22 countries, and benefit from the participation of experts, industry and members of civil society in our discussions.
+    - We welcome new member countries from emerging oil and gas provinces and value contributions from established producers.
+    - Click on a country’s name to see the site’s related resources.
+  highlights:
+  - guidelines-for-good-governance-in-emerging-oil-and-gas-producers-2026-4th-edition
+  - annual-meeting-2024
+  - left-behind-emerging-oil-and-gas-producers-in-a-warming-world
+  - field-development-plans-a-handbook-for-government-officials
+  - minimising-greenhouse-gas-emissions-in-the-petroleum-sector-the-opportunity-for-emerging-producers
+  hero_heading: New Producers for <em>Sustainable Energy</em>
+  stats:
+  - value: 1,000
+    suffix: +
+    text: government officials in the network
+  - value: '73'
+    suffix: '%'
+    text: of members say our services are irreplaceable
+  - value: '100'
+    suffix: '%'
+    text: In the 2025-26 financial year, our funding came entirely from our member countries.
+  flagship:
+    paragraphs:
+    - The recommendations are organised around eight core objectives, mapped against four key stages of resource development, so that officials can draw out the guidance most relevant to where their country actually sits — from pre-discovery through to long-term production.
+    - This edition reflects a genuinely collaborative process. It draws on the consensus insights and strategies developed over a decade of annual meetings, technical workshops, and direct country engagements, and benefited substantially from the review and input of 27 officials from NP4SE member countries and knowledge partners, whose comments and suggestions shaped its final form.
+  quote: 3
+  quote_photo: rig-haze
+how:
+  banner: /assets/img/wp/2021-01-dsc00105-e1609946208850.webp
+  mission_title: Our mission
+  mission: Empowering emerging producers in the Global South to secure equitable development and navigate a just energy transition through a unique, producer-led model.
+  mission_text: We help our countries achieve better technical and economic outcomes from the petroleum sector, ensuring that resource development serves as a bridge to a sustainable future rather than a barrier.
+  mission_images:
+  - /assets/img/wp/2023-12-ghanaa-1200x800.webp
+  - /assets/img/wp/2021-01-img-1076.webp
+  approach_title: Our unique approach
+  approach_intro: We don’t dictate policy; we facilitate the “policy labs” where national strategies are forged.
+  approach:
+  - label: A Trusted Space
+    text: We provide an informal, commercial-free environment where governments can frankly share successes and failures without external pressure.
+  - label: Balancing Trade-offs
+    text: Rather than promoting one-size-fits-all solutions, we help officials weigh the risks and opportunities of different policy paths.
+  - label: Country-Led Solutions
+    text: We believe that peer-to-peer exchange produces practical, fit-for-purpose solutions that are far more implementable than externally-driven mandates.
+  difference_title: The Producer-Led Difference
+  difference_intro: 'Technical assistance is often driven by a pre-set agenda shaped by donor interests. NP4SE is bottom-up:'
+  difference:
+  - label: Practitioner-Driven
+    text: Our topics are chosen by the officials who face these challenges daily. We are a network of practitioners, not consultants.
+  - label: Shared Ownership
+    text: We don’t just deliver training; we co-design it. Member countries are the owners of the process, ensuring the solutions are politically and economically viable on the ground.
+  - label: A User-Owned Cooperative
+    text: By shifting to a membership-dues model, we have ensured that our accountability is directly to the governments we serve.
+  workstreams:
+  - title: Neutral Convening
+    text: A safe, non-commercial space for frank exchange.
+    image: /assets/img/wp/2020-11-sid-2524-2-min-1-1-scaled.webp
+    alt: Delegates around a meeting table during an annual meeting
+  - title: Inter-Agency Labs
+    text: Bringing Energy, Environment, and Finance ministries together to align national strategy.
+    image: /assets/img/wp/2020-11-working-groups-img.webp
+    alt: Officials seated in a circle under a marquee, in discussion
+  - title: Peer-to-Peer Mentorship
+    text: Directly pairing producers to share practitioners’ experience.
+    image: /assets/img/wp/2020-11-img-4029-scaled.webp
+    alt: Officials from Uganda and Guyana working together at computers during an exchange
+  - title: Just-in-Time Support
+    text: A technical Help Desk that responds to live regulatory and negotiation challenges.
+    image: /assets/img/wp/2025-09-group-work-1-scaled.webp
+    alt: Participants in group work at the licensing workshop in Takoradi, Ghana
+  values:
+  - title: Producer-led
+    text: Officials from emerging producer countries participate in project design and delivery, which builds State capacity and increases the relevance of our programmes.
+  - title: Peer-to-peer
+    text: What makes this group special and unique is its peer-to-peer learning and experience sharing.
+  - title: Coordinated
+    text: We bring together climate policy makers, environmental regulators, petroleum policy makers and regulators, finance officials and state owned companies for joint discussions, enabling more effective policy-making and implementation.
+  - title: Fit for purpose
+    text: Our recommendations are focused on appropriate practice, which is fit-for-purpose, produces rapid results and makes incremental improvements to governance.
+  - title: Sustainable
+    text: We want our member countries to protect their environment and forge diversified, sustainable economies.
+  - title: Accountable
+    text: By increasing knowledge of all stakeholders, we support accountability and more realistic expectations regarding the windfalls from the sector.
+  history:
+  - year: '2012'
+    text: Founded as the ‘New Producers Group’ by Chatham House, NRGI, and the Commonwealth Secretariat.
+  - year: '2016'
+    text: Launched landmark “South-South” mentorship programmes (e.g., Ghana-Tanzania).
+  - year: '2022'
+    text: Completed a 10-year independent evaluation confirming our unique value.
+  - year: '2024'
+    text: 'Established as an independent charity: New Producers for Sustainable Energy.'
+  history_image: /assets/img/wp/2020-11-our-history-img.webp
+  banner_alt: Trees on a hazy coastline in São Tomé e Príncipe
+  mission_alts:
+  - Participants following a discussion during a workshop in Ghana
+  - An official speaking into a microphone during a meeting
+  history_alt: Trucks lined up at a roadside depot
+governance:
+  banner: /assets/img/wp/2021-01-img-9679-scaled-e1609954139435-1980x772.webp
+  team_title: Our team
+  team_intro: Our organisation is coordinated by a small secretariat and benefits from a wide network of consulting experts, as well as Associate Fellows, who carry out research and contribute to organising and delivering trainings and workshops.
+  team:
+  - name: Dr Valerie Marcel
+    roles:
+    - Executive Director, Co-founder, NP4SE
+    - Senior Research Advisor, TIDE Centre, Oxford University – Research on NOCs
+    photo: /assets/img/wp/2024-02-img-6631-e1708704400323-300x300.webp
+  - name: Armando Zamora
+    roles:
+    - Deputy Director, NP4SE
+    - International specialist in energy policy, energy transition and public administration
+    photo: /assets/img/wp/2024-08-az-cropped-300x300.webp
+  - name: Ileana Ferber
+    roles:
+    - Associate Fellow, NP4SE
+    - Economic growth and local content expert
+    photo: /assets/img/wp/2023-12-screenshot-2023-12-14-at-5-59-55-pm-e1708704490770-3.webp
+  - name: Peter Harrington
+    roles:
+    - Associate Fellow, NP4SE
+    - Associate, Building State Capability, Harvard University
+    photo: /assets/img/wp/2024-02-screenshot-2024-02-06-at-10-44-04-am-e1708704308966.webp
+  - name: Daniel Barjum
+    roles:
+    - Associate Fellow, NP4SE
+    - Expert in PDIA, helping deliver good governance in complex settings
+    photo: /assets/img/wp/2024-03-danny-barjum-300x300.webp
+  - name: Prof. Mohamed Rali Badissy
+    roles:
+    - Associate Fellow, NP4SE
+    - Research focused on contract standardisation, sustainable finance, and AI tools for development.
+    photo: /assets/img/wp/2026-08-badissy-e1786183525852-300x300.webp
+  advisory:
+    title: Advisory Board
+    intro: The Advisory Board guides the Secretariat and the Board of Trustees on matters that concern the group’s activities and strategy. Its aim is also to ensure the accountability of the Secretariat to the member countries.
+    people:
+    - name: Ms Proscovia Nabbanja
+      roles:
+      - Chair
+      - CEO, Uganda National Oil Company
+    - name: Ms. Vandana G. Panday
+      roles:
+      - Deputy Chair
+      - Director Staatsolie Hydrocarbons Institute, Suriname
+    - name: Ms Emeafa Hardcastle
+      roles:
+      - Member
+      - CEO, Petroleum Commission of Ghana
+    - name: Amb. Ombeni Sefue
+      roles:
+      - Member
+      - Chairman of the Board of Directors
+      - TPDC Tanzania
+    - name: Ms. Celia Correia
+      roles:
+      - Member
+      - Senior Engineer, INP
+      - Mozambique
+    - name: Mr. Álvaro Silva
+      roles:
+      - Member
+      - Executive Director, National Petroleum Agency of São Tomé e Príncipe
+  trustees:
+    title: Board of Trustees
+    intro: The Board of Trustees ensures that the New Producers for Sustainable Energy operates for the public benefit and in line with its mission. It oversees its prudent use of resources.
+    people:
+    - name: Todd Moss
+      roles:
+      - Acting Chair of the NP4SE
+      - Executive Director
+      - Energy for Growth Hub
+    - name: Elizabeth Mitchell
+      roles:
+      - Independent Advisor
+    - name: Peter Stewart
+      roles:
+      - Partner
+      - Squire Patton Boggs
+    - name: Dr Vanessa Ushie
+      roles:
+      - Director of Nature Economy
+      - NatureFinance
+    - name: Patrick Heller
+      roles:
+      - Chief Program Officer
+      - Natural Resource Governance Institute
+    - name: Laura Robinson
+      roles:
+      - President, International Consortium of Governmental Financial Management (ICGFM)
+  financials_title: Funders and financials
+  financials:
+  - text: 'The New Producers for Sustainable Energy is a charitable company registered in England & Wales (Charity Number: 1208629, Company Number: 15558027).'
+    link: null
+  - text: We are pleased to present the annual report and financial statements for the fiscal year ending April 2025. This was the first year of establishment of the organisation as an independent charity.
+    link: null
+  - text: Annual report 2024-25
+    link: https://drive.google.com/file/d/1zL4YCFvP7IldO9M-3rW_lKYfu88ni30A/view?usp=sharing
+  - text: Financial accounts 2024-25
+    link: https://register-of-charities.charitycommission.gov.uk/en/charity-search/-/charity-details/5237292/accounts-and-annual-returns?_uk_gov_ccew_onereg_charitydetails_web_portlet_CharityDetailsPortlet_organisationNumber=5237292
+  - text: In the 2025-26 financial year, our funding came entirely from our member countries. To support our work, please visit the Get Involved page.
+    link: /get-involved/#sponsor
+  partners_title: Partner organisations
+  partners_intro: The group collaborates with a range of organisations to deliver its trainings, publish joint research, co-organise workshops, and support policy implementation through its labs. Our Knowledge Partners are organisations with which the group collaborates more closely and over a long period. They provide valuable inputs and help us increase our impact.
+  partners:
+  - name: ProSovereign Global
+    url: https://prosovglobal.com
+    logo: /assets/img/wp/2026-02-logo-prosovereignglobal-300x94.webp
+  - name: Natural Resource Governance Institute
+    url: https://resourcegovernance.org/
+    logo: /assets/img/wp/2023-09-nrgi-on-white-2023.webp
+  - name: Oil and Gas Climate Initiative
+    url: https://www.ogci.com
+    logo: /assets/img/wp/2023-05-ogci-logo.webp
+  - name: IPIECA
+    url: https://www.ipieca.org/
+    logo: /assets/img/wp/2022-10-ipieca-logo-blue-rgb-ai-1.webp
+  - name: African Development Bank
+    url: https://www.afdb.org/en/topics-and-sectors/initiatives-partnerships/african-natural-resources-centre
+    logo: /assets/img/wp/2022-04-afdb-logo-en-0.webp
+  - name: African Energy Commission (AFREC)
+    url: https://au-afrec.org/
+    logo: /assets/img/wp/2024-12-afrec.webp
+  - name: MiQ
+    url: https://miq.org
+    logo: /assets/img/wp/2024-08-miq.webp
+  - name: Commonwealth Secretariat
+    url: https://thecommonwealth.org/about-us
+    logo: /assets/img/wp/2020-12-comsec-logo.webp
+  - name: Governance & Economic Policy Centre
+    url: https://gepc.or.tz
+    logo: /assets/img/wp/2024-08-gepc-logo-high-resolution-1-1200x310.webp
+  - name: Governance Action Hub
+    url: https://r4d.org/projects/governance-action-hub/
+    logo: /assets/img/wp/2023-12-gahublogo-vector-rgb-1200x958.webp
+  banner_alt: Participants of a New Producers Group meeting gathered for a group photo on a lawn
+impact:
+  banner: /assets/img/wp/2023-12-7eaee2a8-7036-40d4-9bbf-3c6314afa425.webp
+  title: Impact
+  stats:
+  - 900+ Members across 23 countries.
+  - 73% of members say our services are irreplaceable.
+  - '100% Coordination breakthrough: Every participant in our alignment labs identified new ways to work across ministries.'
+  - '92% Quality rating: Almost all members rate our training as “High” or “Very High” value.'
+  - In 2024, NP4SE member governments began contributing membership dues. In a landscape of competing priorities and limited budgets, our member countries chosing to dedicate national resources to NP4SE is the clearest evidence of the network’s high utility and long-term relevance to national development.
+  spotlights:
+  - title: Guyana – Getting Ready for First Oil
+    country: Guyana
+    sections:
+    - label: The Challenge
+      text: In 2019, with "First Oil" fast approaching, Guyana faced the daunting task of regulating a world-class petroleum sector using outdated 1986 laws that did not sufficiently protect the State’s interests. The government needed to rapidly bridge gaps across capacity, institutional, and legislative frameworks before production started.
+    - label: The Intervention
+      text: NP4SE (as NPG) facilitated a critical inter-agency workshop, which also included existing technical assistance providers. The workshop focused on dismantling information asymmetries—such as the fact that the revenue authority lacked access to the joint operating agreements necessary for cost audits.
+    - label: The Impact
+      text: This session resulted in a comprehensive "Landscape Map of Immediate Actions," which clearly defined the technical, financial, and environmental tasks required of every government agency. By identifying support resources like the NPG Helpdesk and peer-to-peer exchanges with Ghana and Uganda, Guyana was able to enter its production phase with a coordinated roadmap for cost recovery, crude valuation, and environmental stewardship.
+    source_image: /assets/img/wp/2026-02-screenshot-2026-02-03-at-12-37-34-pm.webp
+    photo: /assets/img/wp/2021-01-img-8669-scaled-e1609934806874-1980x1079.webp
+    photo_caption: Guyana
+    countries:
+    - Guyana
+  - title: Breaking the Policy Silos
+    country: Suriname, Somalia
+    sections:
+    - label: The Problem
+      text: Governments often operate in silos. For example, before our training & workshops on <a href="/event/aligning-national-climate-and-energy-policies-and-strategies/">Aligning Goals</a>, officials from Suriname and Somalia identified "limited coordination" and a lack of "awareness/alignment" between leading institutions as a primary barrier to a realistic national strategy.
+    - label: The Outcome after our intervention
+      list:
+      - '100% Coordination breakthrough: Every participant surveyed reported that the course helped them identify new, specific points for inter-agency coordination within their government.'
+      - Understanding of the intersection of petroleum, national development goals, and NDCs shifted from a baseline of "Some" to "High" or "Very High".
+      - Participants gave a nearly perfect score when asked if the learning would directly impact their work performance, indicating a high level of practical utility.
+    source_image: /assets/img/wp/2026-02-screenshot-2026-02-03-at-12-43-26-pm.webp
+    photo: /assets/img/wp/2020-11-frame-05-10-2020-11-11-06.webp
+    photo_caption: ''
+    countries:
+    - Suriname
+    - Somalia
+  - title: Uganda – Turning Climate Law into Action
+    country: Uganda
+    sections:
+    - label: The Challenge
+      text: While Uganda passed the National Climate Change Act in 2021, the technical ministries lacked the specific ‘checklists’ needed to monitor and enforce emissions limits in the petroleum sector.
+    - label: The Intervention
+      text: Through a series of Emissions Training & Workshops (2022–2024), NP4SE brought together Energy and Environment officials to co-design regulatory tools.
+    - label: The Impact
+      text: The Ugandan delegation successfully developed a Monitoring, Reporting, and Verification (MRV) framework specifically for oil and gas. They are now implementing emissions monitoring checklists that allow the government to hold operators accountable to national climate goals.
+    source_image: /assets/img/wp/2026-02-screenshot-2026-02-03-at-11-32-22-am.webp
+    photo: /assets/img/wp/2021-01-img-3893-scaled-e1609950508132-1980x688.webp
+    photo_caption: Uganda
+    countries:
+    - Uganda
+  - title: Suriname – Asserting its Carbon-Negative Status
+    country: Suriname
+    sections:
+    - label: The Challenge
+      text: Suriname, a carbon-negative nation, faces the complex task of developing significant offshore oil discoveries without compromising its global environmental leadership.
+    - label: The Intervention
+      text: In 2023 NP4SE provided a strategic White Paper and technical briefings to the Surinamese government, outlining how new producers can aim for the lowest sector emissions while investing in carbon negative projects that support national development goals.
+    - label: The Impact
+      text: 'At COP28, President Chan Santokhi utilized NP4SE’s research to declare a clear national mandate: <em>“Suriname will maintain its carbon negative status even when the offshore oil and gas industry is developed.”</em> This demonstrated how the network equips heads of state with the technical confidence to navigate global climate politics.'
+    source_image: /assets/img/wp/2026-02-screenshot-2026-02-03-at-12-05-28-pm.webp
+    photo: /assets/img/wp/2023-11-paramaribo.webp
+    photo_caption: Paramaribo, Suriname
+    countries:
+    - Suriname
+  - title: Ghana – "Just-In-Time" Negotiation Support
+    country: Ghana
+    sections:
+    - label: The Challenge
+      text: Government regulators often face highly experienced International Oil Companies (IOCs) with far greater resources during contract negotiations.
+    - label: The Intervention
+      text: In November 2025, NP4SE held a specialized <a href="/event/workshop-and-training-on-licensing-strategy-and-negotiation/">Licensing Strategy and Negotiation Workshop</a> for government officials.
+    - label: The Impact
+      text: Participants from the regulatory agency and the national oil company reported that the training was applied immediately to a live negotiation with an IOC. By providing specific fiscal benchmarks and negotiation tactics exactly when they were needed, NP4SE helped shift the balance of power back to the state.
+    - label: Feedback
+      text: <em>"The course was timely and has provided me with tools to enhance my negotiating task."</em>
+    source_image: /assets/img/wp/2026-02-screenshot-2026-02-03-at-11-30-48-am.webp
+    photo: /assets/img/wp/2025-09-group-work-1-scaled.webp
+    photo_caption: Licensing workshop, Takoradi, 2025
+    countries:
+    - Ghana
+  - title: The Shift to Member Ownership
+    country: All member countries
+    sections:
+    - label: The Challenge
+      text: International networks often struggle with long-term sustainability and staying relevant to the changing needs of the Global South.
+    - label: The Action
+      text: Recognizing the unique value of the peer-to-peer space, NP4SE members voted to contribute membership dues in 2024, leaving the contribution voluntary for countries without commercial discoveries.
+    - label: The Impact
+      text: This shift has created a sustainable governance model that is independent of external donor shifts. It ensures that NP4SE remains producer-led, answering only to the governments that fund and lead it. This financial commitment is a global rarity and a testament to the trust placed in the network.
+    source_image: /assets/img/wp/2026-02-screenshot-2026-02-03-at-11-28-53-am.webp
+    photo: /assets/img/wp/2023-09-group-photo-1980x1320.webp
+    photo_caption: ''
+    countries: []
+  voices:
+  - quote: Interacting with colleagues from other countries gave us confidence to start to “cook in the kitchen, with NPG giving advice on whether we were using too much or too little salt and pepper.” “This helped us better understand how to resolve ‘dumping mud cuttings’ near the communities, (…) become more deliberate with Environmental and Social Impact Assessments, more confident in being more strategic in dealings with the company.”
+    source: Official, Turkana, Kenya, 2022 Evaluation
+  - quote: Flaring gas is flaring money.
+    source: Participant, 2024 Annual Meeting
+  - quote: This invaluable access to knowledge and real-life experiences is such a great resource… not readily available in literature.
+    source: Participant, 2025 Licensing Workshop
+  - quote: Without this group, it would be like being in deep ocean water without a canoe to get to shore.
+    source: Official, 2022 Evaluation
+  - quote: The training helped us capitalize on discussions between all entities towards aligning on a way forward and a clearer energy strategy.
+    source: Official from Lebanon
+  - quote: A Net Zero sector is the way forward for the New Producers.
+    source: Participant, 2024 Annual Meeting
+  banner_alt: Network members on a beach at dusk, with Table Mountain in the distance
+get_involved:
+  banner: /assets/img/wp/2023-11-img-0387-e1705058764930.webp
+  intro: 'There are many ways you can support what we do: getting involved as a member, becoming a sponsor or a knowledge partner.'
+  member:
+    image: /assets/img/wp/2021-01-af835a9d-a733-4654-b543-ef30d5e73245-1-concentrate.webp
+    countries_title: New member countries
+    countries: The New Producers for Sustainable Energy welcomes new member countries. Prospective and new oil and gas producers can join as members. And established producers can join as peer countries. Continued membership is contingent on a constructive engagement and active participation in activities each year. Applications can be made by individuals representing any government agency – whether petroleum, finance, environment or planning – or a national oil company.
+    individuals_title: New individual members
+    individuals:
+    - Membership is open to government officials and state-owned enterprises from our member and peer countries.
+    - If you are not in government, but interested in supporting the Group please visit our Become a partner or Sponsor us pages. You can also access our resources and publications, which are freely available to the public.
+    cost_title: Cost
+    cost: Member countries at the production and development stages pay annual dues. Governments hosting a national seminar, workshop, training or Annual Meeting cover local event costs related to the venue and catering. For more tailored activities that benefit a host country, a greater share of the costs is covered by the government. NP4SE activities are free of charge, but participants cover their own travel, accommodation, and meals. A limited number of stipends are available to support these costs where needed.
+    image_alt: Annual meeting participants gathered under palm trees for a group photo
+  sponsor:
+    paragraphs:
+    - text: Our goal is for emerging oil and gas producers to achieve sustainable and equitable development.
+      link: null
+      link_text: null
+    - text: To do so they need to avoid the pitfalls of the resource curse and minimise petroleum sector emissions, while developing pathways that increase energy access and build prosperity and resilience in the transition.
+      link: null
+      link_text: null
+    - text: 'We support governments with training & toolkits, research & analysis, and convene peer-to-peer dialogues. In addition, we are rolling out major new programmes:'
+      link: null
+      link_text: null
+    - text: 1) Sovereign AI Tools to close the technical gap in government agencies, while keeping data and innovation in country.
+      link: /resources-and-publications/sovereign-ai-initiative/
+      link_text: Sovereign AI Tools
+    - text: 2) Policy Labs, helping governments solve complex problems.
+      link: /members-area/
+      link_text: Policy Labs
+    - text: The New Producers for Sustainable Energy is a charitable organisation. It is supported by annual donations from our member countries and from grants from foundations.
+      link: null
+      link_text: null
+    - text: 'Company and charity name: New Producers for Sustainable Energy Charity Number: 1208629 Company Number: 15558027 Place of registration: England & Wales Registered office address: 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ'
+      link: null
+      link_text: null
+    - text: The below organisations have sponsored us over the past 2 years.
+      link: null
+      link_text: null
+    sponsors:
+    - name: Energy Corps
+      url: https://energycorps.com/our-work/our-grantees/new-producers-for-sustainable-energy
+      logo: /assets/img/wp/2026-09-screenshot-2026-09-21-at-6-30-43-pm.webp
+    - name: Oil and Gas Climate Initiative
+      url: https://www.ogci.com
+      logo: /assets/img/wp/2023-05-ogci-logo.webp
+    - name: Staatsolie
+      url: https://www.staatsolie.com/
+      logo: /assets/img/wp/2024-08-staatsolie.webp
+    image: /assets/img/wp/2024-08-staatsolie.webp
+  partner:
+    intro: Our knowledge partners are organisations that contribute largely pro-bono to the project. They may offer training sessions or participate in joint research. They may fund joint activities and also provide data and analysis for the benefit of the member countries.
+    partners:
+    - name: British Geological Survey
+      url: https://www.bgs.ac.uk/
+      logo: /assets/img/wp/2020-12-bgs-logo.webp
+    - name: African Development Bank
+      url: https://www.afdb.org/en
+      logo: /assets/img/wp/2020-12-african-development-logo.webp
+    - name: Columbia Center on Sustainable Investment
+      url: http://ccsi.columbia.edu/
+      logo: /assets/img/wp/2020-12-ccsi-logo.webp
+    - name: Society of Petroleum Engineers
+      url: https://www.spe.org/en/
+      logo: /assets/img/wp/2020-12-spe-logo.webp
+    - name: Squire Patton Boggs
+      url: https://www.squirepattonboggs.com/en
+      logo: /assets/img/wp/2020-12-sqpb-logo.webp
+    - name: Governance Action Hub
+      url: https://r4d.org/projects/governance-action-hub/
+      logo: /assets/img/wp/2023-12-gahublogo-vector-rgb-1200x958.webp
+    - name: African Energy Commission (AFREC)
+      url: https://au-afrec.org/
+      logo: /assets/img/wp/2024-12-afrec.webp
+    - name: IPIECA
+      url: https://www.ipieca.org/
+      logo: /assets/img/wp/2022-10-ipieca-logo-blue-rgb-ai.webp
+    - name: Natural Resource Governance Institute
+      url: https://resourcegovernance.org/
+      logo: /assets/img/wp/2023-09-nrgi-on-white-2023.webp
+    - name: Oil and Gas Climate Initiative
+      url: https://www.ogci.com
+      logo: /assets/img/wp/2023-05-ogci.webp
+    - name: Commonwealth Secretariat
+      url: https://thecommonwealth.org/about-us
+      logo: /assets/img/wp/2020-12-comsec-logo.webp
+  banner_alt: Two people on a rocky outcrop against a sunset
+members_area:
+  slides:
+  - /assets/img/wp/2020-12-tq566ypo-e1610386524420.webp
+  - /assets/img/wp/2021-01-img-9679-scaled-e1609954139435-1980x772.webp
+  membership:
+    title: Membership
+    items:
+    - kind: p
+      text: The strength of the network of countries allows knowledge and data-sharing between our members. Exchange with your peers next door and across the world.
+      link: null
+      link_text: null
+      sub: null
+    - kind: li
+      text: Log in to the discussion platform for governments and NOCs only (or request log in details). Here you can ask for advice or discuss policy challenges.
+      link: /contact-us/
+      link_text: request log in details
+      sub: null
+    - kind: p
+      text: Log in
+      link: https://forum.newproducersgroup.org
+      link_text: Log in
+      sub: null
+    - kind: p
+      text: Each member country has at least one government institution that is actively engaged in our activities each year. Having several agencies involved in discussions enhances real-world policy coordination.
+      link: null
+      link_text: null
+      sub: null
+    - kind: li
+      text: Invite your colleagues from government or national oil companies to join the group.
+      link: null
+      link_text: null
+      sub: null
+    - kind: p
+      text: Invite
+      link: mailto:?subject=Invitation%20to%20join%20the%20New%20Producers%20Group&body=https%3A%2F%2Fwww.newproducersgroup.org%2Fget-involved%2F%23member
+      link_text: Invite
+      sub: null
+  helpdesk:
+    title: Help desk
+    items:
+    - kind: li
+      text: Ask your question on the government-only discussion platform.
+      link: https://forum.newproducersgroup.org
+      link_text: discussion platform
+      sub: null
+    - kind: li
+      text: Governments and national stakeholders can ask the New Producers for Sustainable Energy Team for advice. We receive 20-30 queries per year. We consult other producers and various experts to provide responses that are balanced and practical.
+      link: mailto:members@newproducersgroup.org
+      link_text: advice
+      sub: null
+    - kind: li
+      text: Ask the New Producers for Sustainable Energy team for support with policy reform and implementation.
+      link: mailto:contact@newproducersgroup.org
+      link_text: support
+      sub:
+      - We provide data and analysis to support the efficient governance and use of energy, bringing the experience of other producer countries to you. We do not promote any specific policy, but clarify policy options, trade offs and likely implementation challenges.
+      - We can organise national seminars to investigate options in a collegial forum. A briefing paper or written summary usually follows the seminar.
+      - We support government teams with policy definition and implementation through our Lab process.
+  exchange:
+    title: Exchange with your peers
+    items:
+    - kind: p
+      text: We organise country visits, as well as bilateral and multilateral exchanges between member countries, with experts supporting the discussions. We have a lot of experience with facilitating peer-to-peer exchanges and can help start similar processes for civil society groups. These can lead to lasting collaboration between countries and establish mentoring relationships between organisations.
+      link: null
+      link_text: null
+      sub: null
+  exchanges:
+  - title: Uganda-Guyana exchange
+    date: July 2016
+    image: /assets/img/wp/2020-11-img-4029-scaled.webp
+    alt: Officials gathered around computer screens during the Uganda–Guyana exchange
+  - title: Tanzania-Ghana exchange
+    date: March 2016
+    image: /assets/img/wp/2020-12-img-6968-min-1-1-1200x900.webp
+    alt: Delegates from Tanzania and Ghana around a table during their exchange
+  - title: Geoscience exchange between Ghana, Guyana, Suriname, Sierra Leone
+    date: 2018-19
+    image: /assets/img/wp/2020-12-img-1209-min-1200x900.webp
+    alt: Participants in the geoscience exchange outside a building
+  labs_title: Policy labs
+  labs_intro:
+  - Member countries are invited to participate in our Policy labs, which support a government designated team through a process of identifying a key policy problem, shaping a plan to address it and implementing the necessary reform.
+  - 'The labs include:'
+  labs_list:
+  - Coaching and facilitation of a government team
+  - Capacity-building
+  - Regulatory or policy reform
+  - Technical support
+  - Peer-to-peer workshops to share learnings
+  labs:
+  - title: Emissions Lab
+    paragraphs:
+    - The objective of the Emissions Labs is near-zero methane emissions and no net increase in national GHG emissions resulting from the oil and gas sector for new producer countries.
+    - The NP4SE will facilitate a government and NOC-led effort to put in place strong emissions management frameworks, integrate appropriate processes and technologies at the project level to mitigate and avoid Scope 1 and 2 emissions, and identify carbon negative projects that compensate for residual, hard-to-abate sector emissions and achieve national development goals.
+    link: /contact-us/
+    image: /assets/img/wp/2021-01-5p4a0583-1200x800.webp
+    alt: Officials in discussion around a table
+  - title: Methane MMRV Programme
+    paragraphs:
+    - The New Producers for Sustainable Energy and the African Energy Commission are working together to get low-income gas exporters ready for new methane rules that have emerged in the EU, Korea and Japan. These import regulations will be rolled as soon as 2025-27, and are likely to have a significant impact on exporters.
+    link: /methane-programme/
+    image: /assets/img/wp/2024-01-arno-senoner-xlgyyv89w-m-unsplash-1200x1600.webp
+    alt: A gas flow meter on a pipe
+  - title: Future Economy Lab
+    paragraphs:
+    - Future Economy labs aims to help our member countries map out their development plan, identifying national opportunities for transition-proof growth and clarifying how oil and gas can support the future economy.
+    - The Future Economy lab is a one year process that will guide a local multi-stakeholder team through the definition of objectives and targets to map out a cautious entry into the petroleum industry, seizing untapped non-oil and gas manufacturing and service opportunities, and identifying unsuspected green opportunities.
+    - The Future Economy Labs are in collaboration with the Regional Development Lab at the Tecnológico de Monterrey University (TEC) and the Technology and Management Centre for Development (TIDE) at Oxford University.
+    link: /contact-us/
+    image: /assets/img/wp/2020-12-579c4cc7-360e-4c4a-87f3-6e96b53d4ab1.webp
+    alt: Officials working at tables during a workshop
+  labs_image: /assets/img/wp/2020-11-working-groups-img.webp
+  slide_alts:
+  - Participants at a meeting gathered for a group photo
+  - Participants of a New Producers Group meeting gathered for a group photo on a lawn
+  labs_image_alt: Officials seated in a circle under a marquee, in discussion
+events:
+  banner: /assets/img/wp/2021-01-sid-2518-1-scaled-e1610459544120-1980x886.webp
+  intro: We offer several different types of events to our member countries that are aimed at increasing capacity building, mutual learning, and exchange
+  types:
+  - title: Annual Meeting
+    text: The group’s flagship event is hosted by a different member country each year. It includes international discussions, training, and a national seminar for the host country to debate policy issues.
+  - title: Workshops
+    text: We organise and facilitate in-depth workshops, as well as national seminars for stakeholders to debate policy direction.
+  - title: Training sessions
+    text: Training is delivered in person in a member country or in an interactive live format online.
+  - title: Virtual meetings
+    text: We organise online seminars and trainings.
+  highlights:
+  - strategic-foundations-for-upstream-success
+  - workshop-and-training-on-licensing-strategy-and-negotiation
+  - workshop-on-changing-export-market-expectations-regarding-methane
+  - call-for-infrastructure-and-energy-projects
+  - attracting-investors-in-a-changing-world
+  - learn-how-to-assess-gaps-in-methane-monitoring
+  linkedin: https://www.linkedin.com/groups/7448187/
+  banner_alt: Delegates around a conference table during a meeting
+annual_meeting:
+  title: Annual meeting
+  intro: Every year, a member country hosts the flagship event of the group. The annual meeting includes emerging producers and more established producers, as well as subject matter experts, non-governmental organisations and industry representatives. The meeting includes international discussions, interactive training sessions, a national seminar for the host country to debate policy issues, and public information sessions.
+training:
+  title: Training
+  intro: Member countries have access to training sessions on a range of topics. The duration of these sessions vary depending on the topic and on the level of depth needed. In person sessions are usually between 1-5 days and virtual trainings last two weeks.
+resources:
+  banner: /assets/img/wp/2024-01-clyde-thomas-jkk6kjymdpk-unsplash-1-scaled-e17050551.webp
+  highlights:
+  - guidelines-for-good-governance-in-emerging-oil-and-gas-producers-2026-4th-edition
+  - annual-meeting-2024
+  - left-behind-emerging-oil-and-gas-producers-in-a-warming-world
+  - field-development-plans-a-handbook-for-government-officials
+  - minimising-greenhouse-gas-emissions-in-the-petroleum-sector-the-opportunity-for-emerging-producers
+  banner_alt: An offshore rig beyond a rocky shoreline under a stormy sky
+contact:
+  banner: /assets/img/wp/2024-01-beth-macdonald-nmt8ta8ovpy-unsplash-1980x1311.webp
+  emails:
+  - contact@newproducersgroup.org
+  - members@newproducersgroup.org
+  banner_alt: Dry scrub and sand seen from above
+subscription:
+  intro: Add your details below to receive New Producers for Sustainable Energy quarterly e-mail update, plus occasional messages announcing events. Subscribers to this list will receive no more than 16 emails per calendar year.
+  consent: The New Producers for Sustainable Energy will use the information you provide on this form to be in touch with you and to provide news and updates. You can change your mind at any time by clicking the unsubscribe link in the footer of any email you receive from us, or by filling in this form https://www.newproducersgroup.org/unsubscribe/. We will treat your information with respect. For more information about our privacy practices please visit https://www.newproducersgroup.org/privacy-policy/. By clicking below, you agree that we may process your information in accordance with these terms.
+unsubscribe:
+  intro: We’re sorry to see you go. To unsubscribe from all of our emails, please enter your email address below.
+sovereign_ai:
+  banner: /assets/img/wp/2023-11-naadira-team-1980x1320.webp
+  question: Can generative AI close the technical capacity gap in government agencies without the data or the innovation leaving the country?
+  intro:
+  - 'Emerging producers are asked to make sophisticated regulatory, fiscal and environmental decisions with some of the smallest, most stretched teams in the sector. Our objective is simple: use secure, practitioner-led AI to close that gap, on terms that keep data and innovation within Global South countries.'
+  - 'Our sovereign AI system works as a secure “vault” in which overstretched agencies can use generative AI to research precedents, benchmark and draft regulations, review environmental impact assessments, and monitor greenhouse-gas emissions. Unlike public AI tools, it uses zero-training architectures, so sensitive national data never leaves a governed environment. A human-in-the-loop design keeps expert judgement and institutional authority with government users throughout: the AI supports analysis and review, it does not replace them.'
+  - This work is generously funded by <strong><a href="https://energycorps.com/our-work/our-grantees/new-producers-for-sustainable-energy" rel="noopener">Energy Corps</a></strong>, a US nonprofit working to end energy poverty by connecting local leadership with global expertise.
+  components:
+  - title: AI Advisory Desk
+    paras:
+    - Our Help Desk has spent over a decade answering complex regulatory, fiscal and legal questions for member governments, but manual, expert-led responses limit us to 10–20 queries a year. Within six months, we aim to have a working beta platform ready to roll out for the benefit of all the governments in our group, giving every agency access, on demand, to the network’s fourteen years of practical oversight experience, with a human in the loop validating policy options.
+  - title: Upstream National Emissions Dashboard
+    paras:
+    - 'Phase 1 is already funded through secured co-funding: a working pilot developed with a national regulatory agency and a leading national university, establishing an auditable, source-resolved methane and greenhouse-gas monitoring capability owned by the national regulator. The pilot country will be announced shortly.'
+  principle: 'Both tools are grounded in the same principle: technology should widen what small government teams can see and verify, without narrowing their control over the decisions that follow.'
+  support:
+    title: Support this work
+    paras:
+    - This is an ongoing initiative, with high geographic replication potential and multiple new tools planned. If you would like to help us extend this work to more member countries, get in touch.
+  description: Explore how sovereign AI can help government agencies close capacity gaps with secure, practitioner-led tools, keeping data in-country.
+  banner_alt: Members of the NP4SE team at a flipchart during a workshop

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set G = P.governance %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label">About us</span>
+  <h1 class="d1">Governance</h1>
+  <p class="lead">{{ G.financials[0].text }}</p>
+  <nav class="jump" aria-label="On this page"><a href="#team">Our team</a><a href="#advisory">Advisory Board</a><a href="#trustees">Board of Trustees</a><a href="#financials">Funders and financials</a><a href="#partners">Partner organisations</a></nav>
+</div>
+{{ ui.ph(G.banner, G.banner_alt, None, 'wide-ph', eager=True) }}
+
+<section class="band" id="team">
+  <div class="wrap">
+    {{ ui.sec_head(None, G.team_title, G.team_intro) }}
+    <div class="team">
+      {% for t in G.team %}
+      <div class="member">
+        {% if t.photo %}<figure class="portrait">{{ ui.img(t.photo, 'Portrait of ' ~ t.name) }}</figure>{% else %}<div class="portrait av-lg">{{ t.name|initials }}</div>{% endif %}
+        <h3>{{ t.name }}</h3>
+        {% for r in t.roles %}<p class="{{ 'role' if loop.first else 'role2' }}">{{ r }}</p>{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band tint">
+  <div class="wrap boards">
+    {% for key, tone in [('advisory', 'savanna'), ('trustees', 'atlantic')] %}{% set B = G[key] %}
+    <div id="{{ key }}" class="board">
+      <h2 class="d3">{{ B.title }}</h2>
+      <p class="body mt-s">{{ B.intro }}</p>
+      <div class="people">{% for p in B.people %}{{ ui.person(p, tone) }}{% endfor %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="band" id="financials">
+  <div class="wrap split top">
+    <div>
+      <h2 class="d2">{{ G.financials_title }}</h2>
+      <p class="lead mt-m">{{ G.financials[1].text }}</p>
+      <div class="docs mt-l">
+        {% for f in G.financials if f.link and f.link.startswith('http') %}<a class="doc" href="{{ f.link }}" target="_blank" rel="noopener"><span>{{ f.text|replace('-', '–') }}</span><small>{{ 'Google Drive' if 'drive.google' in f.link else 'Charity Commission' }}</small></a>{% endfor %}
+      </div>
+    </div>
+    <div class="callout">
+      <span class="big num">100<small>%</small></span>
+      {% set last = G.financials|last %}
+      <p>{{ last.text|replace(' To support our work, please visit the Get Involved page.', '') }}</p>
+      <p><a class="arrow" href="{{ last.link }}">Get involved</a></p>
+      <dl class="kv">
+        <dt>Charity</dt><dd>{{ site.charity.number }}</dd>
+        <dt>Company</dt><dd>{{ site.charity.company_number }}</dd>
+        <dt>Registered in</dt><dd>{{ site.charity.registered_in }}</dd>
+        <dt>Office</dt><dd>{{ site.charity.office }}</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="band tint" id="partners">
+  <div class="wrap">
+    {{ ui.sec_head(None, G.partners_title, G.partners_intro) }}
+    <ul class="logos">
+      {% for l in G.partners %}<li>{% if l.url %}<a href="{{ l.url }}" rel="noopener" title="{{ l.name }}">{{ ui.img(l.logo, l.name) }}</a>{% else %}{{ ui.img(l.logo, l.name) }}{% endif %}</li>{% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

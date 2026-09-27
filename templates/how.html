@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set H = P.how %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label">{{ H.mission_title }}</span>
+  <h1 class="d2 mission">{{ H.mission }}</h1>
+  <p class="lead">{{ H.mission_text }}</p>
+</div>
+{{ ui.ph(H.banner, H.banner_alt, 'São Tomé e Príncipe', 'wide-ph', HEX.laterite, eager=True) }}
+
+<section class="band">
+  <div class="wrap split top">
+    <div>
+      <span class="label">{{ H.approach_title }}</span>
+      <p class="statement mt-s">{{ H.approach_intro }}</p>
+    </div>
+    <div class="deflist">
+      {% for a in H.approach %}<div><b>{{ a.label }}</b><p>{{ a.text }}</p></div>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band t-lagoon">
+  <div class="wrap split top">
+    <div class="duo">
+      {% for src in H.mission_images %}{{ ui.ph(src, H.mission_alts[loop.index0]) }}{% endfor %}
+    </div>
+    <div>
+      <span class="label c-lagoon">{{ H.difference_title }}</span>
+      <h2 class="d3 mt-s">{{ H.difference_intro|replace(':', '.') }}</h2>
+      <div class="deflist mt-l">
+        {% for a in H.difference %}<div><b>{{ a.label }}</b><p>{{ a.text }}</p></div>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'How we work') }}
+    <div class="streams">
+      {% for w in H.workstreams %}{% set tone = ['lagoon', 'savanna', 'laterite', 'atlantic'][loop.index0] %}
+      <div style="--c:{{ HEX[tone] }}"><h3>{{ w.title }}</h3><p>{{ w.text }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band tint">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Our values') }}
+    <div class="values">
+      {% for v in H['values'] %}<div><b>{{ v.title }}</b><span>{{ v.text }}</span></div>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap split top">
+    <div>
+      {{ ui.sec_head(None, 'Our history', None, None, None, None, 'h2', 'stack') }}
+      <ol class="tl">
+        {% for h in H.history %}{% set tone = ['atlantic', 'laterite', 'savanna', 'lagoon'][loop.index0 % 4] %}
+        <li style="--c:{{ HEX[tone] }}"><span class="y num">{{ h.year }}</span><p>{{ h.text }}</p></li>
+        {% endfor %}
+      </ol>
+    </div>
+    {{ ui.ph(H.history_image, H.history_alt, None, 'hist') }}
+  </div>
+</section>
+
+<section class="band t-savanna">
+  <div class="wrap cta-row">
+    <div><h2 class="d3">Impact</h2><p class="body mt-s">{{ P.impact.stats[1] }}</p></div>
+    <div class="btnrow"><a class="btn" href="/impact/">Impact</a><a class="btn line" href="/about-us/">Governance</a></div>
+  </div>
+</section>
+{% endblock %}

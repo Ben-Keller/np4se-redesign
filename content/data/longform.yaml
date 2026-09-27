@@ -1,0 +1,57 @@
+# Pages whose body is a block of text (content/pages/<key>.html), with their header details.
+# related: publications (slug) and events (event/<slug>) listed at the foot of the page.
+field-development-plans:
+  url: /resources-and-publications/field-development-plans/
+  banner_alt: An offshore production platform at sea
+  label: Resource page
+  title: Field development plans
+  lead: How can governments use the FDP review process to maximise benefits to their countries?
+  banner: /assets/img/wp/2024-10-oil-8188539-1280.webp
+  description: How can governments use the FDP review process to maximise benefits to their countries? Key points from our training and handbook on reviewing field development plans.
+  related:
+  - field-development-plans-a-handbook-for-government-officials
+  - event/government-review-of-field-development-plans
+methane-programme:
+  url: /methane-programme/
+  banner_alt: A gas flare burning above a desert ridge
+  label: Programme
+  title: Joint AFREC-NP4SE Methane MMRV Programme
+  nav_title: Methane MMRV programme
+  banner: /assets/img/photos/flare.webp
+  description: The New Producers for Sustainable Energy and the African Energy Commission are helping African oil and gas producers prepare for new methane import rules in the EU, Japan and Korea.
+  related:
+  - event/learn-how-to-assess-gaps-in-methane-monitoring
+  - event/workshop-on-changing-export-market-expectations-regarding-methane
+  - event/near-zero-methane-and-zero-flaring-supporting-tangible-action-in-emerging-producers
+working-group-information-governments-can-expect-from-operators:
+  url: /working-group-information-governments-can-expect-from-operators/
+  banner_alt: Painted fishing canoes drawn up on a beach
+  label: Working group
+  title: "Working Group: Information governments can expect from operators"
+  banner: /assets/img/wp/2020-11-banner-img-1.webp
+  description: A New Producers Group working group on the information governments should request and expect from operators across the project lifecycle.
+  related: []
+unsticking-the-sticky-clauses-working-group:
+  url: /unsticking-the-sticky-clauses-working-group/
+  banner_alt: Painted fishing canoes drawn up on a beach
+  label: Working group
+  title: Unsticking the Sticky Clauses Working Group
+  banner: /assets/img/wp/2020-11-banner-img-1.webp
+  description: A working group helping new producers share experience of tricky petroleum contract clauses, and discuss the petroleum contract of the future.
+  related:
+  - tying-their-hands-how-petroleum-contract-terms-may-limit-governments-climate-policy-flexibility
+  - event/the-future-of-petroleum-contracts
+privacy-policy:
+  url: /privacy-policy/
+  label: Legal
+  title: Privacy policy
+  banner: null
+  description: How New Producers for Sustainable Energy collects, uses and protects personal data.
+  related: []
+terms-of-use:
+  url: /terms-of-use/
+  label: Legal
+  title: Terms of use
+  banner: null
+  description: The terms of use for the New Producers for Sustainable Energy website.
+  related: []

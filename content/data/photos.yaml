@@ -1,0 +1,29 @@
+# Licensed stock photography (Unsplash License). Everything else on the site is the
+# organisation's own photography, downloaded from the previous website.
+# key: file under /assets/img/photos/, alt text, place shown in captions, photographer.
+coast-boats: {alt: Wooden fishing canoes drawn up on a long beach at Prampram, place: "Prampram, Ghana", by: The Artboard}
+fishers: {alt: Fishermen in a painted canoe off the rocks at Elmina, place: "Elmina, Ghana", by: Seyiram Kweku}
+boats-color: {alt: Painted fishing boats crowding the harbour at Elmina, place: "Elmina, Ghana", by: Omoniyi David}
+accra-gate: {alt: Independence Arch at Black Star Square under a blue sky, place: "Black Star Square, Accra", by: Nana Kwandoh}
+river: {alt: A dugout canoe on the Suriname River between forested banks, place: "Boven Suriname, Suriname", by: Anoeskha B}
+dunes: {alt: Namib desert dunes meeting the Atlantic Ocean, place: "Namib coast, Namibia", by: Joshua Kettle}
+crater-lake: {alt: A crater lake among green hills in western Uganda, place: "Western Uganda", by: Keith Kasaija}
+palm-beach: {alt: Leaning palm trees over a white-sand beach, place: Mozambique, by: redcharlie}
+dar-skyline: {alt: High-rise towers above the harbour of Dar es Salaam, place: "Dar es Salaam, Tanzania", by: Nichika Sakurai}
+dakar-boats: {alt: Boats moored off the waterfront of Île de Gorée, place: "Île de Gorée, Dakar", by: Dodji Abah-Dakou}
+beirut: {alt: Beirut and the Mediterranean coast seen from the hills at dusk, place: "Beirut, Lebanon", by: Michael Starkie}
+timor-coast: {alt: Reef and forested coastline at Adara, place: "Adara, Timor-Leste", by: Tanushree Rao}
+delegates: {alt: Two women seated in a conference audience, listening, place: "", by: Lisa Marie Theck}
+delegate-bw: {alt: A delegate in glasses and a white head wrap listening at a conference, place: "", by: Lisa Marie Theck}
+meeting: {alt: Colleagues around a meeting-room table with laptops, place: "", by: "Christina @ wocintechchat.com"}
+mentors: {alt: Three women reviewing documents together on a sofa, place: "", by: Iwaria Inc.}
+laptops: {alt: Three colleagues discussing work around a table with laptops, place: "", by: UK Black Tech}
+desk: {alt: A young professional working at a desk with a laptop and notebook, place: "", by: Vitaly Gariev}
+rig-blue: {alt: An offshore production platform on open blue sea, place: "", by: Sheng Hu}
+rig-haze: {alt: An offshore platform in silhouette against a hazy golden sky, place: "", by: Leo_Visions}
+rig-supply: {alt: A supply vessel working beside an offshore rig at dusk, place: "", by: J.f Manzanero}
+flare: {alt: A gas flare burning above a desert ridge, place: "", by: Odile}
+solar: {alt: Rows of solar panels across green fields, seen from above, place: "", by: Andreas Gücklhorn}
+wind: {alt: Offshore wind turbines over a calm sea, place: "", by: James Whately}
+tanker: {alt: A crude tanker moving through a harbour channel, place: "", by: Georg Eiermann}
+calm: {alt: A calm sea at dawn under a pink and blue sky, place: "", by: Harli Marten}

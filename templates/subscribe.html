@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block main %}
+<section class="band pt-m">
+  <div class="wrap split top">
+    <div>
+      <h1 class="d1">{{ 'Subscribe to updates' if mode == 'subscribe' else 'Unsubscribe' }}</h1>
+      {% if mode == 'subscribe' %}
+      <p class="lead mt-m">{{ P.subscription.intro }}</p>
+      {% else %}
+      <p class="lead mt-m">{{ P.unsubscribe.intro }}</p>
+      {% endif %}
+    </div>
+    <div class="form-card">
+      {% if mode == 'subscribe' %}
+      {{ ui.form_open('subscribe') }}
+        {{ ui.field('sub-email', 'Email address', 'email', 'email', required=True, autocomplete='email') }}
+        <div class="r2">{{ ui.field('sub-first', 'First name', 'first_name', autocomplete='given-name') }}{{ ui.field('sub-last', 'Last name', 'last_name', autocomplete='family-name') }}</div>
+        <div class="r2">{{ ui.field('sub-org', 'Organisation', 'organisation', autocomplete='organization') }}{{ ui.field('sub-country', 'Country', 'country', autocomplete='country-name') }}</div>
+        <div class="consent"><span class="label">Permissions</span><p class="mt-s">{{ P.subscription.consent|replace('https://www.newproducersgroup.org/unsubscribe/', 'the unsubscribe page')|replace('https://www.newproducersgroup.org/privacy-policy/', 'our privacy policy') }} <a href="/unsubscribe/">Unsubscribe</a> · <a href="/privacy-policy/">Privacy policy</a></p></div>
+      {{ ui.form_close('Subscribe', 'Thank you for subscribing.') }}
+      {% else %}
+      {{ ui.form_open('unsubscribe') }}
+        {{ ui.field('unsub-email', 'Your email', 'email', 'email', required=True, autocomplete='email') }}
+      {{ ui.form_close('Submit', 'Thank you. Your request has been sent.') }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set G = P.get_involved %}
+{% block main %}
+<div class="wrap phead">
+  <span class="label">Get involved</span>
+  <h1 class="d1">Get involved</h1>
+  <p class="lead">{{ G.intro }}</p>
+  <nav class="jump" aria-label="On this page"><a href="#member">Become a member</a><a href="#sponsor">Sponsor us</a><a href="#partner">Become a partner</a></nav>
+</div>
+{{ ui.ph(G.banner, G.banner_alt, None, 'wide-ph', eager=True) }}
+
+<section class="band" id="member">
+  <div class="wrap split top">
+    <div>
+      <h2 class="d2">Become a member</h2>
+      <h3 class="h4 mt-l">{{ G.member.countries_title }}</h3>
+      <p class="body mt-s">{{ G.member.countries }}</p>
+      <h3 class="h4 mt-l">{{ G.member.individuals_title }}</h3>
+      {% for p in G.member.individuals %}<p class="body mt-s">{{ p|replace('Become a partner or Sponsor us pages', 'Become a partner or Sponsor us sections below') }}</p>{% endfor %}
+      <h3 class="h4 mt-l">{{ G.member.cost_title }}</h3>
+      <p class="body mt-s">{{ G.member.cost }}</p>
+    </div>
+    <div class="form-card">
+      <h3 class="d4">Interested in becoming a member?</h3>
+      {{ ui.form_open('membership') }}
+        <div class="r2">{{ ui.field('m-name', 'Name', 'name', required=True, autocomplete='name') }}{{ ui.field('m-position', 'Position', 'position', autocomplete='organization-title') }}</div>
+        <div class="r2">{{ ui.field('m-org', 'Organisation', 'organisation', required=True, autocomplete='organization') }}{{ ui.select('m-country', 'Country', country_options, 'country', required=True) }}</div>
+        {{ ui.field('m-email', 'Email', 'email', 'email', required=True, autocomplete='email') }}
+        {{ ui.field('m-comments', 'Comments', 'comments', 'textarea') }}
+      {{ ui.form_close() }}
+    </div>
+  </div>
+</section>
+
+<section class="band tint" id="sponsor">
+  <div class="wrap split top">
+    <div>
+      <h2 class="d2">Sponsor us</h2>
+      {% for p in G.sponsor.paragraphs %}
+        {% if p.text.startswith('Company and charity name') %}
+        <dl class="kv mt-m">
+          <dt>Charity</dt><dd>{{ site.charity.name }}</dd>
+          <dt>Charity no.</dt><dd class="num">{{ site.charity.number }}</dd>
+          <dt>Company no.</dt><dd class="num">{{ site.charity.company_number }}</dd>
+          <dt>Registered in</dt><dd>{{ site.charity.registered_in }}</dd>
+          <dt>Office</dt><dd>{{ site.charity.office }}</dd>
+        </dl>
+        {% elif p.text.startswith('The below organisations') %}
+        <h3 class="h4 mt-l">Who are our sponsors?</h3>
+        <p class="body mt-s">{{ p.text|replace('The below organisations', 'These organisations') }}</p>
+        <ul class="logos sm mt-m">{% for l in G.sponsor.sponsors %}<li>{% if l.url %}<a href="{{ l.url }}" rel="noopener" title="{{ l.name }}">{{ ui.img(l.logo, l.name) }}</a>{% else %}{{ ui.img(l.logo, l.name) }}{% endif %}</li>{% endfor %}</ul>
+        {% elif p.text[:2] in ['1)', '2)'] %}
+        <p class="body mt-s numbered"><b>{{ p.text[:1] }}</b><span>{{ p|link_text|replace(p.text[:3], '') }}</span></p>
+        {% else %}
+        <p class="body mt-m">{{ p|link_text }}</p>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="form-card">
+      <h3 class="d4">Get in touch to sponsor our work</h3>
+      {{ ui.form_open('sponsorship') }}
+        <div class="r2">{{ ui.field('s-name', 'Name', 'name', required=True, autocomplete='name') }}{{ ui.field('s-position', 'Position', 'position', autocomplete='organization-title') }}</div>
+        {{ ui.field('s-org', 'Organisation', 'organisation', required=True, autocomplete='organization') }}
+        {{ ui.field('s-email', 'Email', 'email', 'email', required=True, autocomplete='email') }}
+        {{ ui.field('s-comments', 'Comments', 'comments', 'textarea') }}
+      {{ ui.form_close() }}
+    </div>
+  </div>
+</section>
+
+<section class="band" id="partner">
+  <div class="wrap split top">
+    <div>
+      <h2 class="d2">Become a partner</h2>
+      <p class="body mt-m">{{ G.partner.intro }}</p>
+      <h3 class="h4 mt-l">Who are our partners?</h3>
+      <ul class="logos sm mt-m">{% for l in G.partner.partners %}<li>{% if l.url %}<a href="{{ l.url }}" rel="noopener" title="{{ l.name }}">{{ ui.img(l.logo, l.name) }}</a>{% else %}{{ ui.img(l.logo, l.name) }}{% endif %}</li>{% endfor %}</ul>
+    </div>
+    <div class="form-card">
+      <h3 class="d4">Interested in becoming a partner?</h3>
+      {{ ui.form_open('partnership') }}
+        <div class="r2">{{ ui.field('p-name', 'Name', 'name', required=True, autocomplete='name') }}{{ ui.field('p-position', 'Position', 'position', autocomplete='organization-title') }}</div>
+        {{ ui.field('p-org', 'Organisation', 'organisation', required=True, autocomplete='organization') }}
+        {{ ui.field('p-email', 'Email', 'email', 'email', required=True, autocomplete='email') }}
+        {{ ui.field('p-comments', 'Comments', 'comments', 'textarea') }}
+      {{ ui.form_close() }}
+    </div>
+  </div>
+</section>
+{% endblock %}

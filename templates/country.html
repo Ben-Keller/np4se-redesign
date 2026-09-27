@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set r = regions[c.region] %}
+{% set og_image = c.hero.src if c.hero else None %}
+{% block main %}
+<div class="wrap chead">
+  <div class="ch-tx">
+    <span class="label"><a href="/members/">Members</a> · {{ r.name }}</span>
+    <h1 class="d1">{{ c.name }}</h1>
+    <div class="pills">
+      <span class="pill {{ c.colour|pillcls }}">{{ c.role_label }}</span>
+      {% if c.stage %}<span class="pill stage" style="--s:{{ STAGE_COLOURS[c.stage] }}">{{ c.stage }}{% if c.legacy_production %} · marginal legacy production{% endif %}</span>{% endif %}
+    </div>
+    <dl class="kv facts-kv">
+      <dt>Region</dt><dd>{{ r.name }}</dd>
+      <dt>Status</dt><dd>{{ c.role_label }}</dd>
+      {% if c.stage %}<dt>Sector stage</dt><dd>{{ c.stage }}</dd>{% endif %}
+      <dt>Capital</dt><dd>{{ c.capital }}</dd>
+      {% if c.pubs %}<dt>Publications</dt><dd class="num">{{ c.pubs|length }}</dd>{% endif %}
+      {% if c.events %}<dt>Events</dt><dd class="num">{{ c.events|length }}</dd>{% endif %}
+    </dl>
+  </div>
+  <div class="locator" data-map="locator" data-country="{{ c.name }}" role="img" aria-label="Map locating {{ c.name }} in {{ r.name }}"></div>
+</div>
+{% if c.hero %}{{ ui.ph(c.hero.src, c.hero.alt if c.hero.by else 'Photograph from ' ~ c.name, c.hero.place, 'wide-ph', r.hex, eager=True) }}{% endif %}
+
+{% if c.spotlights %}
+<section class="band">
+  <div class="wrap">
+    {% for s in c.spotlights %}
+    <article class="spot solo">
+      <div class="spot-media">{{ ui.ph(s.photo, s.title, s.photo_caption or None) }}</div>
+      <div class="spot-tx">
+        <span class="label"><a href="/impact/">Impact</a></span>
+        <h2 class="d3 mt-s">{{ s.title }}</h2>
+        <dl class="steps3">{% for sec in s.sections %}<dt>{{ sec.label }}</dt><dd>{% if sec.text %}{{ sec.text|markup }}{% endif %}{% if sec.list %}<ul>{% for li in sec.list %}<li>{{ li }}</li>{% endfor %}</ul>{% endif %}</dd>{% endfor %}</dl>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% for v in c.voices %}
+<section class="band t-savanna vband">
+  <div class="wrap"><figure class="q q-ink"><blockquote><p>{{ v.quote|quoted }}</p></blockquote><figcaption>{{ v.source }}</figcaption></figure></div>
+</section>
+{% endfor %}
+
+{% if c.pubs or c.events %}
+<section class="band{{ ' tint' if c.spotlights }}">
+  <div class="wrap">
+    {% if c.pubs %}
+    {{ ui.sec_head(None, 'Publications', None, '/resources-and-publications/', 'All publications') }}
+    <div class="cards3">{% for p in c.pubs[:6] %}{{ ui.pub_card(p) }}{% endfor %}</div>
+    {% if c.pubs|length > 6 %}<ul class="morelist">{% for p in c.pubs[6:] %}<li><a href="{{ p.url }}">{{ p.title }}</a> <small>{{ p.type }} · {{ p.date_display }}</small></li>{% endfor %}</ul>{% endif %}
+    {% endif %}
+    {% if c.events %}
+    <div class="{{ 'mt-xl' if c.pubs }}">{{ ui.sec_head(None, 'Events', None, '/activities-and-events/', 'All events') }}</div>
+    <div class="evlist">{% for e in c.events %}{{ ui.ev_row(e) }}{% endfor %}</div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% set extra = [] %}
+{% for res in c.resources %}{% if not (res.url in (c.pubs + c.events)|map(attribute='url')|list) %}{% set _ = extra.append(res) %}{% endif %}{% endfor %}
+{% if extra %}
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Resources') }}
+    <ul class="reslist">
+      {% for res in extra %}
+      <li><a href="{{ res.url }}"{% if res.url.startswith('http') %} rel="noopener"{% endif %}><b>{{ res.title }}</b></a>{% if res.text %}<p>{{ res.text }}</p>{% endif %}{% if res.url.startswith('http') %}<small>{{ res.url.split('/')[2]|replace('www.', '') }}</small>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{% set neighbours = active|selectattr('region', 'equalto', c.region)|rejectattr('slug', 'equalto', c.slug)|list %}
+<section class="band tint">
+  <div class="wrap">
+    <span class="label">Also in {{ r.name }}</span>
+    <ul class="nlist mt-m">{% for m in neighbours %}<li><a href="{{ m.url }}" style="--c:{{ r.hex }}"><i></i>{{ m.name }}</a></li>{% endfor %}</ul>
+    <p class="mt-l"><a class="arrow" href="/members/">All member countries</a></p>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/assets/js/world.js"></script><script src="/assets/js/np-data.js"></script>{% endblock %}
