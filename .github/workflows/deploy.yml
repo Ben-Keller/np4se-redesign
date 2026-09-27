@@ -1,0 +1,61 @@
+# Builds the site with build.py and publishes it on GitHub Pages, on every push to main.
+# One-time setup: repository Settings > Pages > Build and deployment > Source: "GitHub Actions".
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # "Run workflow" button, e.g. after setting a custom domain
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push waits for the running one rather than cancelling it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install the build requirements
+        run: pip install -r requirements.txt
+
+      - name: Read the Pages address
+        id: pages
+        uses: actions/configure-pages@v6
+
+      # base_url is https://<user>.github.io/<repo> until a custom domain is set, then that domain.
+      # The build prefixes internal links accordingly and fails if any internal link is broken.
+      - name: Build the site
+        env:
+          BASE_URL: ${{ steps.pages.outputs.base_url }}
+        run: python build.py --base-url "$BASE_URL"
+
+      - name: Upload the built site
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
