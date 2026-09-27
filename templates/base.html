@@ -10,15 +10,16 @@
 {% endif -%}
 <title>{{ doc_title }}</title>
 <meta name="description" content="{{ desc }}">
-<meta name="np:base" content="{{ page.base if preview else '/' }}">
+<meta name="np:base" content="{{ page.base if preview else base_path ~ '/' }}">
 <meta name="np:mode" content="{{ 'preview' if preview else 'live' }}">
-<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+{% if noindex %}<meta name="robots" content="noindex">
+{% endif %}<link rel="canonical" href="{{ site_url }}{{ page.url }}">
 <meta property="og:site_name" content="{{ site.name }}">
 <meta property="og:type" content="{{ 'article' if item is defined else 'website' }}">
 <meta property="og:title" content="{{ title or site.name }}">
 <meta property="og:description" content="{{ desc }}">
-<meta property="og:url" content="{{ site.url }}{{ page.url }}">
-<meta property="og:image" content="{{ site.url }}{{ og }}">
+<meta property="og:url" content="{{ site_url }}{{ page.url }}">
+<meta property="og:image" content="{{ site_url }}{{ og }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
@@ -35,7 +36,7 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="top" id="top">
   <div class="wrap nav">
-    <a class="logo" href="/" aria-label="NP4SE, New Producers for Sustainable Energy, home">{{ ui.ring() }}<span class="lt"><span class="wm">NP4SE</span><span class="ds">New Producers for Sustainable Energy</span></span></a>
+    <a class="logo" href="/" aria-label="New Producers for Sustainable Energy, home">{{ ui.ring() }}<span class="lt"><span class="wm"><span>New Producers for</span> <span>Sustainable Energy</span></span></span></a>
     <nav class="menu" id="menu" aria-label="Main">
       <ul class="mlist">
       {% for it in site.nav %}
@@ -66,7 +67,7 @@
   <div class="wrap">
     <div class="foot">
       <div class="fbrand">
-        <a class="logo" href="/" aria-label="NP4SE home">{{ ui.ring() }}<span class="lt"><span class="wm">NP4SE</span><span class="ds">New Producers for Sustainable Energy</span></span></a>
+        <a class="logo" href="/" aria-label="New Producers for Sustainable Energy, home">{{ ui.ring() }}<span class="lt"><span class="wm"><span>New Producers for</span> <span>Sustainable Energy</span></span></span></a>
         <p>{{ site.description }}</p>
       </div>
       {% for col in site.footer %}

@@ -25,26 +25,52 @@ python3 -m http.server -d dist   # then open http://localhost:8000
 
 The build checks every internal link and stops with a list if any page links to a page that does not exist.
 
+`python3 build.py --base-url https://ben-keller.github.io/np4se-redesign` builds for another address: every
+internal link then starts with `/np4se-redesign/`, which is what a GitHub Pages project address needs. The
+deploy workflow does this for you with whatever address GitHub Pages reports.
+
 `python3 build.py --preview` writes a copy to `preview/` with relative links, forms switched off and no
 external embeds. That is the version used for the shareable preview; don't deploy it.
 
-## Deploy it
+## Deploy it (GitHub Pages)
 
-**Netlify (recommended).** Forms, redirects and the 404 page work with no extra setup.
+`.github/workflows/deploy.yml` builds the site on GitHub and publishes it with GitHub Pages every time
+something is pushed to `main`. `dist/` is not committed; GitHub builds it.
 
-- Quickest: run `python3 build.py`, then drag the `dist/` folder onto app.netlify.com/drop.
-- Better: put this folder in a GitHub repository and connect it to Netlify. `netlify.toml` tells Netlify
-  to run the build on every push, so editing a content file and pushing is all it takes to publish.
-- In Netlify, open *Forms* and add an email notification to contact@newproducersgroup.org for each form
-  (contact, membership, sponsorship, partnership, subscribe, unsubscribe).
+**One-time setup.** In the repository on GitHub, open *Settings → Pages* and under *Build and deployment*
+set *Source* to **GitHub Actions**. Then push to `main`, or open *Actions → Deploy site to GitHub Pages →
+Run workflow*. The first run takes a minute or two; the address appears on the run's summary page and in
+*Settings → Pages*: https://ben-keller.github.io/np4se-redesign/.
 
-**Any other static host** (Cloudflare Pages, GitHub Pages, an ordinary web server) works for the pages.
-Two things need attention there:
+While the site lives on that github.io address, search engines are asked not to index it, so it doesn't
+compete with the live WordPress site (`index_on_github_io` in `content/data/site.yaml` turns this off).
 
-- Forms: set `form_action` in `content/data/site.yaml` to an endpoint from a form service such as
-  Formspree, and every form posts there.
-- Redirects: `dist/_redirects` is in Netlify's format, which Cloudflare Pages also reads. Other hosts
-  need the same rules written in their own format.
+**Custom domain.** When you are ready for the site to take over newproducersgroup.org (or a test subdomain
+such as new.newproducersgroup.org first):
+
+1. Optional but recommended: verify the domain for your account (GitHub profile *Settings → Pages → Add a
+   domain*), which protects it from being claimed by another repository.
+2. Enter the domain in the repository's *Settings → Pages → Custom domain*.
+3. At the DNS provider, point `www` at `ben-keller.github.io` with a CNAME record. For the bare domain,
+   add A records for 185.199.108.153, 185.199.109.153, 185.199.110.153 and 185.199.111.153 (and, if
+   wanted, AAAA records for 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153 and
+   2606:50c0:8003::153).
+4. Tick *Enforce HTTPS* once GitHub has issued the certificate.
+5. Run the workflow again (*Actions → Run workflow*). The build picks up the new address: links lose the
+   `/np4se-redesign/` prefix, canonical links and the sitemap use the domain, and indexing is allowed.
+
+No `CNAME` file is needed: with an Actions workflow GitHub keeps the domain in the repository settings.
+
+**Forms.** GitHub Pages serves files only, so it cannot receive form posts. Until a form service is set up,
+each form (contact, membership, sponsorship, partnership, subscribe, unsubscribe) opens the visitor's email
+app with their message addressed to contact@newproducersgroup.org. To have submissions delivered straight
+to an inbox, create an endpoint with a form service (Formspree, Basin, FormSubmit and similar), put its URL
+in `form_action` in `content/data/site.yaml` and push; every form then posts there. The service will
+handle visitors' names and email addresses, so check its terms and mention it in the privacy policy.
+
+**Other hosts.** `dist/` is plain files and works on any static host (Netlify, Cloudflare Pages, an
+ordinary web server). Old addresses redirect through small pages generated in `dist/`, so no server
+rules are needed.
 
 ## Before you switch the domain
 
@@ -52,13 +78,17 @@ Two things need attention there:
    `www.newproducersgroup.org/wp-content/uploads/…`. When this site replaces WordPress on the same
    domain, those files need a new home. Either:
    - run `python3 tools/fetch_documents.py --download` while the old site is still up, set
-     `documents_host: /assets/docs/` in `content/data/site.yaml` and rebuild, so the files ship with the
+     `documents_host: /assets/docs/` in `content/data/site.yaml` and push, so the files ship with the
      site; or
-   - keep WordPress running on a subdomain and point the uploads there with the rule at the end of
-     `dist/_redirects`.
-2. **Forms.** Send a test message through each form and check it arrives.
+   - keep WordPress running on a subdomain (for example archive.newproducersgroup.org) and set
+     `documents_host` to its uploads folder.
+
+   Either way, old links to `/wp-content/uploads/…` are forwarded to the new location by the 404 page.
+2. **Forms.** Decide between the email fallback and a form service, then send a test message through
+   each form and check it arrives.
 3. **Redirects.** Old addresses that changed (`/map-4/`, `/event-tag/…`, `/events/…`, the encoded
-   São Tomé address and a few old duplicates) redirect to their new pages; `/members/` is new.
+   São Tomé address and a few old duplicates) get a small redirect page each; `/sliders/…` and old
+   upload links are forwarded by the 404 page. `/members/` is new.
 4. **Search engines.** Submit `https://www.newproducersgroup.org/sitemap.xml` in Google Search Console.
 
 ## Edit content
@@ -112,8 +142,8 @@ Images: save a WebP or JPEG under `assets/img/`, about 1400 px wide, and referen
 
 - `build.py` loads `content/`, works out relationships (country ↔ publications and events, event ↔ its
   published summary, related items), renders `templates/*.html` with Jinja, copies `assets/`, and writes
-  the map data (`np-data.js`), the search index (`search-index.js`), `sitemap.xml`, `robots.txt` and
-  `_redirects`.
+  the map data (`np-data.js`), the search index (`search-index.js`), `sitemap.xml`, `robots.txt` and a
+  redirect page for each old address that changed.
 - `assets/css/site.css` holds the design: white ground, deep navy ink and one colour per region
   (lagoon for the Caribbean and Latin America, savanna for West Africa, laterite for Central, East and
   Southern Africa, Atlantic blue for the Middle East and Asia-Pacific), set in Source Serif 4 and

@@ -9,10 +9,11 @@
   var PREVIEW = metaC('np:mode') === 'preview';
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var NP = window.NP = window.NP || {};
-  /* Root-relative site URL -> URL that works here (the preview build uses relative paths). */
+  /* Root-relative site URL -> URL that works here: prefixed with the base path on the live site
+     (e.g. /np4se-redesign on a GitHub Pages project address), relative in the preview build. */
   NP.url = function (u) {
     if (!u || u.charAt(0) !== '/' || u.charAt(1) === '/') return u;
-    if (!PREVIEW) return u;
+    if (!PREVIEW) return BASE.replace(/\/$/, '') + u;
     var parts = u.split('#'), p = parts[0];
     if (p.slice(-1) === '/') p += 'index.html';
     return BASE + p.replace(/^\//, '') + (parts[1] ? '#' + parts[1] : '');
@@ -136,11 +137,25 @@
         ok.textContent = 'Preview only: on the live site this form is sent to the Secretariat.';
         ok.hidden = false; return;
       }
-      var custom = f.getAttribute('action') && f.getAttribute('action').indexOf('http') === 0;
+      var trap = $('[name="_gotcha"]', f);
+      if (trap && trap.value) { f.reset(); ok.hidden = false; return; }
+      /* No form service configured: open the visitor's email app with the message filled in. */
+      var to = f.getAttribute('data-mailto');
+      if (to) {
+        var lines = [];
+        $$('input, select, textarea', f).forEach(function (el) {
+          if (!el.name || !el.value || el.type === 'hidden' || el.name.charAt(0) === '_' || el.name === 'form-name') return;
+          var lab = el.id ? $('label[for="' + el.id + '"]', f) : null;
+          lines.push((lab ? lab.textContent.replace(/\s*\*\s*$/, '').trim() : el.name) + ': ' + el.value);
+        });
+        location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(f.getAttribute('data-subject') || '') +
+          '&body=' + encodeURIComponent(lines.join('\r\n'));
+        ok.textContent = 'Your email app should open with this message, ready to send to ' + to + '.';
+        ok.classList.remove('err'); ok.hidden = false;
+        return;
+      }
       var data = new FormData(f);
-      var req = custom
-        ? fetch(f.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
-        : fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
+      var req = fetch(f.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
       if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Sending\u2026'; }
       req.then(function (r) {
         if (!r.ok) throw new Error(r.status);

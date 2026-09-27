@@ -2,7 +2,12 @@
 name: New Producers for Sustainable Energy
 short_name: NP4SE
 network_name: New Producers Group
+# The site's own address, used for local builds. On GitHub Pages the deploy workflow passes the address
+# GitHub reports instead (https://ben-keller.github.io/np4se-redesign until a custom domain is set).
 url: https://www.newproducersgroup.org
+# Search engines are asked not to index the temporary *.github.io address, so it doesn't compete with the
+# live site. Set this to true to allow it; a custom domain is always indexable.
+index_on_github_io: false
 description: NP4SE is a South-South group of 22 countries new to oil and gas, looking for a path to prosperity while protecting the environment.
 tagline: A collaborative network of governments from 22 countries helping each other navigate their new petroleum sector and achieve a just transition.
 og_image: /assets/img/og-image.jpg
@@ -22,8 +27,10 @@ emails:
 forum: https://forum.newproducersgroup.org
 linkedin: https://www.linkedin.com/groups/7448187/
 
-# Forms post to Netlify Forms in production (see README). To use another provider, set form_action to its
-# endpoint (for example a Formspree URL) and every form on the site posts there instead.
+# Forms. A static host such as GitHub Pages cannot receive form posts, so while form_action is empty each
+# form opens the visitor's email app with their message addressed to emails.contact. To have forms delivered
+# straight to an inbox, create an endpoint with a form service (Formspree, Basin, FormSubmit...) and paste its
+# URL here, e.g. https://formspree.io/f/abcdwxyz; every form on the site then posts there.
 form_action: ""
 
 # Where the PDFs and audio files live. They are still served by the WordPress site; when this site replaces

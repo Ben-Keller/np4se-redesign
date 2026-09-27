@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 """Build the NP4SE website from content/ + templates/ + assets/.
 
-    python3 build.py              production build into dist/  (root-relative links, deploy anywhere)
-    python3 build.py --preview    self-contained preview into preview/ (relative links, no form posts)
+    python3 build.py                  production build into dist/, for the address in site.yaml (url)
+    python3 build.py --base-url URL   production build for the address the site is served from, e.g.
+                                      https://<user>.github.io/<repo> (links then start with /<repo>/)
+    python3 build.py --preview        self-contained preview into preview/ (relative links, no form posts)
+
+The GitHub Actions workflow in .github/workflows/deploy.yml runs the second form with the address
+GitHub Pages reports, so the same content works on the github.io address and on a custom domain.
 
 Requires Python 3.9+ with PyYAML, Jinja2, BeautifulSoup4 and Pillow:
     pip install pyyaml jinja2 beautifulsoup4 pillow
 """
-import argparse, datetime, html, json, math, re, shutil, sys
+import argparse, datetime, html, json, math, re, shutil, sys, unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 import yaml
 from bs4 import BeautifulSoup, NavigableString
@@ -22,6 +28,7 @@ CONTENT, TEMPLATES, ASSETS = ROOT / 'content', ROOT / 'templates', ROOT / 'asset
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--preview', action='store_true', help='relative links for a file:// or artifact preview')
+ap.add_argument('--base-url', default=None, help='public address of the site (default: url in content/data/site.yaml)')
 ap.add_argument('--out', default=None)
 ARGS = ap.parse_args()
 PREVIEW = ARGS.preview
@@ -52,6 +59,18 @@ PAGES = read_yaml(CONTENT / 'data/pages.yaml')
 LONG = read_yaml(CONTENT / 'data/longform.yaml')
 PHOTOS = read_yaml(CONTENT / 'data/photos.yaml')
 COUNTRY_OPTIONS = read_yaml(CONTENT / 'data/countries_list.yaml')
+
+# Where the site is served from. On GitHub Pages without a custom domain that is a sub-folder
+# (https://<user>.github.io/<repo>), so every internal link gets the /<repo> prefix; on a domain
+# of its own the prefix is empty. The preview build uses relative links instead.
+SITE_URL = ((ARGS.base_url or '').strip() or SITE['url']).rstrip('/')
+_SITE_URL_PARTS = urlsplit(SITE_URL)
+if _SITE_URL_PARTS.scheme not in ('http', 'https') or not _SITE_URL_PARTS.netloc:
+    sys.exit(f'--base-url must be a full address such as https://example.org, not {SITE_URL!r}')
+BASE_PATH = '' if PREVIEW else _SITE_URL_PARTS.path.rstrip('/')
+# Keep search engines off the temporary github.io address; indexing starts once a custom domain is set.
+NOINDEX = (not PREVIEW and (_SITE_URL_PARTS.hostname or '').endswith('.github.io')
+           and not SITE.get('index_on_github_io'))
 
 # Documents (PDFs) still live on the WordPress server. Change documents_host in site.yaml
 # to wherever the uploads end up once the new site replaces the old one (see README).
@@ -433,7 +452,7 @@ def process_body(raw):
     out = re.sub(r'\n{2,}', '\n', out).strip()
     return Markup(out)
 
-# --------------------------------------------------------------------------- URLs (prod: root-relative; preview: relative + index.html)
+# --------------------------------------------------------------------------- URLs (prod: root-relative with BASE_PATH; preview: relative + index.html)
 URL_ATTRS = re.compile(r'(\s(?:href|src|action|data-src|poster|data-href)=")(/(?!/)[^"]*)"')
 CSS_URLS = re.compile(r'url\((["\']?)(/(?!/)[^)"\']*)\1\)')
 
@@ -454,6 +473,9 @@ def rel_url(target, page_url):
 
 def finalise(html_str, page_url):
     if not PREVIEW:
+        if BASE_PATH:
+            html_str = URL_ATTRS.sub(lambda m: f'{m.group(1)}{BASE_PATH}{m.group(2)}"', html_str)
+            html_str = CSS_URLS.sub(lambda m: f'url({m.group(1)}{BASE_PATH}{m.group(2)}{m.group(1)})', html_str)
         return html_str
     def attr(m):
         # keep absolute canonical/og URLs alone (they are built with site.url)
@@ -546,6 +568,22 @@ env.filters.update(quoted=f_quoted, markup=f_markup, date_long=f_date_long, nbsp
 def email_js(e):
     return e
 
+def not_found_rules():
+    """Old address patterns that the 404 page forwards (GitHub Pages has no server-side redirects).
+    Fixed old addresses get their own redirect page instead; see write_host_files()."""
+    rules = [[r'^/sliders(/.*)?$', '/']]
+    docs = urlsplit(DOC_HOST)
+    if DOC_HOST.startswith('/'):
+        rules.append([r'^/wp-content/uploads/(.*)$', DOC_HOST.rstrip('/') + '/$1'])
+    elif docs.netloc and not (docs.netloc == _SITE_URL_PARTS.netloc and docs.path.startswith('/wp-content/uploads')):
+        rules.append([r'^/wp-content/uploads/(.*)$', DOC_HOST.rstrip('/') + '/$1'])
+    return rules
+
+# Subject line of the email each form sends (used by the form service and by the email fallback).
+FORM_SUBJECTS = {'contact': 'Enquiry from the website', 'membership': 'Membership enquiry',
+                 'sponsorship': 'Sponsorship enquiry', 'partnership': 'Partnership enquiry',
+                 'subscribe': 'Subscribe to updates', 'unsubscribe': 'Unsubscribe from updates'}
+
 RING = []
 for i, col in enumerate(['#008C82'] * 6 + ['#DDA12E'] * 6 + ['#D0603E'] * 7 + ['#3C7BC4'] * 3):
     a = math.radians(-90 + i * 360 / 22)
@@ -555,7 +593,9 @@ env.globals.update(site=SITE, RING=RING, P=PAGES, LONG=LONG, PUB=PUB, EVT=EVT, P
                    photo=photo, dims=dims, preview=PREVIEW, year=TODAY.year, N_COUNTRIES=N_COUNTRIES,
                    N_MEMBERS=N_MEMBERS, N_OBSERVERS=N_OBSERVERS, STAGE_COLOURS=STAGE_COLOURS, HEX=HEX, INK=INK,
                    country_options=COUNTRY_OPTIONS, role_label=ROLE_LABEL, related=related, item_by_ref=item_by_ref,
-                   stage_short=STAGE_SHORT, stage_note_text=(MEMB.get('stage_note') or '').replace(': ', ' has ') + '.')
+                   stage_short=STAGE_SHORT, stage_note_text=(MEMB.get('stage_note') or '').replace(': ', ' has ') + '.',
+                   site_url=SITE_URL, base_path=BASE_PATH, noindex=NOINDEX, form_subjects=FORM_SUBJECTS,
+                   redirect_rules=not_found_rules())
 
 # --------------------------------------------------------------------------- routes
 ROUTES = []   # (url, template, context)
@@ -694,51 +734,85 @@ def write_data_js():
             idx.append({'t': t['name'], 'u': t['url'], 'k': 'Theme', 's': '', 'x': '', 'y': 0})
     (OUT / 'assets/js/search-index.js').write_text('window.NP_SEARCH=' + json.dumps(idx, ensure_ascii=True, separators=(',', ':')) + ';\n', encoding='ascii')
 
-def write_meta_files():
+REDIRECT_PAGE = """<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Moved</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{abs}">
+<meta http-equiv="refresh" content="0; url={href}">
+<script>location.replace({href_js} + location.hash);</script>
+</head>
+<body>
+<p>This page has moved to <a href="{href}">{abs}</a>.</p>
+</body>
+</html>
+"""
+
+def old_addresses():
+    """Old WordPress addresses that changed, as (old, new) pairs."""
+    pairs = [('/map-4/', '/members/'),
+             ('/sa%cc%83o-tome-e-principe/', '/sao-tome-e-principe/'),   # the old slug, percent-encoded (NFD)
+             ('/s\u00e3o-tome-e-principe/', '/sao-tome-e-principe/'),     # the same address typed with a precomposed a-tilde
+             ('/slide-anything-popup-preview/', '/'),
+             ('/sliders/', '/'),
+             ('/event/', '/activities-and-events/'),
+             ('/events/', '/activities-and-events/'),
+             ('/events/list/', '/activities-and-events/'),
+             ('/category/uncategorized/', '/resources-and-publications/'),
+             ('/national-seminar-for-uganda-2019-2/', '/national-seminar-for-uganda-2019/'),
+             ('/event/government-review-of-field-development-plans-12-21-october-2020/',
+              '/event/government-review-of-field-development-plans/'),
+             ('/feed/', '/')]
+    # old event categories and event tags had their own listing pages
+    for t in THEME.values():
+        pairs.append((f"/events/{t['slug']}/", t['url'] if t['url'] in KNOWN_URLS else '/activities-and-events/'))
+    for t in TOPIC.values():
+        new_url = t['url'] if t['url'] in KNOWN_URLS else (THEME[t['slug']]['url'] if t['slug'] in THEME else '/resources-and-publications/')
+        pairs.append((f"/event-tag/{t['slug']}/", new_url))
+        if t['url'] not in KNOWN_URLS:
+            pairs.append((t['url'], new_url))
+    return pairs
+
+def write_host_files():
+    """sitemap.xml, robots.txt, .nojekyll and one small redirect page per old address."""
     if PREVIEW:
         return
-    base = SITE['url'].rstrip('/')
     urls = [u for u, t, c in ROUTES if u != '/404.html']
     lastmod = {}
     for x in ITEMS:
         lastmod[x['url']] = x['sort'][:10] if len(x['sort']) >= 10 else x['sort'] + '-01'
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u in urls:
-        sm.append(f'  <url><loc>{base}{html.escape(u)}</loc>' + (f'<lastmod>{lastmod[u]}</lastmod>' if u in lastmod else '') + '</url>')
+        sm.append(f'  <url><loc>{SITE_URL}{html.escape(u)}</loc>' + (f'<lastmod>{lastmod[u]}</lastmod>' if u in lastmod else '') + '</url>')
     sm.append('</urlset>')
     (OUT / 'sitemap.xml').write_text('\n'.join(sm) + '\n', encoding='utf-8')
-    (OUT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {base}/sitemap.xml\n', encoding='utf-8')
-    red = ['# Old WordPress addresses -> new pages (Netlify format; see README for other hosts)',
-           '/map-4/                         /members/                  301',
-           '/sa%cc%83o-tome-e-principe/     /sao-tome-e-principe/      301',
-           '/sa%CC%83o-tome-e-principe/     /sao-tome-e-principe/      301',
-           '/slide-anything-popup-preview/  /                          301',
-           '/sliders/*                      /                          301',
-           '/event/                         /activities-and-events/    301',
-           '/events/                        /activities-and-events/    301',
-           '/events/list/                   /activities-and-events/    301',
-           '/category/uncategorized/        /resources-and-publications/ 301',
-           '/events/:slug/                  /category/:slug/           301',
-           '/event-tag/:slug/               /tag/:slug/                301',
-           '/national-seminar-for-uganda-2019-2/  /national-seminar-for-uganda-2019/  301',
-           '/event/government-review-of-field-development-plans-12-21-october-2020/  /event/government-review-of-field-development-plans/  301',
-           '/feed/                          /                          301',
-           '/s\u00e3o-tome-e-principe/       /sao-tome-e-principe/      301',
-           '/sa\u0303o-tome-e-principe/      /sao-tome-e-principe/      301',
-           ''] + [f"/tag/{t['slug']}/  {THEME[t['slug']]['url'] if t['slug'] in THEME else '/resources-and-publications/'}  301"
-                  for t in TOPIC.values() if t['url'] not in KNOWN_URLS] + [
-           '',
-           '# Documents: while WordPress still serves /wp-content/uploads/, nothing is needed here.',
-           '# When this site replaces WordPress on the same domain, point the uploads at their new home, e.g.:',
-           '# /wp-content/uploads/*  https://archive.newproducersgroup.org/wp-content/uploads/:splat  301']
-    (OUT / '_redirects').write_text('\n'.join(red) + '\n', encoding='utf-8')
-    (OUT / '_headers').write_text('/assets/*\n  Cache-Control: public, max-age=604800\n', encoding='utf-8')
+    if NOINDEX:
+        (OUT / 'robots.txt').write_text('User-agent: *\nDisallow: /\n', encoding='utf-8')
+    else:
+        (OUT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n', encoding='utf-8')
+    (OUT / '.nojekyll').write_text('', encoding='utf-8')   # serve files as they are if deployed from a branch
+    written = set()
+    for old, new in old_addresses():
+        folder = unquote(old).strip('/')
+        if folder in written or old == new:
+            continue
+        target = OUT / folder / 'index.html'
+        if target.exists():   # a real page lives there (or, on macOS, the other spelling of the same name)
+            continue
+        written.add(folder)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        href = BASE_PATH + new
+        target.write_text(REDIRECT_PAGE.format(abs=html.escape(SITE_URL + new), href=html.escape(href),
+                                               href_js=json.dumps(href)), encoding='utf-8')
+    return len(written)
 
 # --------------------------------------------------------------------------- link check
 HREF = re.compile(r'\s(?:href|src|action)="([^"]+)"')
 def link_check():
     problems = []
-    files = {p.relative_to(OUT).as_posix() for p in OUT.rglob('*') if p.is_file()}
+    files = {unicodedata.normalize('NFC', p.relative_to(OUT).as_posix()) for p in OUT.rglob('*') if p.is_file()}
     for p in OUT.rglob('*.html'):
         page_dir = p.parent
         for u in HREF.findall(p.read_text(encoding='utf-8')):
@@ -755,10 +829,14 @@ def link_check():
                 except ValueError:
                     problems.append((p.relative_to(OUT).as_posix(), u)); continue
             else:
-                rel = path.lstrip('/')
+                if BASE_PATH:
+                    if path != BASE_PATH and not path.startswith(BASE_PATH + '/'):
+                        problems.append((p.relative_to(OUT).as_posix(), u)); continue
+                    path = path[len(BASE_PATH):] or '/'
+                rel = unquote(path).lstrip('/')
                 if rel == '' or rel.endswith('/'):
                     rel += 'index.html'
-            if rel not in files:
+            if unicodedata.normalize('NFC', rel) not in files:
                 problems.append((p.relative_to(OUT).as_posix(), u))
     return problems
 
@@ -776,10 +854,13 @@ if __name__ == '__main__':
     copy_assets()
     write_data_js()
     copy_data_images()
-    write_meta_files()
+    n_redirects = write_host_files()
     probs = link_check()
-    n_html = sum(1 for _ in OUT.rglob('*.html'))
-    print(f'Built {n_html} pages into {OUT.relative_to(ROOT)}/ ({"preview" if PREVIEW else "production"})')
+    n_html = len(ROUTES)
+    where = 'preview' if PREVIEW else f'production, for {SITE_URL}/'
+    print(f'Built {n_html} pages into {OUT.relative_to(ROOT) if OUT.is_relative_to(ROOT) else OUT}/ ({where})')
+    if n_redirects:
+        print(f'  {n_redirects} redirect pages for old addresses' + ('; search engines asked not to index this address' if NOINDEX else ''))
     print(f'  {len(PUBS)} publications, {len(EVENTS)} events, {len(MEMBERS)} country pages, '
           f'{sum(1 for u in KNOWN_URLS if u.startswith("/category/"))} themes, {sum(1 for u in KNOWN_URLS if u.startswith("/tag/"))} topics')
     for w in sorted(set(BUILD_WARNINGS)):

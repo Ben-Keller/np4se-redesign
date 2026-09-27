@@ -74,8 +74,8 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;backgroun
 .logo{display:flex;align-items:center;gap:12px;margin-right:auto;min-width:0}
 .logo .ring{width:40px;height:40px;flex:none}
 .logo .lt{display:flex;flex-direction:column;min-width:0}
-.logo .wm{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:.06em;line-height:1}
-.logo .ds{display:block;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:5px;white-space:nowrap}
+.logo .wm{font-family:var(--serif);font-size:19px;font-weight:500;letter-spacing:0;line-height:1.1;color:var(--ink)}
+.logo .wm>span{display:block;white-space:nowrap}
 .mlist{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
 .mi{position:relative;display:flex;align-items:center}
 .mt{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;font-size:15px;font-weight:500;color:var(--ink-2);border-radius:999px;transition:color .15s,background .15s;white-space:nowrap}
@@ -114,7 +114,7 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;backgroun
   .burger{display:grid}
   .area{display:none}
 }
-@media (max-width:520px){ .logo .ds{display:none} .logo .wm{font-size:21px} .nav{gap:10px} }
+@media (max-width:520px){ .logo{gap:10px} .logo .ring{width:34px;height:34px} .logo .wm{font-size:16.5px} .nav{gap:10px} }
 
 /* ---------- search ---------- */
 .search{position:fixed;inset:0;z-index:100}

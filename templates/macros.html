@@ -94,10 +94,18 @@
 {%- endmacro %}
 
 {# ---------- forms ---------- #}
+{#- Forms post to the form service in site.yaml (form_action). Without one, they open the visitor's
+    email app with the message addressed to the contact address, since a static host cannot receive posts. -#}
 {% macro form_open(name, cls='form') -%}
-<form class="{{ cls }}" name="{{ name }}" method="post"{% if site.form_action %} action="{{ site.form_action }}"{% else %} action="/thank-you/" data-netlify="true" netlify-honeypot="company_website"{% endif %} data-form>
+{%- set subject = form_subjects.get(name, 'Message from the website') -%}
+{%- if site.form_action %}
+<form class="{{ cls }}" name="{{ name }}" method="post" action="{{ site.form_action }}" data-form>
+{%- else %}
+<form class="{{ cls }}" name="{{ name }}" method="post" action="mailto:{{ site.emails.contact }}?subject={{ subject|urlencode }}" enctype="text/plain" data-form data-mailto="{{ site.emails.contact }}" data-subject="{{ subject }}">
+{%- endif %}
   <input type="hidden" name="form-name" value="{{ name }}">
-  <p class="hp" aria-hidden="true"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off"></label></p>
+  <input type="hidden" name="_subject" value="{{ subject }}">
+  <p class="hp" aria-hidden="true"><label>Leave this empty <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
 {%- endmacro %}
 
 {% macro field(id, label, name=None, type='text', required=False, autocomplete=None, placeholder=None) -%}

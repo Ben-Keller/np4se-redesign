@@ -2,7 +2,7 @@
 {% import 'macros.html' as ui %}
 {% block bodyclass %}home{% endblock %}
 {% block head %}
-<script type="application/ld+json">{{ {"@context":"https://schema.org","@type":"NGO","name":site.name,"alternateName":["NP4SE","New Producers Group"],"url":site.url,"logo":site.url ~ "/assets/img/apple-touch-icon.png","email":site.emails.contact,"sameAs":[site.linkedin],"address":{"@type":"PostalAddress","streetAddress":"71-75 Shelton Street, Covent Garden","addressLocality":"London","postalCode":"WC2H 9JQ","addressCountry":"GB"}}|tojson_attr }}</script>
+<script type="application/ld+json">{{ {"@context":"https://schema.org","@type":"NGO","name":site.name,"alternateName":["NP4SE","New Producers Group"],"url":site.url,"logo":site_url ~ "/assets/img/apple-touch-icon.png","email":site.emails.contact,"sameAs":[site.linkedin],"address":{"@type":"PostalAddress","streetAddress":"71-75 Shelton Street, Covent Garden","addressLocality":"London","postalCode":"WC2H 9JQ","addressCountry":"GB"}}|tojson_attr }}</script>
 {% endblock %}
 {% set H = P.home %}
 {% block main %}

@@ -1,0 +1,8 @@
+# Build output: the deploy workflow builds the site on GitHub, so it isn't committed.
+dist/
+preview/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store

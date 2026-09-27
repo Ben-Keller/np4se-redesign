@@ -18,3 +18,20 @@
   </div>
 </section>
 {% endblock %}
+{% block head %}{% if not preview %}
+<script>
+/* Old addresses that follow a pattern (GitHub Pages has no server redirects): forward them. */
+(function () {
+  var base = {{ base_path|tojson }}, rules = {{ redirect_rules|tojson }}, p = location.pathname;
+  if (base && p.indexOf(base + '/') === 0) p = p.slice(base.length);
+  for (var i = 0; i < rules.length; i++) {
+    var re = new RegExp(rules[i][0]);
+    if (re.test(p)) {
+      var t = p.replace(re, rules[i][1]);
+      location.replace((t.charAt(0) === '/' ? base : '') + t + location.search + location.hash);
+      return;
+    }
+  }
+})();
+</script>
+{% endif %}{% endblock %}
