@@ -15,11 +15,12 @@
   --r:4px;
   --shadow:0 1px 2px rgba(15,43,61,.04),0 12px 32px rgba(15,43,61,.08);
   --head:76px;
+  --ease-out:cubic-bezier(.16,1,.3,1); --ease-sun:cubic-bezier(.22,.8,.3,1); --ease-back:cubic-bezier(.34,1.56,.64,1);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--head) + 16px)}
-@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *,*::before,*::after{animation:none!important;transition:none!important} }
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *,*::before,*::after{animation:none!important;transition:none!important} ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important} }
 body{margin:0;background:var(--white);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body.menu-open,body.search-open{overflow:hidden}
 a{color:inherit;text-decoration:none}
@@ -53,10 +54,10 @@ ul,ol{margin:0}
 .mt-s{margin-top:12px}.mt-m{margin-top:20px}.mt-l{margin-top:32px}.mt-xl{margin-top:clamp(56px,7vw,96px)}
 
 /* ---------- buttons & links ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;border-radius:999px;font-weight:600;font-size:15px;line-height:1.2;background:var(--ink);color:var(--white);border:1px solid var(--ink);transition:background .2s,color .2s,border-color .2s;text-align:center}
-.btn:hover{background:var(--lagoon-ink);border-color:var(--lagoon-ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;border-radius:999px;font-weight:600;font-size:15px;line-height:1.2;background:var(--ink);color:var(--white);border:1px solid var(--ink);transition:background .2s,color .3s,border-color .3s,transform .2s;text-align:center;position:relative;overflow:hidden;isolation:isolate}
+.btn:hover{border-color:var(--lagoon-ink)}
 .btn.line{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn.line:hover{border-color:var(--ink);background:transparent}
+.btn.line:hover{border-color:var(--ink);color:var(--white)}
 .btn.sm{padding:9px 16px;font-size:14px}
 .btnrow{display:flex;gap:12px;flex-wrap:wrap}
 .arrow{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--lagoon-ink);border-bottom:1px solid currentColor;padding-bottom:2px;line-height:1.3}
@@ -69,10 +70,10 @@ ul,ol{margin:0}
 .textbtn:hover{color:var(--ink);border-color:var(--ink)}
 
 /* ---------- header ---------- */
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;background:rgba(255,255,255,.95);backdrop-filter:saturate(1.3) blur(12px);-webkit-backdrop-filter:saturate(1.3) blur(12px);border-bottom:1px solid var(--line-2)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;transition:box-shadow .35s;background:rgba(255,255,255,.95);backdrop-filter:saturate(1.3) blur(12px);-webkit-backdrop-filter:saturate(1.3) blur(12px);border-bottom:1px solid var(--line-2)}
 .nav{display:flex;align-items:center;gap:14px;height:var(--head)}
 .logo{display:flex;align-items:center;gap:12px;margin-right:auto;min-width:0}
-.logo .ring{width:40px;height:40px;flex:none}
+.logo .hz{width:42px;height:40px;flex:none;overflow:visible}
 .logo .lt{display:flex;flex-direction:column;min-width:0}
 .logo .wm{font-family:var(--serif);font-size:19px;font-weight:500;letter-spacing:0;line-height:1.1;color:var(--ink)}
 .logo .wm>span{display:block;white-space:nowrap}
@@ -97,8 +98,10 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;backgroun
 .icon-btn svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linecap:round}
 .burger{display:none;width:42px;height:42px;border-radius:999px;border:1px solid var(--line);place-items:center;flex:none}
 .burger svg{width:18px;height:18px;stroke:var(--ink);stroke-width:1.6;fill:none;stroke-linecap:round}
-.burger .b-x,.burger[aria-expanded="true"] .b-lines{display:none}
-.burger[aria-expanded="true"] .b-x{display:inline}
+.burger .b1,.burger .b2{transition:transform .4s var(--ease-out)}
+.burger .b1{transform-origin:12px 8px} .burger .b2{transform-origin:12px 16px}
+.burger[aria-expanded="true"] .b1{transform:translateY(4px) rotate(45deg)}
+.burger[aria-expanded="true"] .b2{transform:translateY(-4px) rotate(-45deg)}
 .menu .area-m{display:none}
 .area{flex:none}
 .area[aria-current="page"]{border-color:var(--ink)}
@@ -117,7 +120,7 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;backgroun
   .burger{display:grid}
   .area{display:none}
 }
-@media (max-width:520px){ .logo{gap:10px} .logo .ring{width:34px;height:34px} .logo .wm{font-size:16.5px} .nav{gap:10px} }
+@media (max-width:520px){ .logo{gap:10px} .logo .hz{width:36px;height:34px} .logo .wm{font-size:16.5px} .nav{gap:10px} }
 
 /* ---------- search ---------- */
 .search{position:fixed;inset:0;z-index:100}
@@ -191,9 +194,9 @@ figure{margin:0}
 .mosaic .a{position:absolute;inset:0 0 14% 12%}
 .mosaic .a figcaption{left:auto;right:12px}
 .mosaic .b{position:absolute;left:0;bottom:0;width:40%;aspect-ratio:4/5;box-shadow:var(--shadow);border:6px solid var(--white);border-radius:6px}
-.ringbadge{position:absolute;right:-8px;top:-16px;width:92px;height:92px;background:var(--white);border-radius:50%;display:grid;place-items:center;box-shadow:var(--shadow)}
-.ringbadge .ring{width:64px;height:64px}
-@media (max-width:560px){ .ringbadge{display:none} .mosaic .a{inset:0 0 16% 8%} }
+.sunbadge{position:absolute;right:-8px;top:-16px;width:92px;height:92px;background:var(--white);border-radius:50%;display:grid;place-items:center;box-shadow:var(--shadow)}
+.sunbadge .hz{width:58px;height:55px;overflow:visible}
+@media (max-width:560px){ .sunbadge{display:none} .mosaic .a{inset:0 0 16% 8%} }
 
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -242,7 +245,7 @@ figure{margin:0}
 .cv-t b{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.5vw,33px);line-height:1.1}
 .cv-t .au{font-size:12.5px;opacity:.88;line-height:1.5}
 .cover .ft{display:flex;justify-content:space-between;align-items:end;position:relative;z-index:1}
-.cover .ft .ring{width:34px;height:34px}
+.cover .ft .hz{width:36px;height:34px}
 .cover .ft b{font-family:var(--serif);font-weight:500;font-size:16px;letter-spacing:.06em}
 a.cover{transition:transform .3s}
 a.cover:hover{transform:translateY(-3px)}
@@ -309,7 +312,7 @@ a.cover:hover{transform:translateY(-3px)}
 .tcov::after{content:"";position:absolute;right:-18%;bottom:-42%;width:72%;aspect-ratio:1;border-radius:50%;border:1px solid currentColor;opacity:.28}
 .tcov span{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.92;position:relative;z-index:1}
 .tcov b{font-family:var(--serif);font-weight:400;font-size:clamp(19px,1.7vw,22px);line-height:1.15;max-width:19ch;position:relative;z-index:1;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.tcov .cv-ring{position:absolute;right:16px;bottom:16px;width:28px;height:28px;z-index:1}
+.tcov .cv-mark{position:absolute;right:16px;bottom:16px;width:30px;height:28px;z-index:1}
 .side-cover{aspect-ratio:4/5}
 .side-cover .tcov{padding:24px}
 .side-cover .tcov b{font-size:26px;-webkit-line-clamp:7}
@@ -746,8 +749,201 @@ a.pill:hover{filter:brightness(.97)}
 .legal a:hover{color:var(--ink)}
 .prevnote{margin-top:14px;font-size:12.5px;color:var(--ink-3)}
 
+/* ---------- motion ----------
+   Everything here is an extra layer. Without JavaScript nothing is hidden (the script adds the starting
+   states), and for anyone who asks their device for reduced motion the rule at the top switches it off. */
+
+/* the Horizon mark: the sun sits in its own clipped sky, so it can rise from behind the horizon line */
+.hz .hz-b{transform-box:fill-box;transform-origin:50% 50%}
+@keyframes hzRise{from{transform:translateY(17px)}}
+@keyframes hzGrow{from{transform:scaleX(0)}}
+@keyframes hzSet{0%,14%{transform:none}46%,60%{transform:translateY(17px)}94%,100%{transform:none}}
+.hz.rise .hz-sun{animation:hzRise 1s var(--ease-sun) both}
+.hz.rise .hz-b1{animation:hzGrow .8s var(--ease-out) .28s both}
+.hz.rise .hz-b2{animation:hzGrow .8s var(--ease-out) .38s both}
+.hz.rise .hz-b3{animation:hzGrow .8s var(--ease-out) .48s both}
+.logo .hz-sun,.logo .hz-b{transition:transform .6s var(--ease-sun)}
+.logo:hover .hz-sun{transform:translateY(-2.5px)}
+.logo:hover .hz-b1{transform:scaleX(1.08)} .logo:hover .hz-b2{transform:scaleX(1.15)} .logo:hover .hz-b3{transform:scaleX(1.25)}
+
+/* the intro: on the first page of a visit the sun rises, then the mark settles into the header */
+.intro{display:none}
+html.intro-on .intro{display:grid;place-items:center;position:fixed;inset:0;z-index:300;background:var(--white);animation:introBye .5s ease 4.5s forwards}
+html.intro-on header.top .logo .hz{opacity:0;animation:introLogo 0s 4.6s forwards}
+@keyframes introBye{to{opacity:0;visibility:hidden}}
+@keyframes introLogo{to{opacity:1}}
+.intro-mark{width:clamp(108px,15vw,144px);height:auto;overflow:visible}
+.intro .hz-sun{animation:hzRise 1.1s var(--ease-sun) .1s both}
+.intro .hz-b0{animation:hzGrow .7s var(--ease-out) both}
+.intro .hz-b1{animation:hzGrow .8s var(--ease-out) .38s both}
+.intro .hz-b2{animation:hzGrow .8s var(--ease-out) .48s both}
+.intro .hz-b3{animation:hzGrow .8s var(--ease-out) .58s both}
+
+/* moving between pages: the old page sinks a little, the new one rises; a horizon line shows the next page loading */
+@view-transition{navigation:auto}
+header.top{view-transition-name:site-header}
+::view-transition-old(root){animation:vtOut .24s ease both}
+::view-transition-new(root){animation:vtIn .6s var(--ease-out) both}
+@keyframes vtOut{to{opacity:0;transform:translateY(12px)}}
+@keyframes vtIn{from{opacity:0;transform:translateY(20px)}}
+.hbar i,.navload,.site-foot::before{background:linear-gradient(90deg,var(--lagoon) 0 25%,var(--savanna) 0 50%,var(--laterite) 0 75%,var(--atlantic) 0)}
+.navload{position:fixed;left:0;right:0;top:0;height:3px;z-index:400;pointer-events:none;opacity:0;clip-path:inset(0 100% 0 0)}
+.navload.go{opacity:1;animation:navgo 9s cubic-bezier(.08,.8,.1,1) forwards}
+@keyframes navgo{0%{clip-path:inset(0 100% 0 0)}10%{clip-path:inset(0 62% 0 0)}45%{clip-path:inset(0 28% 0 0)}100%{clip-path:inset(0 5% 0 0)}}
+html.leaving main,html.leaving .site-foot{opacity:0;transform:translateY(12px);transition:opacity .2s ease,transform .2s ease}
+
+/* header: a shadow once the page moves, and a reading-progress horizon along its edge */
+header.top.scrolled{box-shadow:0 12px 30px -20px rgba(15,43,61,.4)}
+.hbar{position:absolute;left:0;right:0;bottom:-1px;height:2px;pointer-events:none;opacity:0;transition:opacity .35s}
+.hbar i{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--p, 0) * 100%) 0 0)}
+header.top.scrolled .hbar{opacity:1}
+body.menu-open header.top .hbar{opacity:0}
+
+/* things arriving as you scroll (the script adds .rv, then .in; delays stagger siblings) */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease-out),transform 1s var(--ease-out);transition-delay:var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
+.rv.rv-rise{opacity:1;transform:none;clip-path:inset(100% 0 0 0);transition:clip-path 1.25s var(--ease-out);transition-delay:var(--d,0ms)}
+.rv.rv-rise.in{clip-path:inset(0 0 0 0)}
+.rv.rv-pop{transform:scale(.55);transition:opacity .5s ease,transform .9s var(--ease-back);transition-delay:var(--d,0ms)}
+.rv.rv-pop.in{transform:none}
+.wsplit .wd{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .14em;margin:0 -.06em -.14em}
+.wsplit .wd>span{display:inline-block;transform:translateY(112%);transition:transform 1.05s var(--ease-out);transition-delay:var(--wd,0ms)}
+.wsplit.in .wd>span{transform:none}
+.tl li.rv{opacity:1;transform:none}
+.tl li.rv::before{transform:scale(0);transition:transform .7s var(--ease-back) calc(var(--d,0ms) + .1s)}
+.tl li.rv>*{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease-out) var(--d,0ms),transform .8s var(--ease-out) var(--d,0ms)}
+.tl li.rv.in::before,.tl li.rv.in>*{transform:none;opacity:1}
+
+/* buttons: the hover fill rises from below like a sun over the horizon */
+.btn::before{content:"";position:absolute;left:-14%;right:-14%;top:100%;height:175%;border-radius:50% 50% 0 0/42% 42% 0 0;background:var(--lagoon-ink);z-index:-1;transition:transform .55s var(--ease-out);pointer-events:none}
+.btn:hover::before,.btn:focus-visible::before{transform:translateY(-100%)}
+.btn.line::before{background:var(--ink)}
+.btn:active{transform:scale(.975)}
+.btn.is-busy{pointer-events:none}
+.arrow{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .45s var(--ease-out)}
+.arrow:hover{background-size:100% 1px}
+
+/* cards and tiles lift a little */
+.card .thumb,.path .ph,.region .ph,.ws .ph,.coll .ph,.exch .ph{transition:transform .6s var(--ease-out),box-shadow .6s var(--ease-out)}
+.card:hover .thumb,.path:hover .ph,.coll a:hover .ph{transform:translateY(-4px);box-shadow:0 24px 44px -26px rgba(15,43,61,.5)}
+.lab,.wg,.tile,.voice{transition:transform .45s var(--ease-out),box-shadow .45s var(--ease-out),border-color .2s}
+.lab:hover,.wg:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.etype{transition:box-shadow .3s,transform .45s var(--ease-out)}
+.etype:hover{transform:translateY(-4px)}
+.xcard{transition:border-color .15s,transform .35s var(--ease-out)}
+.xcard:hover{transform:translateX(4px)}
+.doc::after{transition:transform .35s var(--ease-out),background .2s}
+.doc:hover::after{transform:translate(2px,-2px);background:var(--line)}
+.doc.lead-doc:hover::after{transform:translateX(4px);background:var(--white)}
+.nlist i,.tchip i,.jump a i,.chip i,.legend i{transition:transform .35s var(--ease-back)}
+.nlist a:hover i,.tchip:hover i,.jump a:hover i,.chip:hover i{transform:scale(1.6)}
+.rg a{transition:color .15s,opacity .25s,padding .3s var(--ease-out)}
+.rg a:hover{padding-left:6px}
+.evrow h3 a,.morelist a,.reslist b,.rel a{transition:color .2s}
+@media (hover:hover) and (min-width:1101px){
+  .has-sub:hover>.sub li,.has-sub.open>.sub li{animation:subIn .35s var(--ease-out) both}
+  .sub li:nth-child(2){animation-delay:.03s}.sub li:nth-child(3){animation-delay:.06s}.sub li:nth-child(4){animation-delay:.09s}.sub li:nth-child(5){animation-delay:.12s}
+}
+@keyframes subIn{from{opacity:0;transform:translateY(-4px)}}
+
+/* phone and tablet menu: slides in with its items one after another */
+@media (max-width:1100px){
+  .menu.open{animation:menuIn .4s var(--ease-out) both}
+  .menu.open .mi{animation:menuItem .55s var(--ease-out) both;animation-delay:calc(var(--i, 0) * 45ms + 70ms)}
+  .menu.open .area-m{animation:menuItem .55s var(--ease-out) .36s both}
+  .menu.closing{display:block;animation:menuOut .22s ease both}
+}
+@keyframes menuIn{from{opacity:0;transform:translateY(-10px)}}
+@keyframes menuItem{from{opacity:0;transform:translateY(16px)}}
+@keyframes menuOut{to{opacity:0;transform:translateY(-8px)}}
+
+/* search */
+.search:not([hidden]) .search-bg{animation:fadeIn .25s ease both}
+.search:not([hidden]) .search-panel{animation:dropIn .42s var(--ease-out) both}
+.search.closing .search-bg{animation:fadeOut .2s ease both}
+.search.closing .search-panel{animation:dropOut .2s ease both}
+.search-res.anim .sr-item{animation:itemIn .42s var(--ease-out) both}
+.search-res.anim .sr-item:nth-child(2){animation-delay:.03s}.search-res.anim .sr-item:nth-child(3){animation-delay:.06s}.search-res.anim .sr-item:nth-child(4){animation-delay:.09s}.search-res.anim .sr-item:nth-child(5){animation-delay:.12s}.search-res.anim .sr-item:nth-child(n+6){animation-delay:.15s}
+@keyframes fadeIn{from{opacity:0}}
+@keyframes fadeOut{to{opacity:0}}
+@keyframes dropIn{from{opacity:0;transform:translateY(-14px) scale(.98)}}
+@keyframes dropOut{to{opacity:0;transform:translateY(-8px) scale(.985)}}
+@keyframes itemIn{from{opacity:0;transform:translateY(6px)}}
+
+/* loading: a small sun rising and setting over a line */
+.sunspin{display:inline-block;position:relative;width:20px;height:10px;overflow:hidden;vertical-align:0;flex:none;margin-right:8px}
+.sunspin::before{content:"";position:absolute;left:4px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--savanna);animation:sunspin 1.5s var(--ease-sun) infinite}
+.sunspin::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:currentColor}
+@keyframes sunspin{0%,100%{transform:translateY(9px)}45%,62%{transform:none}}
+.sr-hint .sunspin{margin-right:10px}
+
+/* images: a soft shimmer while they load, then they fade in */
+.is-loading{background-image:linear-gradient(100deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.6) 50%,rgba(255,255,255,0) 70%);background-size:300% 100%;animation:shimmer 1.4s linear infinite}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:0 0}}
+.img-fade{opacity:0;transition:opacity .8s ease}
+.img-fade.img-in{opacity:1}
+
+/* forms */
+.field input,.field select,.field textarea{transition:border-color .2s,box-shadow .3s}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:#C9D4DC}
+.field input:focus,.field select:focus,.field textarea:focus{box-shadow:0 0 0 5px var(--atlantic-50)}
+.field.shake{animation:shake .45s ease}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.notice:not([hidden]){animation:noticeIn .55s var(--ease-out) both}
+.notice:not(.err)::before{content:"";display:inline-block;width:11px;height:6px;border:solid currentColor;border-width:0 0 2px 2px;margin-right:12px;vertical-align:3px;transform:rotate(-45deg);animation:tick .5s var(--ease-back) .2s both}
+@keyframes noticeIn{from{opacity:0;transform:translateY(-8px)}}
+@keyframes tick{from{transform:rotate(-45deg) scale(0)}}
+.subf input{transition:box-shadow .3s,border-color .2s}
+.subf input:focus{box-shadow:0 0 0 5px var(--atlantic-50)}
+
+/* members map: countries colour in from east to west as the sun sweeps across, dots rise into place */
+.map .land.hot{transition:fill .8s ease,opacity .35s,filter .2s}
+.map svg.m-pre .land.hot{fill:var(--land)!important}
+.map .dot{transform-box:fill-box;transform-origin:50% 50%;transition:opacity .5s ease,transform .8s var(--ease-back)}
+.map svg.m-pre .dot{opacity:0;transform:scale(.3)}
+.map .lbl{transition:opacity .7s ease}
+.map svg.m-pre .lbl{opacity:0}
+.map .dot .halo{transform-box:fill-box;transform-origin:50% 50%}
+.map .dot:hover .halo,.map .dot:focus-visible .halo{animation:ping 1.4s ease-out infinite}
+.map .dot.sel .halo{animation:ping 2s ease-out infinite}
+@keyframes ping{from{opacity:.5;transform:scale(.3)}to{opacity:0;transform:scale(1.3)}}
+.locator svg{transition:transform 1.6s var(--ease-out),opacity .9s ease}
+.locator.pre svg{transform:scale(1.4);opacity:0}
+.locator .dot .halo{animation:ping 2.4s ease-out infinite}
+.panel.swap>*{animation:panelIn .5s var(--ease-out) both}
+.panel.swap>.pb{animation-delay:.06s}
+@keyframes panelIn{from{opacity:0;transform:translateY(12px)}}
+.pop{animation:popIn .5s var(--ease-out) both}
+@keyframes popIn{from{opacity:0;transform:translateY(12px)}}
+
+/* home hero and the quote band move gently with the page */
+.qband.plx>img{scale:1.14;will-change:translate}
+.sunbadge .hz-sun{transition:transform .8s var(--ease-sun)}
+
+/* back to top */
+.totop{position:fixed;right:clamp(16px,3vw,32px);bottom:calc(clamp(16px,3vw,32px) + env(safe-area-inset-bottom,0px));z-index:50;width:48px;height:48px;border-radius:50%;background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(14px) scale(.9);transition:opacity .3s,transform .45s var(--ease-out),visibility .3s,border-color .2s}
+.totop.show{opacity:1;visibility:visible;transform:none}
+.totop:hover{border-color:var(--ink)}
+.totop svg{width:22px;height:22px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.totop .ar{stroke:var(--ink);transition:transform .4s var(--ease-out)}
+.totop .hl{stroke:var(--savanna)}
+.totop:hover .ar{transform:translateY(-3px)}
+body.menu-open .totop,body.search-open .totop{opacity:0;visibility:hidden}
+
+/* footer: a horizon draws across the top as you arrive, and the sun rises in the mark */
+.site-foot{position:relative}
+.site-foot::before{content:"";position:absolute;left:0;right:0;top:-1px;height:3px;transform-origin:0 50%;transition:transform 1.8s var(--ease-out)}
+.site-foot.pre::before{transform:scaleX(0)}
+.site-foot.pre.in::before{transform:none}
+
+/* page not found: the sun slips below the horizon and comes back */
+.lost{position:relative}
+.lost .sunbadge{display:grid;right:auto;left:-14px;top:auto;bottom:-18px}
+.lost .sunbadge .hz-sun{animation:hzSet 7s var(--ease-sun) 1s infinite}
+
 @media print{
-  header.top,.site-foot,.search,.dside .toc,.skip{display:none!important}
+  header.top,.site-foot,.search,.dside .toc,.skip,.intro,.navload,.totop{display:none!important}
+  .rv,.wsplit .wd>span{opacity:1!important;transform:none!important;clip-path:none!important}
   .band{padding-block:24px}
   body{font-size:12pt}
 }

@@ -1,6 +1,9 @@
 {# ---------- brand ---------- #}
-{% macro ring(colour=None, cls='') -%}
-<svg class="ring {{ cls }}" viewBox="0 0 40 40" aria-hidden="true">{% for x, y, c in RING %}<circle cx="{{ x }}" cy="{{ y }}" r="2.05" fill="{{ colour or c }}"/>{% endfor %}</svg>
+{#- The Horizon mark: a sun rising over the horizon line, with three layers below it.
+    mono draws it in one colour (for coloured covers). The sun sits in its own clipped viewport,
+    so it can rise from behind the horizon when the site animates it. -#}
+{% macro horizon(mono=None, cls='') -%}
+<svg class="hz {{ cls }}" viewBox="3 4 42 40" aria-hidden="true" focusable="false"><svg class="hz-sky" x="0" y="0" width="48" height="21" viewBox="0 0 48 21" overflow="hidden"><path class="hz-sun" d="M11 19A13 13 0 0 1 37 19Z" fill="{{ mono or '#DDA12E' }}"/></svg><rect class="hz-b hz-b0" x="4" y="21" width="40" height="3" rx="1.5" fill="{{ mono or '#0F2B3D' }}"/><rect class="hz-b hz-b1" x="8" y="27" width="32" height="3" rx="1.5" fill="{{ mono or '#008C82' }}"/><rect class="hz-b hz-b2" x="12" y="33" width="24" height="3" rx="1.5" fill="{{ mono or '#3C7BC4' }}"/><rect class="hz-b hz-b3" x="16" y="39" width="16" height="3" rx="1.5" fill="{{ mono or '#D0603E' }}"/></svg>
 {%- endmacro %}
 
 {# ---------- images ---------- #}
@@ -46,7 +49,7 @@
 {# ---------- covers & cards ---------- #}
 {% macro cover(item) -%}
 {%- set col = item|cover_colour -%}
-<div class="tcov c-{{ col }}"><span>{{ item.year }} · {{ item.type }}</span><b>{{ item.title|short_title }}</b>{{ ring('#FFFFFF' if col != 'savanna' else '#0F2B3D', 'cv-ring') }}</div>
+<div class="tcov c-{{ col }}"><span>{{ item.year }} · {{ item.type }}</span><b>{{ item.title|short_title }}</b>{{ horizon('#FFFFFF' if col != 'savanna' else '#0F2B3D', 'cv-mark') }}</div>
 {%- endmacro %}
 
 {% macro thumb(item, eager=False) -%}

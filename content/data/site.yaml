@@ -45,6 +45,7 @@ nav:
       - {label: How we work, url: /what-we-do/}
       - {label: Impact, url: /impact/}
       - {label: Annual report 2024–25, url: /annual-report-2024-25/}
+  - {label: Members, key: members, url: /members/}
   - label: Events
     key: events
     url: /activities-and-events/
@@ -74,7 +75,7 @@ footer:
       - {label: Contact us, url: /contact-us/}
   - title: Members
     links:
-      - {label: Member countries, url: /#map}
+      - {label: Member countries, url: /members/}
       - {label: Members area, url: /members-area/}
       - {label: Get involved, url: /get-involved/}
   - title: Events

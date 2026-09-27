@@ -11,12 +11,12 @@
     <div class="hero-tx">
       <h1 class="d1">{{ H.hero_heading|markup }}</h1>
       <p class="lead">{{ H.hero_lead }}</p>
-      <div class="ctas"><a class="btn" href="#map">Member countries</a>{% if flagship %}<a class="btn line" href="{{ flagship.url }}">Guidelines for Good Governance 2026</a>{% endif %}</div>
+      <div class="ctas"><a class="btn" href="/members/">Member countries</a>{% if flagship %}<a class="btn line" href="{{ flagship.url }}">Guidelines for Good Governance 2026</a>{% endif %}</div>
     </div>
     <div class="mosaic">
       {{ ui.stock('coast-boats', 'a', eager=True, dot=HEX.savanna) }}
       {{ ui.stock('rig-blue', 'b', caption=False) }}
-      <div class="ringbadge" aria-hidden="true">{{ ui.ring() }}</div>
+      <div class="sunbadge" aria-hidden="true">{{ ui.horizon() }}</div>
     </div>
   </div>
 </section>
@@ -82,7 +82,7 @@
     <a class="cover" href="{{ flagship.url }}" tabindex="-1" aria-hidden="true">
       <span class="ed">Guidelines · 4th edition · 2026</span>
       <span class="cv-t"><b>Guidelines for Good Governance in Emerging Oil and Gas Producers</b><span class="au">{{ flagship.authors|replace(', ', ' · ') }}</span></span>
-      <span class="ft">{{ ui.ring('#FFFFFF') }}<b>NP4SE</b></span>
+      <span class="ft">{{ ui.horizon('#FFFFFF') }}<b>NP4SE</b></span>
     </a>
     <div>
       <span class="label c-savanna">{{ flagship.type }} · {{ flagship.date_display }}</span>

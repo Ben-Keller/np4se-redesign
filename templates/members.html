@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block main %}
+<div class="wrap phead ph-tight">
+  <span class="label">Members</span>
+  <h1 class="d1">Member countries</h1>
+  <p class="lead">{{ P.home.members.paragraphs[0] }} {{ P.home.members.paragraphs[1] }}</p>
+</div>
+
+<section class="wrap mem-page" data-members>
+  <div class="mapbar">
+    <div class="chips" role="group" aria-label="Show on the map" data-filter-chips>
+      <button class="chip" type="button" data-f="all" aria-pressed="true">All {{ N_COUNTRIES }}</button>
+      {% for k in ['car', 'wa', 'ces', 'mea'] %}<button class="chip" type="button" data-f="{{ k }}" aria-pressed="false"><i style="background:{{ regions[k].hex }}"></i>{{ regions[k].name }}</button>{% endfor %}
+      <button class="chip" type="button" data-f="observer" aria-pressed="false">Observers</button>
+      <button class="chip" type="button" data-f="peer" aria-pressed="false"><i style="background:{{ HEX.peer }}"></i>Peers</button>
+    </div>
+    <div class="seg" role="group" aria-label="Colour the map by">
+      <span>Colour by</span>
+      <button type="button" data-colour="region" aria-pressed="true">Region</button>
+      <button type="button" data-colour="stage" aria-pressed="false">Sector stage</button>
+    </div>
+  </div>
+  <div class="mapwrap">
+    <div class="map" data-map="full" role="group" aria-label="Interactive world map of member countries"></div>
+    <div class="legend" data-legend="region"></div>
+  </div>
+
+  <div class="mem">
+    <aside class="panel" id="panel" aria-live="polite">
+      {% set r = regions.wa %}
+      {{ ui.stock('boats-color', dot=HEX.savanna) }}
+      <div class="pb">
+        <h2 class="pt">Select a country</h2>
+        <p class="small">{{ P.home.members.paragraphs[2] }}</p>
+        <dl class="kv">
+          <dt>Members</dt><dd class="num">{{ N_MEMBERS }}</dd>
+          <dt>Observers</dt><dd class="num">{{ N_OBSERVERS }}</dd>
+          <dt>Peers</dt><dd class="num">{{ peers|length }}</dd>
+          <dt>Regions</dt><dd class="num">4</dd>
+        </dl>
+      </div>
+    </aside>
+    <div class="roster" id="roster">
+      {% for k in ['car', 'wa', 'ces', 'mea'] %}{% set ms = active|selectattr('region', 'equalto', k)|list %}
+      <div class="rg" style="--c:{{ regions[k].ink }}">
+        <h2><span>{{ regions[k].name }}</span><span class="num">{{ ms|length }}</span></h2>
+        <ul>{% for m in ms %}<li><a href="{{ m.url }}" data-name="{{ m.name }}"><span>{{ m.name }}</span><small>{{ 'Observer · ' if m.role == 'observer' }}{{ m.stage_short }}{{ '*' if m.legacy_production }}</small></a></li>{% endfor %}</ul>
+      </div>
+      {% endfor %}
+      <div class="rg peers" style="--c:{{ INK.peer }}">
+        <h2><span>Established producer peers</span><span class="num">{{ peers|length }}</span></h2>
+        <ul>{% for m in peers|sort(attribute='name') %}<li><span class="nolink" data-name="{{ m.name }}"><span>{{ m.name }}</span><small>Peer</small></span></li>{% endfor %}</ul>
+      </div>
+      <p class="small roster-note">* {{ stage_note_text }} {% for m in members if m.role == 'former' %}<a href="{{ m.url }}">{{ m.name }}</a> is a former member.{% endfor %}</p>
+    </div>
+  </div>
+</section>
+
+<section class="band tint">
+  <div class="wrap cta-row">
+    <div><h2 class="d3">{{ P.get_involved.member.countries_title }}</h2><p class="body mt-s">{{ P.get_involved.member.countries|excerpt(210) }}</p></div>
+    <div class="btnrow"><a class="btn" href="/get-involved/#member">Become a member</a><a class="btn line" href="/members-area/">Members area</a></div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/assets/js/world.js"></script><script src="/assets/js/np-data.js"></script>{% endblock %}

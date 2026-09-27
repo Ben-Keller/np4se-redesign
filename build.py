@@ -584,12 +584,7 @@ FORM_SUBJECTS = {'contact': 'Enquiry from the website', 'membership': 'Membershi
                  'sponsorship': 'Sponsorship enquiry', 'partnership': 'Partnership enquiry',
                  'subscribe': 'Subscribe to updates', 'unsubscribe': 'Unsubscribe from updates'}
 
-RING = []
-for i, col in enumerate(['#008C82'] * 6 + ['#DDA12E'] * 6 + ['#D0603E'] * 7 + ['#3C7BC4'] * 3):
-    a = math.radians(-90 + i * 360 / 22)
-    RING.append((round(20 + 16.2 * math.cos(a), 2), round(20 + 16.2 * math.sin(a), 2), col))
-
-env.globals.update(site=SITE, RING=RING, P=PAGES, LONG=LONG, PUB=PUB, EVT=EVT, PUBS=PUBS, EVENTS=EVENTS, THEME=THEME, VOICES=VOICES, SPOTLIGHTS=SPOTLIGHTS, regions=REGIONS, members=MEMBERS, active=ACTIVE, peers=PEERS, themes=THEME, topics=TOPIC,
+env.globals.update(site=SITE, P=PAGES, LONG=LONG, PUB=PUB, EVT=EVT, PUBS=PUBS, EVENTS=EVENTS, THEME=THEME, VOICES=VOICES, SPOTLIGHTS=SPOTLIGHTS, regions=REGIONS, members=MEMBERS, active=ACTIVE, peers=PEERS, themes=THEME, topics=TOPIC,
                    photo=photo, dims=dims, preview=PREVIEW, year=TODAY.year, N_COUNTRIES=N_COUNTRIES,
                    N_MEMBERS=N_MEMBERS, N_OBSERVERS=N_OBSERVERS, STAGE_COLOURS=STAGE_COLOURS, HEX=HEX, INK=INK,
                    country_options=COUNTRY_OPTIONS, role_label=ROLE_LABEL, related=related, item_by_ref=item_by_ref,
@@ -615,6 +610,8 @@ route('/what-we-do/', 'how.html', title='How we work', nav='about', description=
 route('/impact/', 'impact.html', title='Impact', nav='about', description='Spotlights and evidence of what the New Producers Group network has achieved with its member governments.')
 route('/annual-report-2024-25/', 'annual_report.html', title='Annual report 2024–25', nav='about',
       description='The annual report and financial statements of New Producers for Sustainable Energy for the year ending April 2025.')
+route('/members/', 'members.html', title='Member countries', nav='members',
+      description=f'{N_COUNTRIES} countries new to oil and gas: {N_MEMBERS} members and {N_OBSERVERS} observers, with established producers as peers.')
 route('/get-involved/', 'get_involved.html', title='Get involved', nav='involved', description=P['get_involved']['intro'])
 route('/members-area/', 'members_area.html', title='Members area', nav='area',
       description=P['members_area']['membership']['items'][0]['text'])
@@ -750,8 +747,7 @@ REDIRECT_PAGE = """<!doctype html>
 
 def old_addresses():
     """Old WordPress addresses that changed, as (old, new) pairs."""
-    pairs = [('/map-4/', '/#map'),
-             ('/members/', '/#map'),   # the member map lives on the home page
+    pairs = [('/map-4/', '/members/'),
              ('/sa%cc%83o-tome-e-principe/', '/sao-tome-e-principe/'),   # the old slug, percent-encoded (NFD)
              ('/s\u00e3o-tome-e-principe/', '/sao-tome-e-principe/'),     # the same address typed with a precomposed a-tilde
              ('/slide-anything-popup-preview/', '/'),

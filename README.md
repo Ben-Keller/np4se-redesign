@@ -9,7 +9,7 @@ on the old site, so existing links, bookmarks and search results keep working.
 
 | | |
 |---|---|
-| Pages | 259: 49 publications, 61 events, 23 country pages, 9 theme pages, 93 topic pages and the main pages |
+| Pages | 260: 49 publications, 61 events, 23 country pages, 9 theme pages, 93 topic pages and the main pages |
 | Images | 150 images from the old site (the organisation's photos, partner logos, event graphics), plus 26 licensed landscape and industry photos |
 | Documents | 41 PDFs and media files, still served from the WordPress uploads folder (see *Before you switch the domain*) |
 
@@ -88,8 +88,7 @@ rules are needed.
    each form and check it arrives.
 3. **Redirects.** Old addresses that changed (`/map-4/`, `/event-tag/…`, `/events/…`, the encoded
    São Tomé address and a few old duplicates) get a small redirect page each; `/sliders/…` and old
-   upload links are forwarded by the 404 page. The country map is on the home page (`/#map`); `/members/`
-   redirects there.
+   upload links are forwarded by the 404 page. `/members/` is new.
 4. **Search engines.** Submit `https://www.newproducersgroup.org/sitemap.xml` in Google Search Console.
 
 ## Edit content
@@ -149,8 +148,17 @@ Images: save a WebP or JPEG under `assets/img/`, about 1400 px wide, and referen
   (lagoon for the Caribbean and Latin America, savanna for West Africa, laterite for Central, East and
   Southern Africa, Atlantic blue for the Middle East and Asia-Pacific), set in Source Serif 4 and
   Hanken Grotesk from Google Fonts.
-- `assets/js/site.js` adds the menus, site search, list filters, form handling, video playback and the
-  interactive maps. Every page still works without it.
+- `assets/js/site.js` adds the menus, site search, list filters, form handling, video playback, the
+  interactive maps and the motion. Every page still works without it.
+- The logo is the Horizon mark (`horizon` in `templates/macros.html`): a sun rising over a horizon line,
+  with three layers below. `assets/img/favicon.svg`, `apple-touch-icon.png` and `og-image.jpg` use it too.
+- Motion: on the first page of a visit the sun rises and the mark settles into the header; after that the
+  header sun rises as each page arrives. Pages change with a short rise (view transitions, where the
+  browser supports them) and a four-colour line runs along the top while the next page loads. As you
+  scroll, sections fade up, titles rise word by word, figures count up and the maps colour in from east
+  to west. Nothing is hidden without JavaScript, and it all switches off for visitors whose device asks
+  for reduced motion. The styles are in the *motion* section of `site.css`; the behaviour is in the two
+  *motion* sections of `site.js`.
 - `assets/js/world.js` is the world map (Natural Earth outlines in the Equal Earth projection).
 - `migration/` holds the scripts and raw export used once to move the content out of WordPress. They
   are kept for the record; re-running them overwrites hand edits, so they refuse to run without `--force`.
