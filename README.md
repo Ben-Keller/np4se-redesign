@@ -9,7 +9,7 @@ on the old site, so existing links, bookmarks and search results keep working.
 
 | | |
 |---|---|
-| Pages | 260: 49 publications, 61 events, 23 country pages, 9 theme pages, 93 topic pages and the main pages |
+| Pages | 259: 49 publications, 61 events, 23 country pages, 9 theme pages, 93 topic pages and the main pages |
 | Images | 150 images from the old site (the organisation's photos, partner logos, event graphics), plus 26 licensed landscape and industry photos |
 | Documents | 41 PDFs and media files, still served from the WordPress uploads folder (see *Before you switch the domain*) |
 
@@ -88,7 +88,8 @@ rules are needed.
    each form and check it arrives.
 3. **Redirects.** Old addresses that changed (`/map-4/`, `/event-tag/…`, `/events/…`, the encoded
    São Tomé address and a few old duplicates) get a small redirect page each; `/sliders/…` and old
-   upload links are forwarded by the 404 page. `/members/` is new.
+   upload links are forwarded by the 404 page. The country map is on the home page (`/#map`); `/members/`
+   redirects there.
 4. **Search engines.** Submit `https://www.newproducersgroup.org/sitemap.xml` in Google Search Console.
 
 ## Edit content

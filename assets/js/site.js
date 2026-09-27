@@ -22,13 +22,20 @@
   /* ---------------- navigation ---------------- */
   var menu = $('#menu'), burger = $('#burger');
   function closeSubs(except) { $$('.mi.open').forEach(function (li) { if (li !== except) { li.classList.remove('open'); $$('[aria-expanded]', li).forEach(function (b) { b.setAttribute('aria-expanded', 'false'); }); } }); }
+  function setMenu(open) {
+    menu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.classList.toggle('menu-open', open);
+  }
   if (burger && menu) {
-    burger.addEventListener('click', function () {
-      var open = menu.classList.toggle('open');
-      burger.setAttribute('aria-expanded', String(open));
-      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      document.body.classList.toggle('menu-open', open);
-    });
+    burger.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+    /* widening the window past the phone/tablet layout closes the menu, so the page can scroll again */
+    var wide = window.matchMedia('(min-width: 1101px)');
+    var onWide = function () { if (wide.matches && menu.classList.contains('open')) setMenu(false); };
+    if (wide.addEventListener) wide.addEventListener('change', onWide); else if (wide.addListener) wide.addListener(onWide);
+    /* a link to a spot on the current page closes the menu */
+    menu.addEventListener('click', function (e) { var a = e.target.closest('a[href*="#"]'); if (a && menu.classList.contains('open')) setMenu(false); });
   }
   $$('.mi button.mt, .mi .caret').forEach(function (b) {
     b.addEventListener('click', function (e) {

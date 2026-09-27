@@ -96,11 +96,14 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;backgroun
 .icon-btn:hover{border-color:var(--ink)}
 .icon-btn svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linecap:round}
 .burger{display:none;width:42px;height:42px;border-radius:999px;border:1px solid var(--line);place-items:center;flex:none}
-.burger svg{width:18px;height:18px;stroke:var(--ink);stroke-width:1.6;fill:none}
+.burger svg{width:18px;height:18px;stroke:var(--ink);stroke-width:1.6;fill:none;stroke-linecap:round}
+.burger .b-x,.burger[aria-expanded="true"] .b-lines{display:none}
+.burger[aria-expanded="true"] .b-x{display:inline}
 .menu .area-m{display:none}
 .area{flex:none}
 .area[aria-current="page"]{border-color:var(--ink)}
 @media (max-width:1100px){
+  header.top{background:var(--white);-webkit-backdrop-filter:none;backdrop-filter:none}
   .menu{display:none;position:fixed;left:0;right:0;top:calc(var(--head) + env(safe-area-inset-top,0px));bottom:0;overflow-y:auto;background:var(--white);padding:8px clamp(16px,4.5vw,64px) calc(32px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line-2);z-index:70}
   .menu.open{display:block}
   .mlist{display:block}

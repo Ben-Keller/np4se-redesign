@@ -615,8 +615,6 @@ route('/what-we-do/', 'how.html', title='How we work', nav='about', description=
 route('/impact/', 'impact.html', title='Impact', nav='about', description='Spotlights and evidence of what the New Producers Group network has achieved with its member governments.')
 route('/annual-report-2024-25/', 'annual_report.html', title='Annual report 2024–25', nav='about',
       description='The annual report and financial statements of New Producers for Sustainable Energy for the year ending April 2025.')
-route('/members/', 'members.html', title='Member countries', nav='members',
-      description=f'{N_COUNTRIES} countries new to oil and gas: {N_MEMBERS} members and {N_OBSERVERS} observers, with established producers as peers.')
 route('/get-involved/', 'get_involved.html', title='Get involved', nav='involved', description=P['get_involved']['intro'])
 route('/members-area/', 'members_area.html', title='Members area', nav='area',
       description=P['members_area']['membership']['items'][0]['text'])
@@ -752,7 +750,8 @@ REDIRECT_PAGE = """<!doctype html>
 
 def old_addresses():
     """Old WordPress addresses that changed, as (old, new) pairs."""
-    pairs = [('/map-4/', '/members/'),
+    pairs = [('/map-4/', '/#map'),
+             ('/members/', '/#map'),   # the member map lives on the home page
              ('/sa%cc%83o-tome-e-principe/', '/sao-tome-e-principe/'),   # the old slug, percent-encoded (NFD)
              ('/s\u00e3o-tome-e-principe/', '/sao-tome-e-principe/'),     # the same address typed with a precomposed a-tilde
              ('/slide-anything-popup-preview/', '/'),

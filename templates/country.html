@@ -5,7 +5,7 @@
 {% block main %}
 <div class="wrap chead">
   <div class="ch-tx">
-    <span class="label"><a href="/members/">Members</a> · {{ r.name }}</span>
+    <span class="label"><a href="/#map">Member countries</a> · {{ r.name }}</span>
     <h1 class="d1">{{ c.name }}</h1>
     <div class="pills">
       <span class="pill {{ c.colour|pillcls }}">{{ c.role_label }}</span>
@@ -83,7 +83,7 @@
   <div class="wrap">
     <span class="label">Also in {{ r.name }}</span>
     <ul class="nlist mt-m">{% for m in neighbours %}<li><a href="{{ m.url }}" style="--c:{{ r.hex }}"><i></i>{{ m.name }}</a></li>{% endfor %}</ul>
-    <p class="mt-l"><a class="arrow" href="/members/">All member countries</a></p>
+    <p class="mt-l"><a class="arrow" href="/#map">All member countries</a></p>
   </div>
 </section>
 {% endblock %}
