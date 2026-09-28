@@ -31,7 +31,7 @@
         <a class="cover{% if not special %} c-{{ col }}{% endif %}" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
           <span class="ed">{% if special %}Guidelines · 4th edition · 2026{% else %}{{ p.type }} · {{ p.year }}{% endif %}</span>
           <span class="cv-t"><b>{% if special %}Guidelines for Good Governance in Emerging Oil and Gas Producers{% else %}{{ p.title|short_title }}{% endif %}</b>{% if p.authors %}<span class="au">{{ p.authors|replace(', ', ' · ') }}</span>{% endif %}</span>
-          <span class="ft">{{ ui.horizon('#0F2B3D' if col == 'savanna' and not special else '#FFFFFF') }}<b>NP4SE</b></span>
+          <span class="ft">{{ ui.horizon('#0F2B3D' if col == 'savanna' and not special else '#FFFFFF', still=True) }}<b>NP4SE</b></span>
         </a>
         <div>
           <span class="label c-savanna">{{ p.type }} · {{ p.date_display }}</span>

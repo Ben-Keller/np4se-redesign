@@ -22,6 +22,7 @@
 <meta property="og:image" content="{{ site_url }}{{ og }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="/assets/img/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,7 +43,7 @@
 <body class="{% block bodyclass %}{% endblock %}">
 {% endif %}
 <a class="skip" href="#main">Skip to content</a>
-{% if page.url != '/404.html' %}<div class="intro" aria-hidden="true">{{ ui.horizon(cls='intro-mark') }}</div>
+{% if page.url != '/404.html' %}<div class="intro" aria-hidden="true">{{ ui.horizon(cls='intro-mark', v='full') }}</div>
 {% endif %}<div class="navload" aria-hidden="true"></div>
 <header class="top" id="top">
   <div class="wrap nav">
