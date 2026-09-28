@@ -26,10 +26,6 @@
   var raf = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) { return setTimeout(f, 16); };
   var reflow = function (el) { return el.offsetWidth; };
   function replay(el, cls) { el.classList.remove(cls); reflow(el); el.classList.add(cls); }
-  function rise(hz, delay) {
-    if (!hz || RM) return;
-    setTimeout(function () { hz.classList.add('rise'); setTimeout(function () { hz.classList.remove('rise'); }, 1450); }, delay || 0);
-  }
 
   /* The intro: on the first page of a visit the sun rises (CSS starts it at first paint),
      then the mark glides into the header and the page is uncovered. Any key, click or scroll skips it. */
@@ -361,9 +357,6 @@
   /* ---------------- motion: pages arriving, scrolling and moving on ---------------- */
   var head = $('header.top');
 
-  /* each page after the first: the sun in the header logo rises as the page arrives */
-  if (!html.classList.contains('intro-on')) rise($('header.top .logo .hz'), 60);
-
   /* Things arriving as you scroll: blocks fade up, grids and lists follow one after another,
      page titles rise word by word, big numbers count up, photos in the home hero rise from the horizon. */
   var COUNTERS = '.stats .v, .callout .big, .etype .num, .region .rn .num, .rg h2 .num';
@@ -428,7 +421,6 @@
       }
       el.style.setProperty('--d', d + 'ms');
       el.classList.add('in');
-      if (el.classList.contains('sunbadge')) rise($('.hz', el), d + 120);
       $$(COUNTERS, el).concat(el.matches(COUNTERS) ? [el] : []).forEach(function (c) { setTimeout(function () { count(c); }, d + 120); });
       setTimeout(function () {
         el.classList.remove('rv', 'in', 'rv-rise', 'rv-pop');
@@ -505,13 +497,13 @@
     var home = $('header.top .logo'); if (home && home.focus) home.focus({ preventScroll: true });
   });
 
-  /* the footer: a horizon draws across the top and the sun in the mark rises */
+  /* the footer: a horizon draws across the top */
   var foot = $('.site-foot');
   if (foot && !RM && IO) {
     foot.classList.add('pre');
     var fio = new IntersectionObserver(function (es) {
       if (!es[0].isIntersecting) return;
-      fio.disconnect(); foot.classList.add('in'); rise($('.logo .hz', foot), 150);
+      fio.disconnect(); foot.classList.add('in');
     }, { threshold: 0.12 });
     afterIntro(function () { fio.observe(foot); });
   }

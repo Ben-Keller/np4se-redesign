@@ -198,6 +198,7 @@ figure{margin:0}
 .mosaic .b{position:absolute;left:0;bottom:0;width:40%;aspect-ratio:4/5;box-shadow:var(--shadow);border:6px solid var(--white);border-radius:6px}
 .sunbadge{position:absolute;right:-8px;top:-16px;width:92px;height:92px;background:var(--white);border-radius:50%;display:grid;place-items:center;box-shadow:var(--shadow)}
 .sunbadge .hz{width:60px;height:32.83px;margin-top:-3.33px}
+.sunbadge .ring{width:64px;height:64px}
 @media (max-width:560px){ .sunbadge{display:none} .mosaic .a{inset:0 0 16% 8%} }
 
 /* ---------- stats ---------- */
@@ -752,8 +753,6 @@ a.pill:hover{filter:brightness(.97)}
 @keyframes hzRise{from{transform:translateY(34px)}}
 @keyframes hzGrow{from{transform:scaleX(0)}}
 @keyframes hzSet{0%,14%{transform:none}46%,60%{transform:translateY(34px)}94%,100%{transform:none}}
-.hz.rise .hz-sun{animation:hzRise 1.1s var(--ease-sun) .12s both}
-.hz.rise .hz-b0{animation:hzGrow .7s var(--ease-out) both}
 .logo .hz-lift{transition:transform .6s var(--ease-sun)}
 .logo:hover .hz-lift{transform:translateY(-3px)}
 

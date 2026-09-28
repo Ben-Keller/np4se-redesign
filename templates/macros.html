@@ -2,6 +2,11 @@
 {#- The Horizon mark: a sun rising over the horizon line, with three layers below it.
     mono draws it in one colour (for coloured covers). The sun sits in its own clipped viewport,
     so it can rise from behind the horizon when the site animates it. -#}
+{# The secondary logo: the ring of 22 dots, one for each country in the network. #}
+{% macro ring(mono=None, cls='') -%}
+<svg class="ring {{ cls }}" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><circle cx="20.00" cy="3.80" r="2.05" fill="{{ mono or '#008C82' }}"/><circle cx="24.56" cy="4.46" r="2.05" fill="{{ mono or '#008C82' }}"/><circle cx="28.76" cy="6.37" r="2.05" fill="{{ mono or '#008C82' }}"/><circle cx="32.24" cy="9.39" r="2.05" fill="{{ mono or '#008C82' }}"/><circle cx="34.74" cy="13.27" r="2.05" fill="{{ mono or '#008C82' }}"/><circle cx="36.04" cy="17.69" r="2.05" fill="{{ mono or '#008C82' }}"/><circle cx="36.04" cy="22.31" r="2.05" fill="{{ mono or '#DDA12E' }}"/><circle cx="34.74" cy="26.73" r="2.05" fill="{{ mono or '#DDA12E' }}"/><circle cx="32.24" cy="30.61" r="2.05" fill="{{ mono or '#DDA12E' }}"/><circle cx="28.76" cy="33.63" r="2.05" fill="{{ mono or '#DDA12E' }}"/><circle cx="24.56" cy="35.54" r="2.05" fill="{{ mono or '#DDA12E' }}"/><circle cx="20.00" cy="36.20" r="2.05" fill="{{ mono or '#DDA12E' }}"/><circle cx="15.44" cy="35.54" r="2.05" fill="{{ mono or '#D0603E' }}"/><circle cx="11.24" cy="33.63" r="2.05" fill="{{ mono or '#D0603E' }}"/><circle cx="7.76" cy="30.61" r="2.05" fill="{{ mono or '#D0603E' }}"/><circle cx="5.26" cy="26.73" r="2.05" fill="{{ mono or '#D0603E' }}"/><circle cx="3.96" cy="22.31" r="2.05" fill="{{ mono or '#D0603E' }}"/><circle cx="3.96" cy="17.69" r="2.05" fill="{{ mono or '#D0603E' }}"/><circle cx="5.26" cy="13.27" r="2.05" fill="{{ mono or '#D0603E' }}"/><circle cx="7.76" cy="9.39" r="2.05" fill="{{ mono or '#3C7BC4' }}"/><circle cx="11.24" cy="6.37" r="2.05" fill="{{ mono or '#3C7BC4' }}"/><circle cx="15.44" cy="4.46" r="2.05" fill="{{ mono or '#3C7BC4' }}"/></svg>
+{%- endmacro %}
+
 {# The NP4SE mark (Deco sun). v: full (large), compact (24-64px), small (under 24px).
    still: a plain drawing, for covers; otherwise the sun can rise from behind the horizon and lift on hover. #}
 {% macro horizon(mono=None, cls='', v='compact', still=False) -%}
