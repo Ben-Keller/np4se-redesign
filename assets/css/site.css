@@ -750,11 +750,7 @@ a.pill:hover{filter:brightness(.97)}
 
 /* the Horizon mark: the sun sits in its own clipped sky, so it can rise from behind the horizon line */
 .hz .hz-b{transform-box:fill-box;transform-origin:50% 50%}
-@keyframes hzRise{from{transform:translateY(34px)}}
 @keyframes hzGrow{from{transform:scaleX(0)}}
-@keyframes hzSet{0%,14%{transform:none}46%,60%{transform:translateY(34px)}94%,100%{transform:none}}
-.logo .hz-lift{transition:transform .6s var(--ease-sun)}
-.logo:hover .hz-lift{transform:translateY(-3px)}
 
 /* the intro: on the first page of a visit the sun rises, then the mark settles into the header */
 .intro{display:none}
@@ -763,7 +759,8 @@ html.intro-on header.top .logo .hz{opacity:0;animation:introLogo 0s 4.6s forward
 @keyframes introBye{to{opacity:0;visibility:hidden}}
 @keyframes introLogo{to{opacity:1}}
 .intro-mark{width:clamp(156px,20vw,216px);height:auto}
-.intro .hz-sun{animation:hzRise 1.1s var(--ease-sun) .1s both}
+html.intro-on .intro .hz-sun{visibility:hidden;animation:hzShow 0s 1.5s forwards}   /* the script raises the sun; shown anyway if it never runs */
+@keyframes hzShow{to{visibility:visible}}
 .intro .hz-b0{animation:hzGrow .7s var(--ease-out) both}
 
 /* moving between pages: the old page sinks a little, the new one rises; a horizon line shows the next page loading */
@@ -905,7 +902,6 @@ body.menu-open header.top .hbar{opacity:0}
 
 /* home hero and the quote band move gently with the page */
 .qband.plx>img{scale:1.14;will-change:translate}
-.sunbadge .hz-sun{transition:transform .8s var(--ease-sun)}
 
 /* back to top */
 .totop{position:fixed;right:clamp(16px,3vw,32px);bottom:calc(clamp(16px,3vw,32px) + env(safe-area-inset-bottom,0px));z-index:50;width:48px;height:48px;border-radius:50%;background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;place-items:center;opacity:0;visibility:hidden;transform:translateY(14px) scale(.9);transition:opacity .3s,transform .45s var(--ease-out),visibility .3s,border-color .2s}
@@ -926,7 +922,6 @@ body.menu-open .totop,body.search-open .totop{opacity:0;visibility:hidden}
 /* page not found: the sun slips below the horizon and comes back */
 .lost{position:relative}
 .lost .sunbadge{display:grid;right:auto;left:-14px;top:auto;bottom:-18px}
-.lost .sunbadge .hz-sun{animation:hzSet 7s var(--ease-sun) 1s infinite}
 
 @media print{
   header.top,.site-foot,.search,.dside .toc,.skip,.intro,.navload,.totop{display:none!important}

@@ -26,8 +26,100 @@
   var raf = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) { return setTimeout(f, 16); };
   var reflow = function (el) { return el.offsetWidth; };
   function replay(el, cls) { el.classList.remove(cls); reflow(el); el.classList.add(cls); }
+  var c01 = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
+  function bezier(x1, y1, x2, y2) {   /* CSS cubic-bezier easing */
+    var bx = function (t) { return 3 * x1 * t * (1 - t) * (1 - t) + 3 * x2 * t * t * (1 - t) + t * t * t; };
+    var by = function (t) { return 3 * y1 * t * (1 - t) * (1 - t) + 3 * y2 * t * t * (1 - t) + t * t * t; };
+    return function (x) {
+      if (x <= 0) return 0; if (x >= 1) return 1;
+      var lo = 0, hi = 1, t = x;
+      for (var i = 0; i < 22; i++) { t = (lo + hi) / 2; if (bx(t) < x) lo = t; else hi = t; }
+      return by(t);
+    };
+  }
+  var EASE_SUN = bezier(.22, .8, .3, 1), EASE_IO = bezier(.45, 0, .25, 1);
 
-  /* The intro: on the first page of a visit the sun rises (CSS starts it at first paint),
+  /* The logo: a sun cut into stripes that widen towards the horizon. When it moves, the sun is redrawn
+     every frame as exact vector bands, so each stripe can move on its own and nothing is ever clipped
+     or drawn outside the logo. The numbers match the drawing in the page (templates/macros.html). */
+  var HZ = {
+    full: { base: 4.6, cuts: [[-12.2, 1.0], [-7.4, 1.4], [-3.0, 1.8], [1.0, 2.2]] },
+    compact: { base: 4.6, cuts: [[-9.8, 1.6], [-4.8, 2.2], [0, 2.8]] },
+    small: { base: 3.0, cuts: [[-6.0, 4.4]] }
+  }, HZR = 24;
+  function hzStripes(g) {   /* [top, bottom] of each stripe, top to bottom */
+    var out = [], y = -HZR - 40;
+    g.cuts.forEach(function (c) { out.push([y, c[0]]); y = c[0] + c[1]; });
+    out.push([y, g.base]);
+    return out;
+  }
+  var r3 = function (x) { return Math.round(x * 1000) / 1000; };
+  function hzBand(cy, y1, y2, dy) {   /* the sun (centre 0,cy) seen through a stripe, moved by dy */
+    var a = Math.max(y1, cy - HZR), b = Math.min(y2, cy + HZR);
+    if (b - a < 0.02) return '';
+    var hx = function (y) { var d = y - cy; return Math.sqrt(Math.max(HZR * HZR - d * d, 0)); };
+    var h1 = r3(hx(a)), h2 = r3(hx(b)), A = r3(a + dy), B = r3(b + dy), arc = 'A' + HZR + ' ' + HZR + ' 0 0 1 ';
+    return 'M' + (-h1) + ' ' + A + 'H' + h1 + arc + h2 + ' ' + B + 'H' + (-h2) + arc + (-h1) + ' ' + A + 'Z';
+  }
+  function Sun(svg) {
+    this.g = HZ[svg.getAttribute('data-hz')];
+    this.path = $('.hz-sun', svg);
+    this.stripes = hzStripes(this.g);
+    this.n = this.stripes.length;
+    this.s = 0;                                              /* how far the sun sits below its place */
+    this.L = this.stripes.map(function () { return 0; });    /* how far each stripe is lifted (negative = up) */
+    this.run = 0;
+  }
+  Sun.of = function (svg) {
+    if (!svg || !HZ[svg.getAttribute('data-hz')] || !$('.hz-sun', svg)) return null;
+    return svg.__sun || (svg.__sun = new Sun(svg));
+  };
+  Sun.prototype.draw = function () {
+    var s = this.s, L = this.L;
+    this.path.setAttribute('d', this.stripes.map(function (w, i) { return hzBand(s, w[0], w[1], L[i]); }).join(''));
+  };
+  /* run fn(t) every frame for dur seconds; starting another motion stops this one */
+  Sun.prototype.play = function (fn, dur, done) {
+    var self = this, id = ++self.run, t0 = null;
+    raf(function step(now) {
+      if (id !== self.run) return;
+      if (t0 === null) t0 = now;
+      var t = Math.min((now - t0) / 1000, dur);
+      fn(t); self.draw();
+      if (t < dur) raf(step); else if (done) done();
+    });
+  };
+  /* sunrise: the sun comes up behind its stripes, which lift and settle one after another as it passes */
+  Sun.prototype.rise = function (done) {
+    var self = this, n = this.n;
+    self.s = 34; self.draw(); self.path.style.visibility = 'visible';
+    self.play(function (t) {
+      self.s = 34 * (1 - EASE_SUN(c01((t - 0.05) / 1.2)));
+      for (var i = 0; i < n; i++) {
+        var up = (n - 1 - i) / (n - 1), p = c01((t - 0.3 - (n - 1 - i) * 0.05) / 0.9);
+        self.L[i] = -2.6 * up * Math.sin(Math.PI * EASE_IO(p));
+      }
+    }, 1.45, done);
+  };
+  /* hover: the stripes fan out upwards, the lowest first, and settle back when the pointer leaves */
+  Sun.prototype.fan = function (open) {
+    var self = this, n = this.n, from = this.L.slice();
+    self.play(function (t) {
+      for (var i = 0; i < n; i++) {
+        var to = open ? -3 * (n - 1 - i) / (n - 1) : 0, d = (open ? n - 1 - i : i) * 0.04;
+        self.L[i] = from[i] + (to - from[i]) * EASE_SUN(c01((t - d) / 0.6));
+      }
+    }, 0.6 + n * 0.04);
+  };
+  /* the lost page: the sun sets behind its stripes and rises again */
+  Sun.prototype.cycle = function () {
+    var self = this;
+    self.play(function (t) {
+      self.s = 34 * (t < 2.4 ? EASE_IO(t / 2.4) : t < 3.4 ? 1 : 1 - EASE_SUN(c01((t - 3.4) / 2.4)));
+    }, 7, function () { self.cycle(); });
+  };
+
+  /* The intro: on the first page of a visit the sun rises behind its stripes,
      then the mark glides into the header and the page is uncovered. Any key, click or scroll skips it. */
   var introBusy = html.classList.contains('intro-on'), introQueue = [];
   function afterIntro(fn) { if (introBusy) introQueue.push(fn); else fn(); }
@@ -64,7 +156,10 @@
     document.addEventListener('keydown', skip);
     window.addEventListener('wheel', skip, { passive: true });
     window.addEventListener('touchstart', skip, { passive: true });
-    var wait = Math.max(320, 1560 - (window.performance && performance.now ? performance.now() : 0));
+    /* the sun rises, then the mark moves to the header */
+    var sun = Sun.of(mark);
+    if (sun) sun.rise();
+    var wait = Math.max(sun ? 1600 : 320, 1560 - (window.performance && performance.now ? performance.now() : 0));
     timer = setTimeout(function () {
       var a = mark.getBoundingClientRect(), b = logo.getBoundingClientRect();
       var dx = b.left + b.width / 2 - (a.left + a.width / 2), dy = b.top + b.height / 2 - (a.top + a.height / 2), k = b.width / a.width;
@@ -356,6 +451,16 @@
 
   /* ---------------- motion: pages arriving, scrolling and moving on ---------------- */
   var head = $('header.top');
+
+  /* the logo in the header and footer: its stripes fan out under the pointer (or keyboard focus) */
+  if (!RM) $$('.logo').forEach(function (a) {
+    var sun = Sun.of($('.hz', a)); if (!sun) return;
+    var open = function () { sun.fan(true); }, close = function () { sun.fan(false); };
+    a.addEventListener('mouseenter', open); a.addEventListener('mouseleave', close);
+    a.addEventListener('focus', open); a.addEventListener('blur', close);
+  });
+  /* the lost page: the sun keeps setting and rising */
+  if (!RM) $$('.lost .sunbadge .hz').forEach(function (svg) { var sun = Sun.of(svg); if (sun) setTimeout(function () { sun.cycle(); }, 1000); });
 
   /* Things arriving as you scroll: blocks fade up, grids and lists follow one after another,
      page titles rise word by word, big numbers count up, photos in the home hero rise from the horizon. */
