@@ -56,9 +56,9 @@
 <div class="thumb{{ ' slide' if item.image and 'screenshot' in item.image }}">{% if item.image %}{{ img(item.image, '', eager) }}{% else %}{{ cover(item) }}{% endif %}</div>
 {%- endmacro %}
 
-{% macro pub_card(p, filterable=False, h='h3') -%}
+{% macro pub_card(p, filterable=False, h='h3', hide=False) -%}
 {%- set col = p|cover_colour -%}
-<a class="card" href="{{ p.url }}"{% if filterable %} data-type="{{ p.type }}" data-themes="{{ p.themes|join(' ') }}" data-countries="{{ p.countries|join('|') }}" data-year="{{ p.year }}" data-q="{{ (p.title ~ ' ' ~ (p.authors or '') ~ ' ' ~ p.summary ~ ' ' ~ p.countries|join(' ') ~ ' ' ~ p.topics|join(' '))|lower }}"{% endif %}>
+<a class="card" href="{{ p.url }}"{% if hide %} hidden{% endif %}{% if filterable %} data-slug="{{ p.slug }}" data-type="{{ p.type }}" data-themes="{{ p.themes|join(' ') }}" data-countries="{{ p.countries|join('|') }}" data-year="{{ p.year }}" data-q="{{ (p.title ~ ' ' ~ (p.authors or '') ~ ' ' ~ p.summary ~ ' ' ~ p.countries|join(' ') ~ ' ' ~ p.topics|join(' '))|lower }}"{% endif %}>
   {{ thumb(p) }}
   <span class="meta"><i style="background:{{ HEX[col] }}"></i>{{ p.type }} · {{ p.date_display }}</span>
   <{{ h }} class="ct">{{ p.title }}</{{ h }}>

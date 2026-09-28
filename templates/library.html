@@ -3,45 +3,13 @@
 {% set R = P.resources %}
 {% set flagship = PUB[R.highlights[0]] %}
 {% block main %}
-<div class="wrap phead">
+<div class="wrap phead ph-tight">
   <span class="label">Resources</span>
   <h1 class="d1">Resources and publications</h1>
 </div>
-{{ ui.ph(R.banner, R.banner_alt, None, 'wide-ph', eager=True) }}
 
-<section class="band">
+<section id="library" data-filter-root>
   <div class="wrap">
-    <div class="coll">
-      <a href="/resources-and-publications/sovereign-ai-initiative/">{{ ui.ph(P.sovereign_ai.banner, '') }}<b>Sovereign AI Initiative</b></a>
-      <a href="/resources-and-publications/field-development-plans/">{{ ui.stock('rig-supply', caption=False) }}<b>Field development plans</b></a>
-      <a href="/methane-programme/">{{ ui.stock('flare', caption=False) }}<b>Methane MMRV programme</b></a>
-      <a href="/category/energy-transition/">{{ ui.stock('wind', caption=False) }}<b>Energy transition</b><small>{{ PUBS|selectattr('themes', 'contains', 'energy-transition')|list|length }} publications</small></a>
-      <a href="/category/socio-economic-returns/">{{ ui.stock('dar-skyline', caption=False) }}<b>Socio-economic returns</b><small>{{ PUBS|selectattr('themes', 'contains', 'socio-economic-returns')|list|length }} publications</small></a>
-    </div>
-  </div>
-</section>
-
-{% if flagship %}
-<section class="band t-savanna">
-  <div class="wrap feature">
-    <a class="cover" href="{{ flagship.url }}" tabindex="-1" aria-hidden="true">
-      <span class="ed">Guidelines · 4th edition · 2026</span>
-      <span class="cv-t"><b>Guidelines for Good Governance in Emerging Oil and Gas Producers</b><span class="au">{{ flagship.authors|replace(', ', ' · ') }}</span></span>
-      <span class="ft">{{ ui.horizon('#FFFFFF') }}<b>NP4SE</b></span>
-    </a>
-    <div>
-      <span class="label c-savanna">{{ flagship.type }} · {{ flagship.date_display }}</span>
-      <h2 class="d2 mt-s"><a href="{{ flagship.url }}">{{ flagship.title }}</a></h2>
-      <p class="lead mt-m">{{ flagship.summary }}</p>
-      <div class="btnrow mt-l">{% for d in flagship.documents[:1] %}<a class="btn" href="{{ d.url }}" target="_blank" rel="noopener">{{ d.label }}</a>{% endfor %}<a class="btn line" href="{{ flagship.url }}">Read more</a></div>
-    </div>
-  </div>
-</section>
-{% endif %}
-
-<section class="band" id="library">
-  <div class="wrap">
-    <div class="sec-head"><div><h2 class="d2">Resource library</h2></div></div>
     <div class="filterbar" data-filter="library">
       <div class="filters">
         <div class="field"><label for="lib-q">Search</label><input id="lib-q" type="search" placeholder="Title, author, country or keyword" autocomplete="off" data-q></div>
@@ -52,9 +20,36 @@
       </div>
       <div class="count"><span class="small" data-count aria-live="polite">Showing all {{ PUBS|length }} publications</span><button class="textbtn" type="button" data-reset>Clear filters</button></div>
     </div>
-    <div class="lib" data-list>
-      {% for p in PUBS %}{{ ui.pub_card(p, True) }}{% endfor %}
-      <p class="empty" data-empty hidden>Nothing matches. Try a wider date range or clear the theme.</p>
+  </div>
+
+  {#- The featured publication is the most recent one that fits the filters (the newest overall to start
+      with). Every publication has its featured block ready; the script shows the one that fits. -#}
+  <div class="band t-savanna" data-feature-band>
+    <div class="wrap">
+      {% for p in PUBS %}{% set col = p|cover_colour %}{% set special = p is sameas flagship %}
+      <div class="feature" data-feature="{{ p.slug }}"{% if not loop.first %} hidden{% endif %}>
+        <a class="cover{% if not special %} c-{{ col }}{% endif %}" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+          <span class="ed">{% if special %}Guidelines · 4th edition · 2026{% else %}{{ p.type }} · {{ p.year }}{% endif %}</span>
+          <span class="cv-t"><b>{% if special %}Guidelines for Good Governance in Emerging Oil and Gas Producers{% else %}{{ p.title|short_title }}{% endif %}</b>{% if p.authors %}<span class="au">{{ p.authors|replace(', ', ' · ') }}</span>{% endif %}</span>
+          <span class="ft">{{ ui.horizon('#0F2B3D' if col == 'savanna' and not special else '#FFFFFF') }}<b>NP4SE</b></span>
+        </a>
+        <div>
+          <span class="label c-savanna">{{ p.type }} · {{ p.date_display }}</span>
+          <h2 class="d2 mt-s"><a href="{{ p.url }}">{{ p.title }}</a></h2>
+          <p class="lead mt-m">{{ p.summary }}</p>
+          <div class="btnrow mt-l">{% for d in p.documents[:1] %}<a class="btn" href="{{ d.url }}" target="_blank" rel="noopener">{{ d.label }}</a>{% endfor %}<a class="btn line" href="{{ p.url }}">Read more</a></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="band pt-m">
+    <div class="wrap">
+      <div class="lib" data-list>
+        {% for p in PUBS %}{{ ui.pub_card(p, True, hide=loop.first) }}{% endfor %}
+        <p class="empty" data-empty hidden>Nothing matches. Try a wider date range or clear the theme.</p>
+      </div>
     </div>
   </div>
 </section>

@@ -271,14 +271,16 @@
 
   /* ---------------- list filters (library, events) ---------------- */
   $$('[data-filter]').forEach(function (bar) {
-    var root = bar.parentElement, list = $('[data-list]', root);
+    var root = bar.closest('[data-filter-root]') || bar.parentElement, list = $('[data-list]', root);
     if (!list) return;
     var items = $$('[data-q]', list), total = items.length, noun = bar.getAttribute('data-filter') === 'events' ? 'events' : 'publications';
     var st = { q: '', type: '', theme: '', country: '', year: '' };
     var q = $('[data-q]', bar), tSel = $('[data-type-select]', bar), thSel = $('[data-theme-select]', bar), cSel = $('[data-country-select]', bar), ySel = $('[data-year-select]', bar);
     var chips = $$('.chip[data-type]', bar), count = $('[data-count]', bar), empty = $('[data-empty]', list);
+    /* publications: the newest match is shown large in the featured band, the rest in the list below */
+    var fband = $('[data-feature-band]', root), feats = $$('[data-feature]', root), featNow;
     function apply(push) {
-      var toks = norm(st.q).split(/\s+/).filter(Boolean), n = 0;
+      var toks = norm(st.q).split(/\s+/).filter(Boolean), n = 0, top = null;
       items.forEach(function (it) {
         var d = it.dataset, hay = norm(d.q);
         var ok = (!st.type || d.type.split('|').indexOf(st.type) >= 0) &&
@@ -286,12 +288,24 @@
           (!st.country || d.countries.split('|').indexOf(st.country) >= 0) &&
           (!st.year || +d.year >= +st.year) &&
           toks.every(function (t) { return hay.indexOf(t) >= 0; });
+        var show = ok;
+        if (ok && fband && !top) { top = it; show = false; }
         var was = it.hidden;
-        it.hidden = !ok; if (ok) n++;
-        if (ok && was && !RM && !it.classList.contains('rv')) replay(it, 'pop');
+        it.hidden = !show; if (ok) n++;
+        if (show && was && !RM && !it.classList.contains('rv')) replay(it, 'pop');
       });
       $$('[data-ygroup]', list).forEach(function (g) { g.hidden = !$$('[data-q]', g).some(function (x) { return !x.hidden; }); });
       if (empty) empty.hidden = n > 0;
+      if (fband) {
+        var slug = top ? top.getAttribute('data-slug') : '';
+        fband.hidden = !top;
+        feats.forEach(function (f) {
+          var on = f.getAttribute('data-feature') === slug;
+          if (on && f.hidden && featNow !== undefined && !RM) replay(f, 'pop');
+          f.hidden = !on;
+        });
+        featNow = slug;
+      }
       if (count) count.textContent = n === total ? 'Showing all ' + total + ' ' + noun : 'Showing ' + n + ' of ' + total + ' ' + noun;
       if (push && !PREVIEW && history.replaceState) {
         var p = new URLSearchParams();
@@ -356,7 +370,7 @@
   var SINGLE = '.sec-head, .split > *, .feature > *, .ai > *, .mapwrap, .mapbar, .q, .statement, .callout, .cta-row > *, .form-card, ' +
     '.portal-grid .tx > *, .dside > *, .wide-ph, .dimg, .locator, .chead .ch-tx > :not(h1), .phead > :not(h1), .dhead > :not(h1), ' +
     '.hero-tx > :not(h1), .after-regions, .map-note, .filterbar, .report-card, .side-cover, .stats-more';
-  var GROUPS = '.cards2, .cards3, .cards4, .lib, .ws, .regions, .paths, .team, .etypes, .streams, .values, .labs, .tiles3, .coll, .logos, ' +
+  var GROUPS = '.cards2, .cards3, .cards4, .lib, .ws, .regions, .paths, .team, .etypes, .streams, .values, .labs, .tiles3, .logos, ' +
     '.credits-grid, .voices, .comp, .deflist, .ticks, .stats, .tl, .reslist, .morelist, .spots, .evlist, .docs, .xref, .people, .boards, ' +
     '.roster, .am-list, .contact-list, .nlist, .jump';
   var TITLES = '.hero h1, .phead h1, .dhead h1, .chead h1';

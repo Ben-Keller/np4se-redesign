@@ -237,7 +237,7 @@ figure{margin:0}
 .ws p{font-size:15px;color:var(--ink-2)}
 .feature{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,96px);align-items:center}
 @media (max-width:860px){ .feature{grid-template-columns:1fr} }
-.cover{aspect-ratio:3/4;border-radius:4px;padding:9% 9% 8%;display:flex;flex-direction:column;justify-content:space-between;color:var(--white);background:var(--lagoon-ink);box-shadow:0 30px 60px -20px rgba(15,43,61,.35);position:relative;overflow:hidden;max-width:380px;width:100%;justify-self:center}
+.cover{aspect-ratio:3/4;border-radius:4px;padding:9% 9% 8%;display:flex;flex-direction:column;justify-content:space-between;color:var(--cvfg,var(--white));background:var(--cv,var(--lagoon-ink));box-shadow:0 30px 60px -20px rgba(15,43,61,.35);position:relative;overflow:hidden;max-width:380px;width:100%;justify-self:center}
 .cover::after{content:"";position:absolute;right:-30%;bottom:-18%;width:90%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.28)}
 .cover::before{content:"";position:absolute;right:-12%;bottom:0%;width:58%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.2)}
 .cover .ed{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;opacity:.9;position:relative;z-index:1}
@@ -283,8 +283,8 @@ a.cover:hover{transform:translateY(-3px)}
 .path h3{font-size:30px;font-weight:300}
 .path p{font-size:15.5px;color:var(--ink-2)}
 .path:hover h3{color:var(--lagoon-ink)}
-.path .ph img,.card .thumb img,.coll .ph img,.region .ph img,.am-ph img{transition:transform .6s ease}
-.path:hover .ph img,.card:hover .thumb img,.coll a:hover .ph img,.am:hover .am-ph img{transform:scale(1.03)}
+.path .ph img,.card .thumb img,.region .ph img,.am-ph img{transition:transform .6s ease}
+.path:hover .ph img,.card:hover .thumb img,.am:hover .am-ph img{transform:scale(1.03)}
 
 /* ---------- cards ---------- */
 .cards2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
@@ -568,7 +568,7 @@ a.pill:hover{filter:brightness(.97)}
 .filters{display:grid;grid-template-columns:minmax(0,2fr) repeat(4,minmax(0,1fr));gap:14px}
 .filters.f3{grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr))}
 @media (max-width:1040px){ .filters,.filters.f3{grid-template-columns:repeat(2,minmax(0,1fr))} .filters .field:first-child{grid-column:1/-1} }
-@media (max-width:480px){ .filters,.filters.f3{grid-template-columns:1fr} }
+@media (max-width:480px){ .filters,.filters.f3{gap:10px 10px} .filters .field select{padding-left:11px;padding-right:30px;background-position:right 10px center;font-size:15px} }
 .count{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:18px 0 24px}
 .empty{grid-column:1/-1;padding:48px 24px;text-align:center;border:1px dashed var(--line);border-radius:8px;color:var(--ink-3)}
 .ygroup{display:grid;grid-template-columns:120px minmax(0,1fr);gap:24px;border-top:1px solid var(--ink);padding-top:10px;margin-top:36px}
@@ -599,14 +599,6 @@ a.pill:hover{filter:brightness(.97)}
 @media (max-width:860px){ .am{grid-template-columns:80px minmax(0,1fr)} .am-ph{grid-column:2} .am-tx{grid-column:2} .am-y{font-size:36px} }
 
 /* ---------- library ---------- */
-.coll{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
-@media (max-width:1040px){ .coll{grid-template-columns:repeat(3,minmax(0,1fr))} }
-@media (max-width:600px){ .coll{grid-template-columns:1fr 1fr} }
-.coll a{display:flex;flex-direction:column;gap:8px}
-.coll .ph{aspect-ratio:1/1;width:100%;margin-bottom:4px}
-.coll b{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.2}
-.coll a:hover b{color:var(--lagoon-ink)}
-.coll small{font-size:13.5px;color:var(--ink-3);line-height:1.4}
 .wg{display:flex;flex-direction:column;gap:12px;padding:clamp(22px,3vw,34px);background:var(--white);border:1px solid var(--line);border-radius:12px;transition:border-color .2s}
 .wg:hover{border-color:var(--ink)}
 .wg p{color:var(--ink-2);font-size:15.5px}
@@ -824,8 +816,8 @@ body.menu-open header.top .hbar{opacity:0}
 .arrow:hover{background-size:100% 1px}
 
 /* cards and tiles lift a little */
-.card .thumb,.path .ph,.region .ph,.ws .ph,.coll .ph,.exch .ph{transition:transform .6s var(--ease-out),box-shadow .6s var(--ease-out)}
-.card:hover .thumb,.path:hover .ph,.coll a:hover .ph{transform:translateY(-4px);box-shadow:0 24px 44px -26px rgba(15,43,61,.5)}
+.card .thumb,.path .ph,.region .ph,.ws .ph,.exch .ph{transition:transform .6s var(--ease-out),box-shadow .6s var(--ease-out)}
+.card:hover .thumb,.path:hover .ph{transform:translateY(-4px);box-shadow:0 24px 44px -26px rgba(15,43,61,.5)}
 .lab,.wg,.tile,.voice{transition:transform .45s var(--ease-out),box-shadow .45s var(--ease-out),border-color .2s}
 .lab:hover,.wg:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 .etype{transition:box-shadow .3s,transform .45s var(--ease-out)}
