@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block main %}
+<section class="band pt-m">
+  <div class="wrap split">
+    <div>
+      <h1 class="d1">Page not found</h1>
+      <p class="lead mt-m">The website has been rebuilt and some addresses have changed. Try the search, or start from one of these pages.</p>
+      <div class="btnrow mt-l"><button class="btn" type="button" data-search-open>Search the site</button><a class="btn line" href="/">Home</a></div>
+      <ul class="nlist mt-l">
+        <li><a href="/resources-and-publications/">Resources and publications</a></li>
+        <li><a href="/activities-and-events/">Activities and events</a></li>
+        <li><a href="/members/">Member countries</a></li>
+        <li><a href="/contact-us/">Contact us</a></li>
+      </ul>
+    </div>
+    <div class="lost"><div class="sunbadge lost-mark" aria-hidden="true">{{ ui.horizon(v='full') }}</div></div>
+  </div>
+</section>
+{% endblock %}
+{% block head %}{% if not preview %}
+<script>
+/* Old addresses that follow a pattern (GitHub Pages has no server redirects): forward them. */
+(function () {
+  var base = {{ base_path|tojson }}, rules = {{ redirect_rules|tojson }}, p = location.pathname;
+  if (base && p.indexOf(base + '/') === 0) p = p.slice(base.length);
+  for (var i = 0; i < rules.length; i++) {
+    var re = new RegExp(rules[i][0]);
+    if (re.test(p)) {
+      var t = p.replace(re, rules[i][1]);
+      location.replace((t.charAt(0) === '/' ? base : '') + t + location.search + location.hash);
+      return;
+    }
+  }
+})();
+</script>
+{% endif %}{% endblock %}

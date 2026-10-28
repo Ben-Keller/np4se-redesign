@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set p = item %}
+{% set og_image = p.image or p.cover %}
+{% block main %}
+<article class="detail">
+  <header class="wrap dhead">
+    {{ ui.crumb([('Resources and publications', '/resources-and-publications/')]) }}
+    <h1 class="d2">{{ p.title }}</h1>
+    <p class="dmeta"><span>{{ p.type }}{% if p.formats %} ({{ p.formats|join(', ')|lower }}){% endif %}</span><time datetime="{{ p.date }}">{{ p.date_display }}</time>{% if p.authors %}<span>{{ p.authors }}</span>{% endif %}</p>
+  </header>
+
+  <div class="wrap dgrid">
+    <div class="dmain">
+      {% if p.image and not p.cover %}{{ ui.ph(p.image, '', None, 'dimg', eager=True) }}{% endif %}
+      {% if p.summary and p.html|plain|length < 40 %}<p class="lead">{{ p.summary }}</p>{% endif %}
+      <div class="prose">{{ p.html }}</div>
+      {% if p.events %}
+      <div class="xref">{% for e in p.events %}<a class="xcard" href="{{ e.url }}"><span class="xk">The event</span><b>{{ e.title }}</b><small>{{ e.date_display }}{% if e.countries %}, {{ e.countries|join(', ') }}{% endif %}</small></a>{% endfor %}</div>
+      {% endif %}
+    </div>
+    <aside class="dside">
+      {% if p.cover or not p.image %}<div class="side-cover">{{ ui.fcover(p, p.documents[0].url if p.documents else None) }}</div>{% endif %}
+      {{ ui.docs(p.documents) }}
+      <dl class="kv">
+        <dt>Type</dt><dd>{{ p.type }}</dd>
+        <dt>Published</dt><dd>{{ p.date_display }}</dd>
+        {% if p.authors %}<dt>{{ 'Authors' if ',' in p.authors or ' and ' in p.authors else 'Author' }}</dt><dd>{{ p.authors }}</dd>{% endif %}
+        {% if p.countries %}<dt>Countries</dt><dd>{{ ui.country_links(p.countries) }}</dd>{% endif %}
+        {% if p.themes %}<dt>Themes</dt><dd>{{ ui.theme_chips(p.themes) }}</dd>{% endif %}
+        {% if p.topics %}<dt>Topics</dt><dd>{{ ui.topic_tags(p.topics) }}</dd>{% endif %}
+      </dl>
+      <div class="side-sec"><h2>Cite</h2><p class="cite">{% if p.authors %}{{ p.authors }} ({{ p.year }}). {% else %}{{ site.name }} ({{ p.year }}). {% endif %}<em>{{ p.title }}</em>. {{ site.name }}.</p></div>
+    </aside>
+  </div>
+</article>
+
+{% set rel = related(p, 3) %}
+{% if rel %}
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Related', None, '/resources-and-publications/', 'All publications') }}
+    <div class="cards3">{% for r in rel %}{% if r.kind == 'publication' %}{{ ui.pub_card(r) }}{% else %}{{ ui.ev_card(r) }}{% endif %}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

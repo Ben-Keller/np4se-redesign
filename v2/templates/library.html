@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set R = P.resources %}
+{% block main %}
+<div class="wrap phead ph-tight">
+  <h1 class="d1">Resources and publications</h1>
+</div>
+
+<section id="library" data-filter-root>
+  <div class="wrap">
+    <div class="filterbar" data-filter="library">
+      <div class="filters">
+        <div class="field"><label for="lib-q">Search</label><input id="lib-q" type="search" placeholder="Title, author, country or keyword" autocomplete="off" data-q></div>
+        <div class="field"><label for="lib-type">Type</label><select id="lib-type" data-type-select><option value="">All types</option>{% for t, n in pub_types %}<option value="{{ t }}">{{ t }} ({{ n }})</option>{% endfor %}</select></div>
+        <div class="field"><label for="lib-theme">Theme</label><select id="lib-theme" data-theme-select><option value="">All themes</option>{% for t in THEME.values() if PUBS|selectattr('themes', 'contains', t.slug)|list %}<option value="{{ t.slug }}">{{ t.name }}</option>{% endfor %}</select></div>
+        <div class="field"><label for="lib-country">Country</label><select id="lib-country" data-country-select><option value="">All countries</option>{% for m in members|sort(attribute='name') if m.pubs %}<option value="{{ m.name }}">{{ m.name }}</option>{% endfor %}</select></div>
+        <div class="field"><label for="lib-year">Published</label><select id="lib-year" data-year-select><option value="">Any year</option>{% for y in [2024, 2022, 2020, 2018, 2016] %}<option value="{{ y }}">{{ y }} onwards</option>{% endfor %}</select></div>
+      </div>
+      <div class="count"><span class="small" data-count aria-live="polite">Showing all {{ PUBS|length }} publications</span><button class="textbtn" type="button" data-reset>Clear filters</button></div>
+    </div>
+  </div>
+
+  {#- The featured publication is the most recent one that fits the filters (the newest overall to start
+      with). Every publication has its featured block ready; the script shows the one that fits. -#}
+  <div class="band bold" data-feature-band>
+    <div class="wrap">
+      {% for p in PUBS %}
+      <div class="feature" data-feature="{{ p.slug }}"{% if not loop.first %} hidden{% endif %}>
+        {{ ui.fcover(p, p.url) }}
+        <div>
+          <p class="meta sunrule">{{ p.type }}, {{ p.date_display }}</p>
+          <h2 class="d2 mt-s"><a href="{{ p.url }}">{{ p.title }}</a></h2>
+          {% if p.authors %}<p class="body mt-s">{{ p.authors }}</p>{% endif %}
+          <p class="lead mt-m">{{ p.summary }}</p>
+          <div class="btnrow mt-l">{% for d in p.documents[:1] %}<a class="btn" href="{{ d.url }}" target="_blank" rel="noopener">{{ d.label }}</a>{% endfor %}<a class="btn line" href="{{ p.url }}">Read more</a></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="band pt-m">
+    <div class="wrap">
+      <div class="plist" data-list>
+        {% for p in PUBS %}{{ ui.pub_row(p, True, hide=loop.first, summary=True) }}{% endfor %}
+        <p class="empty" data-empty hidden>Nothing matches. Try a wider date range or clear the theme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Working groups') }}
+    <div class="cards2 wg-list">
+      {% for key in ['unsticking-the-sticky-clauses-working-group', 'working-group-information-governments-can-expect-from-operators'] %}{% set lf = LONG[key] %}
+      <a class="wg" href="{{ lf.url }}"><h3 class="d4">{{ lf.title }}</h3><p>{{ lf.html|plain|excerpt(230) }}</p><span class="arrow">Read more</span></a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

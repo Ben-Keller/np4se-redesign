@@ -5,9 +5,12 @@
     python3 build.py --base-url URL   production build for the address the site is served from, e.g.
                                       https://<user>.github.io/<repo> (links then start with /<repo>/)
     python3 build.py --preview        self-contained preview into preview/ (relative links, no form posts)
+    python3 build.py --design v2      the second design (v2/) over the same content, into dist-v2/
 
 The GitHub Actions workflow in .github/workflows/deploy.yml runs the second form with the address
 GitHub Pages reports, so the same content works on the github.io address and on a custom domain.
+While build_v2 is on in content/data/site.yaml, a production build also builds the v2 design into /v2/
+next to the main one, so the workflow publishes both for comparison.
 
 Requires Python 3.9+ with PyYAML, Jinja2, BeautifulSoup4 and Pillow:
     pip install pyyaml jinja2 beautifulsoup4 pillow
@@ -19,20 +22,23 @@ from urllib.parse import unquote, urlsplit
 
 import yaml
 from bs4 import BeautifulSoup, NavigableString
-from jinja2 import ChainableUndefined, Environment, FileSystemLoader
+from jinja2 import ChainableUndefined, ChoiceLoader, Environment, FileSystemLoader
 from markupsafe import Markup
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
 CONTENT, TEMPLATES, ASSETS = ROOT / 'content', ROOT / 'templates', ROOT / 'assets'
+V2 = ROOT / 'v2'   # the second design: its own templates and stylesheet over the same content
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--preview', action='store_true', help='relative links for a file:// or artifact preview')
 ap.add_argument('--base-url', default=None, help='public address of the site (default: url in content/data/site.yaml)')
+ap.add_argument('--design', choices=['main', 'v2'], default='main', help='which design to build (default: main)')
 ap.add_argument('--out', default=None)
 ARGS = ap.parse_args()
 PREVIEW = ARGS.preview
-OUT = Path(ARGS.out) if ARGS.out else ROOT / ('preview' if PREVIEW else 'dist')
+DESIGN = ARGS.design
+OUT = Path(ARGS.out) if ARGS.out else ROOT / (('preview' if PREVIEW else 'dist') + ('-v2' if DESIGN == 'v2' else ''))
 TODAY = datetime.date.today()
 BUILD_WARNINGS = []
 
@@ -69,8 +75,9 @@ if _SITE_URL_PARTS.scheme not in ('http', 'https') or not _SITE_URL_PARTS.netloc
     sys.exit(f'--base-url must be a full address such as https://example.org, not {SITE_URL!r}')
 BASE_PATH = '' if PREVIEW else _SITE_URL_PARTS.path.rstrip('/')
 # Keep search engines off the temporary github.io address; indexing starts once a custom domain is set.
-NOINDEX = (not PREVIEW and (_SITE_URL_PARTS.hostname or '').endswith('.github.io')
-           and not SITE.get('index_on_github_io'))
+# The v2 design is for comparison only, so it is never indexed.
+NOINDEX = (not PREVIEW and (DESIGN == 'v2' or ((_SITE_URL_PARTS.hostname or '').endswith('.github.io')
+                                               and not SITE.get('index_on_github_io'))))
 
 # Documents (PDFs) still live on the WordPress server. Change documents_host in site.yaml
 # to wherever the uploads end up once the new site replaces the old one (see README).
@@ -98,6 +105,12 @@ def photo(key):
     """Stock photo record by key -> dict(src, alt, place, by)."""
     ph = PHOTOS[key]
     return {'key': key, 'src': f'/assets/img/photos/{key}.webp', 'alt': ph['alt'], 'place': ph.get('place') or '', 'by': ph['by']}
+
+# Covers: the first page of a publication's PDF, rendered into assets/img/covers/<slug>.webp by
+# tools/make_covers.py. Publications without one keep their photo or a plain title card.
+def cover_src(slug):
+    p = ASSETS / 'img' / 'covers' / f'{slug}.webp'
+    return '/' + p.relative_to(ROOT).as_posix() if p.exists() else None
 
 # --------------------------------------------------------------------------- regions, members
 REGION_COLOURS = {'car': 'lagoon', 'wa': 'savanna', 'ces': 'laterite', 'mea': 'atlantic', 'peer': 'peer'}
@@ -235,6 +248,7 @@ for p in sorted((CONTENT / 'publications').glob('*.md')):
     m['type'] = m.get('type') or 'Publication'
     m['label'] = m['type']
     m['summary'] = pick_summary(m.get('summary'), m['body'])
+    m['cover'] = cover_src(m['slug'])
     for k, v in (('image', None), ('authors', ''), ('formats', []), ('date_display', '')):
         m.setdefault(k, v)
     PUBS.append(m)
@@ -256,6 +270,7 @@ for p in sorted((CONTENT / 'events').glob('*.md')):
     d0 = datetime.date.fromisoformat(m['date_start'])
     m['day'], m['mon'] = d0.day, MONTHS[d0.month - 1][:3]
     m['past'] = datetime.date.fromisoformat(m['date_end']) < TODAY
+    m['cover'] = None
     for k, v in (('image', None), ('image_caption', ''), ('time', ''), ('authors', ''), ('formats', [])):
         m.setdefault(k, v)
         if m[k] is None and v != None: m[k] = v
@@ -491,7 +506,11 @@ class WarnUndefined(ChainableUndefined):
         warn(f'template printed an undefined value: {self._undefined_name}')
         return ''
 
-env = Environment(loader=FileSystemLoader(str(TEMPLATES)), autoescape=True, trim_blocks=True, lstrip_blocks=True,
+# The v2 design overrides only the templates it changes; everything else comes from templates/.
+LOADER = FileSystemLoader(str(TEMPLATES))
+if DESIGN == 'v2':
+    LOADER = ChoiceLoader([FileSystemLoader(str(V2 / 'templates')), LOADER])
+env = Environment(loader=LOADER, autoescape=True, trim_blocks=True, lstrip_blocks=True,
                   undefined=WarnUndefined)
 env.tests['contains'] = lambda seq, x: x in (seq or [])
 
@@ -556,6 +575,28 @@ def f_cover_colour(item):
     th = item.get('themes') or []
     return THEME[th[0]]['colour'] if th else 'ink'
 
+PROPER = {w for m in MEMB['members'] + MEMB['peers'] for w in re.findall(r"[\w’']+", m['name'])} - {'New', 'Republic', 'of', 'the', 'and'}
+PROPER |= {'Africa', 'African', 'Caribbean', 'America', 'Atlantic', 'Pacific', 'Commonwealth', 'Paris', 'English', 'French', 'Dutch'}
+def f_sentence(s):
+    """'Breaking the Policy Silos' -> 'Breaking the policy silos'. Names, acronyms and the first word after
+    a dash or colon keep their capitals."""
+    out, start = [], True
+    for word in str(s or '').split(' '):
+        m = re.match(r'^(\W*)(.*?)(\W*)$', word)
+        lead, core, tail = m.group(1), m.group(2), m.group(3)
+        parts = core.split('-')
+        for i, p in enumerate(parts):
+            if start and i == 0:
+                continue
+            if p[:1].isupper() and p[1:] == p[1:].lower() and p not in PROPER and len(p) > 1:
+                parts[i] = p.lower()
+        out.append(lead + '-'.join(parts) + tail)
+        if core:
+            start = bool(re.search(r'[:–—]$', word)) or word in ('–', '—')
+        elif word in ('–', '—'):
+            start = True
+    return ' '.join(out)
+
 def f_short_title(t):
     t = re.sub(r'\s*\((?:[^)]*edition[^)]*)\)\s*$', '', t, flags=re.I)
     return t.split(' – ')[0].split(': ')[0] if len(t) > 70 else t
@@ -563,7 +604,7 @@ def f_short_title(t):
 env.filters.update(quoted=f_quoted, markup=f_markup, date_long=f_date_long, nbsp_last=f_nbsp_last, initials=f_initials,
                    link_text=f_link_text, stat=f_stat, tojson_attr=f_json, pillcls=f_cls_colour, theme=f_theme,
                    topic=f_topic, country=f_country, cover_colour=f_cover_colour, short_title=f_short_title,
-                   label_case=label_case, excerpt=excerpt, plain=plain)
+                   label_case=label_case, excerpt=excerpt, plain=plain, sentence=f_sentence)
 
 def email_js(e):
     return e
@@ -590,7 +631,8 @@ env.globals.update(site=SITE, P=PAGES, LONG=LONG, PUB=PUB, EVT=EVT, PUBS=PUBS, E
                    country_options=COUNTRY_OPTIONS, role_label=ROLE_LABEL, related=related, item_by_ref=item_by_ref,
                    stage_short=STAGE_SHORT, stage_note_text=(MEMB.get('stage_note') or '').replace(': ', ' has ') + '.',
                    site_url=SITE_URL, base_path=BASE_PATH, noindex=NOINDEX, form_subjects=FORM_SUBJECTS,
-                   redirect_rules=not_found_rules())
+                   redirect_rules=not_found_rules(), design=DESIGN,
+                   design_panel=(DESIGN == 'v2' and SITE.get('design_panel', True) is not False))
 
 # --------------------------------------------------------------------------- routes
 ROUTES = []   # (url, template, context)
@@ -691,6 +733,8 @@ def copy_assets():
                     ignore=lambda d, names: [n for n in names if Path(d, n).is_file() and '/assets/img/' in Path(d, n).as_posix() + '/'
                                              and Path(d, n).relative_to(ROOT).as_posix() not in used
                                              and Path(d, n).parent != ASSETS / 'img'])
+    if DESIGN == 'v2' and (V2 / 'assets').exists():
+        shutil.copytree(V2 / 'assets', OUT / 'assets', dirs_exist_ok=True)
     return used
 
 def write_data_js():
@@ -852,7 +896,7 @@ if __name__ == '__main__':
     n_redirects = write_host_files()
     probs = link_check()
     n_html = len(ROUTES)
-    where = 'preview' if PREVIEW else f'production, for {SITE_URL}/'
+    where = ('preview' if PREVIEW else f'production, for {SITE_URL}/') + (', v2 design' if DESIGN == 'v2' else '')
     print(f'Built {n_html} pages into {OUT.relative_to(ROOT) if OUT.is_relative_to(ROOT) else OUT}/ ({where})')
     if n_redirects:
         print(f'  {n_redirects} redirect pages for old addresses' + ('; search engines asked not to index this address' if NOINDEX else ''))
@@ -866,3 +910,12 @@ if __name__ == '__main__':
             print('   ', pg, '->', u)
         sys.exit(1)
     print('  link check: all internal links resolve')
+    # While build_v2 is on, a production build of the main design also builds v2 into <out>/v2/, so the
+    # deploy workflow publishes both (v2's pages ask search engines not to index them).
+    if DESIGN == 'main' and not PREVIEW and SITE.get('build_v2'):
+        import subprocess
+        sys.stdout.flush()   # so the two builds' reports come out in order
+        done = subprocess.run([sys.executable, str(Path(__file__).resolve()), '--design', 'v2',
+                               '--base-url', SITE_URL + '/v2', '--out', str((OUT / 'v2').resolve())])
+        if done.returncode:
+            sys.exit(done.returncode)

@@ -1,8 +1,12 @@
 # Build output: the deploy workflow builds the site on GitHub, so it isn't committed.
 dist/
 preview/
+dist-v2/
+preview-v2/
 __pycache__/
 *.pyc
 .venv/
 venv/
 .DS_Store
+# PDFs downloaded by tools/make_covers.py; only the rendered covers in assets/img/covers/ are kept.
+tools/.pdf-cache/

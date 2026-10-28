@@ -8,6 +8,12 @@ url: https://www.newproducersgroup.org
 # Search engines are asked not to index the temporary *.github.io address, so it doesn't compete with the
 # live site. Set this to true to allow it; a custom domain is always indexable.
 index_on_github_io: false
+# The v2 design shows a temporary design panel for trying other colours and typefaces on its pages.
+# Set this to false to remove it; the main design doesn't have it.
+design_panel: true
+# Production builds (and so the deploy workflow) also build the v2 design into /v2/ next to the main
+# one, so the two can be compared on the same address. Set this to false to stop publishing v2.
+build_v2: true
 description: NP4SE is a South-South group of 22 countries new to oil and gas, looking for a path to prosperity while protecting the environment.
 tagline: A collaborative network of governments from 22 countries helping each other navigate their new petroleum sector and achieve a just transition.
 og_image: /assets/img/og-image.jpg

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% block bodyclass %}home{% endblock %}
+{% block head %}
+<script type="application/ld+json">{{ {"@context":"https://schema.org","@type":"NGO","name":site.name,"alternateName":["NP4SE","New Producers Group"],"url":site.url,"logo":site_url ~ "/assets/img/apple-touch-icon.png","email":site.emails.contact,"sameAs":[site.linkedin],"address":{"@type":"PostalAddress","streetAddress":"71-75 Shelton Street, Covent Garden","addressLocality":"London","postalCode":"WC2H 9JQ","addressCountry":"GB"}}|tojson_attr }}</script>
+{% endblock %}
+{% set H = P.home %}
+{% set hp = photo('coast-boats') %}
+{% block main %}
+<section class="hero">
+  <div class="wrap hero-tx">
+    <h1 class="d1">{{ H.hero_title }}</h1>
+    <p class="lead">{{ H.hero_lead }}</p>
+    <div class="ctas"><a class="btn" href="/members/">Member countries</a>{% if flagship %}<a class="btn line" href="{{ flagship.url }}">Guidelines for Good Governance 2026</a>{% endif %}</div>
+  </div>
+  <figure class="hero-ph">
+    {{ ui.img(hp.src, hp.alt, eager=True) }}
+    <figcaption>{{ hp.place }}</figcaption>
+    <div class="badge-row" aria-hidden="true"><div class="wrap"><div class="sunbadge">{{ ui.ring() }}</div></div></div>
+  </figure>
+</section>
+
+<section class="band">
+  <div class="wrap intro-grid">
+    <div>
+      <h2 class="d2">{{ H.helping.title }}</h2>
+      <p class="lead mt-m">{{ H.helping.paragraphs[0] }}</p>
+      {% for p in H.helping.paragraphs[1:] %}<p class="body mt-m">{{ p }}</p>{% endfor %}
+      <p class="mt-l"><a class="arrow" href="/what-we-do/">How we work</a></p>
+    </div>
+    <aside class="facts" aria-label="The network in figures">
+      <dl>
+        <div><dt class="num">{{ N_COUNTRIES }}</dt><dd>countries: {{ N_MEMBERS }} members and {{ N_OBSERVERS }} observers</dd></div>
+        {% for s in H.stats %}<div><dt class="num">{{ s.value }}{{ s.suffix }}</dt><dd>{{ s.text }}</dd></div>{% endfor %}
+      </dl>
+      <p><a class="arrow" href="/impact/">Impact</a></p>
+    </aside>
+  </div>
+</section>
+
+<section class="band pt-0" id="map">
+  <div class="wrap">
+    {{ ui.sec_head(None, H.members.title|sentence, H.members.paragraphs[0], '/members/', 'All member countries') }}
+    <div class="mapwrap">
+      <div class="map" data-map="home" role="group" aria-label="World map of the network. Select a country to open its page."></div>
+      <div class="legend" data-legend="region"></div>
+      <p class="map-note">{{ H.members.paragraphs[2] }}</p>
+    </div>
+    <div class="regions">
+      {% for k in ['car', 'wa', 'ces', 'mea'] %}{% set r = regions[k] %}{% set ms = active|selectattr('region', 'equalto', k)|list %}
+      <div class="region">
+        <h3>{{ r.name }} <span class="num">{{ ms|length }}</span></h3>
+        <p class="rc">{% for m in ms %}<a href="{{ m.url }}">{{ m.name }}</a>{% if m.role == 'observer' %} <small>(observer)</small>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="after-regions">{{ H.members.paragraphs[1] }} <a class="arrow" href="/get-involved/#member">Become a member</a></p>
+  </div>
+</section>
+
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'How we work', P.how.approach_intro, '/what-we-do/', P.how.approach_title) }}
+    <div class="ws">
+      {% for w in P.how.workstreams %}
+      <article>
+        <h3>{{ w.title|sentence }}</h3>
+        <p>{{ w.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if flagship %}
+<section class="band bold">
+  <div class="wrap feature">
+    {{ ui.fcover(flagship, flagship.url) }}
+    <div>
+      <h2 class="d2 sunrule"><a href="{{ flagship.url }}">{{ flagship.title }}</a></h2>
+      <p class="lead mt-m">{{ flagship.summary }}</p>
+      {% for para in H.flagship.paragraphs %}<p class="body mt-m">{{ para }}</p>{% endfor %}
+      <div class="btnrow mt-l">{% for d in flagship.documents[:1] %}<a class="btn" href="{{ d.url }}" target="_blank" rel="noopener">{{ d.label }}</a>{% endfor %}<a class="btn line" href="{{ flagship.url }}">Read more</a></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Highlights', None, '/resources-and-publications/', 'All publications') }}
+    <div class="plist">
+      {% for p in highlights if p is not sameas flagship %}{{ ui.pub_row(p, summary=True) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{% set q = P.impact.voices[H.quote] %}
+<section class="band pt-0">
+  <div class="wrap">
+    <figure class="q ruled"><blockquote><p>{{ q.quote|quoted }}</p></blockquote><figcaption>{{ q.source }}</figcaption></figure>
+  </div>
+</section>
+
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Activities and events', P.events.intro ~ '.', '/activities-and-events/', 'All events') }}
+    <div class="evlist">{% for e in latest_events %}{{ ui.ev_row(e) }}{% endfor %}</div>
+  </div>
+</section>
+
+{% set SA = P.sovereign_ai %}
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Sovereign AI Initiative', None, '/resources-and-publications/sovereign-ai-initiative/', 'Read more') }}
+    <div class="ai">
+      {{ ui.ph(SA.banner, SA.banner_alt) }}
+      <div>
+        <p class="lead">{{ SA.question }}</p>
+        <div class="comp">
+          {% for c in SA.components %}<div><b>{{ c.title }}</b><p>{{ c.paras[0]|plain|excerpt(170) }}</p></div>{% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Get involved', P.get_involved.intro) }}
+    <div class="paths">
+      <a class="path" href="/get-involved/#member"><h3>Become a member</h3><p>{{ P.get_involved.member.countries|excerpt(150) }}</p><span class="arrow">Membership</span></a>
+      <a class="path" href="/get-involved/#sponsor"><h3>Sponsor us</h3><p>{{ P.get_involved.sponsor.paragraphs[0].text }} {{ P.get_involved.sponsor.paragraphs[1].text|excerpt(90) }}</p><span class="arrow">Sponsorship</span></a>
+      <a class="path" href="/get-involved/#partner"><h3>Become a partner</h3><p>{{ P.get_involved.partner.intro|excerpt(150) }}</p><span class="arrow">Partnerships</span></a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/assets/js/world.js"></script><script src="/assets/js/np-data.js"></script>{% endblock %}

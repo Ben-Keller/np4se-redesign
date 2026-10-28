@@ -464,14 +464,19 @@
 
   /* Things arriving as you scroll: blocks fade up, grids and lists follow one after another,
      page titles rise word by word, big numbers count up, photos in the home hero rise from the horizon. */
-  var COUNTERS = '.stats .v, .callout .big, .etype .num, .region .rn .num, .rg h2 .num';
+  /* A design can adjust these through window.NP_CFG (set in its base template): counters replaces the
+     count-up selector ('' turns count-ups off); titles, single, groups and rise add selectors;
+     parallax: false keeps the home hero still. */
+  var CFG = window.NP_CFG || {};
+  var more = function (k) { return CFG[k] ? ', ' + CFG[k] : ''; };
+  var COUNTERS = 'counters' in CFG ? CFG.counters : '.stats .v, .callout .big, .etype .num, .region .rn .num, .rg h2 .num';
   var SINGLE = '.sec-head, .split > *, .feature > *, .ai > *, .mapwrap, .mapbar, .q, .statement, .callout, .cta-row > *, .form-card, ' +
     '.portal-grid .tx > *, .dside > *, .wide-ph, .dimg, .locator, .chead .ch-tx > :not(h1), .phead > :not(h1), .dhead > :not(h1), ' +
-    '.hero-tx > :not(h1), .after-regions, .map-note, .filterbar, .report-card, .side-cover, .stats-more';
+    '.hero-tx > :not(h1), .after-regions, .map-note, .filterbar, .report-card, .side-cover, .stats-more' + more('single');
   var GROUPS = '.cards2, .cards3, .cards4, .lib, .ws, .regions, .paths, .team, .etypes, .streams, .values, .labs, .tiles3, .logos, ' +
     '.credits-grid, .voices, .comp, .deflist, .ticks, .stats, .tl, .reslist, .morelist, .spots, .evlist, .docs, .xref, .people, .boards, ' +
-    '.roster, .am-list, .contact-list, .nlist, .jump';
-  var TITLES = '.hero h1, .phead h1, .dhead h1, .chead h1';
+    '.roster, .am-list, .contact-list, .nlist, .jump' + more('groups');
+  var TITLES = '.hero h1, .phead h1, .dhead h1, .chead h1' + more('titles');
   var rvIO = null;
   function count(el) {
     if (el.__counted) return; el.__counted = 1;
@@ -526,7 +531,7 @@
       }
       el.style.setProperty('--d', d + 'ms');
       el.classList.add('in');
-      $$(COUNTERS, el).concat(el.matches(COUNTERS) ? [el] : []).forEach(function (c) { setTimeout(function () { count(c); }, d + 120); });
+      if (COUNTERS) $$(COUNTERS, el).concat(el.matches(COUNTERS) ? [el] : []).forEach(function (c) { setTimeout(function () { count(c); }, d + 120); });
       setTimeout(function () {
         el.classList.remove('rv', 'in', 'rv-rise', 'rv-pop');
         el.style.removeProperty('--d');
@@ -553,7 +558,7 @@
     var _observe = rvIO.observe.bind(rvIO);
     if (introBusy) { rvIO.observe = function (el) { queue.push(el); }; afterIntro(function () { rvIO.observe = _observe; queue.forEach(_observe); }); }
     $$(TITLES).forEach(function (h) { prep(h, 'title'); });
-    $$('.mosaic .ph').forEach(function (el) { prep(el, 'rv-rise', el.parentElement); });
+    $$('.mosaic .ph' + more('rise')).forEach(function (el) { prep(el, 'rv-rise', el.parentElement); });
     $$('.sunbadge').forEach(function (el) { prep(el, 'rv-pop'); });
     $$(SINGLE).forEach(function (el) { prep(el); });
     $$(GROUPS).forEach(function (g) { Array.prototype.forEach.call(g.children, function (el) { if (!/^(SCRIPT|TEMPLATE)$/.test(el.tagName)) prep(el); }); });
@@ -572,9 +577,11 @@
 
   /* header shadow, reading-progress horizon, back-to-top, and gentle depth in the home hero and quote band */
   var hbar = $('.hbar i'), toTop = $('.totop'), plx = [], qbands = [];
-  if (!RM) {
+  if (!RM && CFG.parallax !== false) {
     $$('.hero .mosaic .b').forEach(function (el) { plx.push([el, -0.07]); });
     $$('.hero .sunbadge').forEach(function (el) { plx.push([el, -0.16]); });
+  }
+  if (!RM) {
     $$('.qband').forEach(function (q) { var im = $(':scope > img', q); if (im) { q.classList.add('plx'); qbands.push([q, im]); } });
   }
   var wideQ = window.matchMedia ? window.matchMedia('(min-width: 961px)') : { matches: true };

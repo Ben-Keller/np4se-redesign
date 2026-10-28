@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set r = regions[c.region] %}
+{% set og_image = c.hero.src if c.hero else None %}
+{% block main %}
+<div class="wrap chead">
+  <div class="ch-tx">
+    {{ ui.crumb([('Member countries', '/members/'), (r.name, None)]) }}
+    <h1 class="d1">{{ c.name }}</h1>
+    <p class="status"><b>{{ c.role_label }}</b>{% if c.stage %}, {{ c.stage|lower }} stage{% if c.legacy_production %}, with marginal legacy production{% endif %}{% endif %}</p>
+    <dl class="kv facts-kv">
+      <dt>Region</dt><dd>{{ r.name }}</dd>
+      <dt>Status</dt><dd>{{ c.role_label }}</dd>
+      {% if c.stage %}<dt>Sector stage</dt><dd>{{ c.stage }}</dd>{% endif %}
+      <dt>Capital</dt><dd>{{ c.capital }}</dd>
+      {% if c.pubs %}<dt>Publications</dt><dd class="num">{{ c.pubs|length }}</dd>{% endif %}
+      {% if c.events %}<dt>Events</dt><dd class="num">{{ c.events|length }}</dd>{% endif %}
+    </dl>
+  </div>
+  <div class="locator" data-map="locator" data-country="{{ c.name }}" role="img" aria-label="Map locating {{ c.name }} in {{ r.name }}"></div>
+</div>
+{% if c.hero %}{{ ui.ph(c.hero.src, c.hero.alt if c.hero.by else 'Photograph from ' ~ c.name, c.hero.place, 'wide-ph', None, eager=True) }}{% endif %}
+
+{% if c.spotlights %}
+<section class="band">
+  <div class="wrap">
+    {% for s in c.spotlights %}
+    <article class="spot solo">
+      <div class="spot-media">{{ ui.ph(s.photo, s.title, s.photo_caption or None) }}</div>
+      <div class="spot-tx">
+        <h2 class="d3">{{ s.title|sentence }}</h2>
+        <div class="case">{% for sec in s.sections %}<div><h4>{{ sec.label|sentence }}</h4>{% if sec.text %}<p>{{ sec.text|markup }}</p>{% endif %}{% if sec.list %}<ul>{% for li in sec.list %}<li>{{ li }}</li>{% endfor %}</ul>{% endif %}</div>{% endfor %}</div>
+        <p class="mt-l"><a class="arrow" href="/impact/">More on our impact</a></p>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if c.voices %}
+<section class="band bold vband">
+  <div class="wrap">{% for v in c.voices %}<figure class="q ruled{{ ' mt-xl' if not loop.first }}"><blockquote><p>{{ v.quote|quoted }}</p></blockquote><figcaption>{{ v.source }}</figcaption></figure>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if c.pubs or c.events %}
+<section class="band{{ ' pt-0' if c.spotlights and not c.voices }}">
+  <div class="wrap">
+    {% if c.pubs %}
+    {{ ui.sec_head(None, 'Publications', None, '/resources-and-publications/', 'All publications') }}
+    <div class="plist">{% for p in c.pubs[:6] %}{{ ui.pub_row(p) }}{% endfor %}</div>
+    {% if c.pubs|length > 6 %}<ul class="morelist">{% for p in c.pubs[6:] %}<li><a href="{{ p.url }}">{{ p.title }}</a> <small>{{ p.type }}, {{ p.date_display }}</small></li>{% endfor %}</ul>{% endif %}
+    {% endif %}
+    {% if c.events %}
+    <div class="{{ 'mt-xl' if c.pubs }}">{{ ui.sec_head(None, 'Events', None, '/activities-and-events/', 'All events') }}</div>
+    <div class="evlist">{% for e in c.events %}{{ ui.ev_row(e) }}{% endfor %}</div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% set extra = [] %}
+{% for res in c.resources %}{% if not (res.url in (c.pubs + c.events)|map(attribute='url')|list) %}{% set _ = extra.append(res) %}{% endif %}{% endfor %}
+{% if extra %}
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Resources') }}
+    <ul class="reslist">
+      {% for res in extra %}
+      <li><a href="{{ res.url }}"{% if res.url.startswith('http') %} rel="noopener"{% endif %}><b>{{ res.title }}</b></a>{% if res.text %}<p>{{ res.text }}</p>{% endif %}{% if res.url.startswith('http') %}<small>{{ res.url.split('/')[2]|replace('www.', '') }}</small>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{% set neighbours = active|selectattr('region', 'equalto', c.region)|rejectattr('slug', 'equalto', c.slug)|list %}
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Also in ' ~ r.name, None, '/members/', 'All member countries') }}
+    <ul class="nlist">{% for m in neighbours %}<li><a href="{{ m.url }}">{{ m.name }}</a></li>{% endfor %}</ul>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="/assets/js/world.js"></script><script src="/assets/js/np-data.js"></script>{% endblock %}

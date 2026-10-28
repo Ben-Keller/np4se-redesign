@@ -1,0 +1,126 @@
+/* NP4SE design panel (v2/assets/js/look.js). A temporary tool, so it keeps its own plain look: neutral
+   greys and the device's system font, untouched by the colours and typefaces it is switching. Only the
+   three dots on its button follow the page, showing the current bold block, link and rule colours. */
+.lk-toggle,.lk-panel{--lk-ink:#1C2026;--lk-ink-2:#4B525C;--lk-ink-3:#6B727C;--lk-line:#DADDE2;--lk-line-2:#ECEEF1;--lk-soft:#F4F5F7;--lk-focus:#2F6FEB;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:14px;font-weight:400;font-stretch:normal;line-height:1.45;letter-spacing:0;color:var(--lk-ink);-webkit-font-smoothing:antialiased;text-transform:none}
+.lk-toggle :focus-visible,.lk-panel :focus-visible,.lk-toggle:focus-visible{outline:2px solid var(--lk-focus);outline-offset:2px}
+
+/* the button that opens it */
+.lk-toggle{position:fixed;z-index:250;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));
+  display:inline-flex;align-items:center;gap:9px;padding:9px 14px 9px 11px;border-radius:999px;background:#1C2026;color:#FFFFFF;
+  font-size:13px;font-weight:600;line-height:1;box-shadow:0 0 0 1px rgba(255,255,255,.22),0 6px 20px rgba(16,20,28,.24),0 1px 3px rgba(16,20,28,.2);transition:background .15s,transform .15s}
+.lk-toggle:hover{background:#30353D}
+.lk-toggle:active{transform:translateY(1px)}
+.lk-dots{display:inline-flex}
+.lk-dots i{width:11px;height:11px;border-radius:50%;border:1.5px solid #1C2026;margin-left:-4px;background:var(--block)}
+.lk-dots i:first-child{margin-left:0}
+.lk-dots i:nth-child(2){background:var(--accent)}
+.lk-dots i:nth-child(3){background:var(--rule)}
+
+/* the panel: a fixed top (the preset switcher and the tabs), a scrolling middle and a fixed foot */
+.lk-panel{position:fixed;z-index:250;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 50px);
+  width:min(404px,calc(100vw - 32px));max-height:calc(100vh - 116px);max-height:calc(100dvh - 116px);display:flex;flex-direction:column;overflow:hidden;
+  background:#FFFFFF;border:1px solid var(--lk-line);border-radius:12px;box-shadow:0 24px 60px rgba(16,20,28,.22),0 2px 8px rgba(16,20,28,.1);
+  animation:lkIn .18s ease-out}
+@keyframes lkIn{from{opacity:0;transform:translateY(8px)}}
+.lk-panel h2,.lk-panel h3{font-family:inherit;font-stretch:normal;color:var(--lk-ink);letter-spacing:0;margin:0;text-wrap:wrap}
+.lk-panel h2{font-size:15px;font-weight:650;line-height:1.3}
+.lk-panel h3{font-size:12px;font-weight:600;line-height:1.3;color:var(--lk-ink-3);margin-bottom:10px}
+.lk-panel p{margin:0}
+.lk-panel button{font-family:inherit;letter-spacing:0;color:var(--lk-ink)}
+.lk-panel svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.lk-top{flex:none;padding:12px 16px 0;background:#FFFFFF;border-bottom:1px solid var(--lk-line)}
+.lk-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.lk-x{display:grid;place-items:center;width:30px;height:30px;margin:-4px -6px -4px 0;border-radius:8px}
+.lk-x:hover{background:var(--lk-soft)}
+.lk-cycle{display:grid;grid-template-columns:38px minmax(0,1fr) 38px;align-items:stretch;border:1px solid var(--lk-line);border-radius:9px;overflow:hidden}
+.lk-cycle>button{display:grid;place-items:center;background:var(--lk-soft)}
+.lk-cycle>button:hover{background:#E8EAEE}
+.lk-cycle>button:first-child{border-right:1px solid var(--lk-line)}
+.lk-cycle>button:last-child{border-left:1px solid var(--lk-line)}
+.lk-now{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7px 8px;min-height:48px;text-align:center}
+.lk-now b{font-size:14.5px;font-weight:650;line-height:1.25}
+.lk-now span{font-size:12px;color:var(--lk-ink-3);font-variant-numeric:tabular-nums}
+.lk-panel .lk-note{margin-top:8px;font-size:12.5px;color:var(--lk-ink-2);min-height:2.9em}
+.lk-tabs{display:flex;margin:8px -16px 0;padding:0 8px}
+.lk-tabs button{flex:1;padding:9px 6px 10px;font-size:13px;font-weight:600;color:var(--lk-ink-3);border-bottom:2px solid transparent;margin-bottom:-1px}
+.lk-tabs button:hover{color:var(--lk-ink)}
+.lk-tabs button[aria-selected="true"]{color:var(--lk-ink);border-bottom-color:var(--lk-ink)}
+
+.lk-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.lk-pane{padding-bottom:10px}
+.lk-intro{padding:14px 16px 0;font-size:12.5px;color:var(--lk-ink-3)}
+.lk-sec{padding:14px 16px 6px}
+.lk-sec+.lk-sec{border-top:1px solid var(--lk-line-2);margin-top:8px}
+.lk-panel .lk-sub{margin:-4px 0 10px;font-size:12.5px;color:var(--lk-ink-3)}
+.lk-panel .lk-hint{margin-top:6px;font-size:12px;color:var(--lk-ink-3)}
+.lk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.lk-gap{margin-top:12px;gap:10px}
+
+/* presets */
+.lk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.lk-pre{display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:7px;border:1px solid var(--lk-line);border-radius:9px;text-align:left;background:#FFFFFF;transition:border-color .15s}
+.lk-pre:hover{border-color:#B8BDC5}
+.lk-mini{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;padding:7px 7px 8px;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(16,20,28,.08)}
+.lk-mini .lk-aa{font-size:22px;line-height:1}
+.lk-pn{font-size:12px;font-weight:600;line-height:1.25;color:var(--lk-ink)}
+.lk-sw{display:inline-flex;flex:none}
+.lk-sw i{width:12px;height:12px;border-radius:50%;margin-left:-3px;box-shadow:0 0 0 1.5px #FFFFFF}
+.lk-sw i:first-child{margin-left:0}
+.lk-pre[aria-pressed="true"],.lk-chip[aria-pressed="true"]{border-color:var(--lk-ink);box-shadow:inset 0 0 0 1px var(--lk-ink)}
+
+/* colour sets and typeface pairs */
+.lk-chip{display:inline-flex;align-items:center;gap:7px;padding:6px 10px 6px 8px;border:1px solid var(--lk-line);border-radius:8px;font-size:12.5px;font-weight:550;line-height:1.2;background:#FFFFFF;text-align:left}
+.lk-chip:hover{border-color:#B8BDC5}
+.lk-chip .lk-aa{font-size:15px;line-height:1;color:var(--lk-ink)}
+.lk-chip .lk-b{font-weight:400;margin-left:-3px;color:var(--lk-ink-2)}
+
+/* choices in a row, sliders, pickers */
+.lk-opt{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:start;gap:10px;padding:4px 0}
+.lk-lab{font-size:13px;color:var(--lk-ink-2);padding-top:5px}
+.lk-seg{display:flex;flex-wrap:wrap;gap:4px}
+.lk-seg button{padding:5px 7px;border:1px solid var(--lk-line);border-radius:6px;font-size:12px;font-weight:550;line-height:1.2;background:#FFFFFF}
+.lk-seg button:hover{border-color:#B8BDC5}
+.lk-seg button[aria-pressed="true"]{background:var(--lk-ink);border-color:var(--lk-ink);color:#FFFFFF}
+.lk-seg button[data-guess]{border-style:dashed;border-color:#8A919B}
+.lk-fields{display:grid;gap:2px;margin-top:8px}
+.lk-field{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:34px;font-size:13px;color:var(--lk-ink-2)}
+.lk-pick{display:inline-flex;align-items:center;gap:8px}
+.lk-field input[type="color"]{width:34px;height:24px;padding:0;border:1px solid var(--lk-line);border-radius:5px;background:#FFFFFF;cursor:pointer}
+.lk-field input[type="color"]::-webkit-color-swatch-wrapper{padding:2px}
+.lk-field input[type="color"]::-webkit-color-swatch{border:0;border-radius:3px}
+.lk-field input[type="color"]::-moz-color-swatch{border:0;border-radius:3px}
+.lk-field code{font:12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--lk-ink-2);min-width:7ch}
+.lk-field select{width:196px;max-width:60%;padding:5px 8px;border:1px solid var(--lk-line);border-radius:6px;background:#FFFFFF;color:var(--lk-ink);font-family:inherit;font-size:13px;line-height:1.3}
+.lk-field input[type="range"]{width:120px;accent-color:var(--lk-ink)}
+.lk-field output{font-size:12px;color:var(--lk-ink-2);width:66px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.lk-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 12px 7px 10px;border:1px solid var(--lk-line);border-radius:8px;font-size:13px;font-weight:600;line-height:1.2;background:#FFFFFF}
+.lk-btn:hover{background:var(--lk-soft);border-color:#B8BDC5}
+.lk-more summary{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--lk-ink-2);list-style:none;padding:2px 0}
+.lk-more summary::-webkit-details-marker{display:none}
+.lk-more summary::before{content:"";width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.lk-more[open] summary::before{transform:rotate(45deg)}
+
+/* copy, reset */
+.lk-foot{flex:none;background:#FFFFFF;border-top:1px solid var(--lk-line)}
+.lk-actions{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px 0}
+.lk-actions button{padding:8px 12px;border:1px solid var(--lk-line);border-radius:8px;font-size:13px;font-weight:600;line-height:1.2;background:#FFFFFF}
+.lk-actions button:hover{background:var(--lk-soft);border-color:#B8BDC5}
+.lk-actions button:first-child{background:var(--lk-ink);border-color:var(--lk-ink);color:#FFFFFF}
+.lk-actions button:first-child:hover{background:#30353D}
+.lk-status{min-height:1.4em;padding:6px 16px 10px;font-size:12.5px;color:var(--lk-ink-2)}
+.lk-copy{display:block;width:calc(100% - 32px);height:110px;margin:0 16px 14px;padding:8px;border:1px solid var(--lk-line);border-radius:6px;font:11.5px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--lk-ink);resize:vertical}
+
+/* phones: a sheet along the bottom, low enough to keep the page in view */
+@media (max-width:640px){
+  .lk-panel{left:0;right:0;bottom:0;width:auto;max-height:64vh;max-height:64dvh;border-radius:14px 14px 0 0;border-width:1px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .lk-toggle.on{display:none}
+  .lk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lk-opt{grid-template-columns:88px minmax(0,1fr)}
+  .lk-panel .lk-note{min-height:0}
+}
+@media (hover:none){ .lk-keys{display:none} }
+/* out of the way of the menu, the search and printing */
+body.menu-open .lk-toggle,body.menu-open .lk-panel,body.search-open .lk-toggle,body.search-open .lk-panel{display:none}
+@media print{ .lk-toggle,.lk-panel{display:none!important} }

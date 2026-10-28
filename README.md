@@ -72,6 +72,15 @@ handle visitors' names and email addresses, so check its terms and mention it in
 ordinary web server). Old addresses redirect through small pages generated in `dist/`, so no server
 rules are needed.
 
+## The second design (v2)
+
+`v2/` holds a second design over the same content, for comparison: one typeface, the NP4SE blue from the
+previous site, squarer shapes and the real covers of the PDFs. `python3 build.py --design v2` builds it
+into `dist-v2/`, and while `build_v2` is on in `content/data/site.yaml` every production build, the deploy
+workflow's included, also builds it into `/v2/` next to the main design. `v2/README.md` also explains what
+differs and how to use its temporary design panel, which tries other colours and typefaces on the real
+pages; `tools/make_covers.py` makes the covers.
+
 ## Before you switch the domain
 
 1. **Documents.** PDFs, the audio overview and one video are linked at
@@ -152,8 +161,8 @@ Images: save a WebP or JPEG under `assets/img/`, about 1400 px wide, and referen
   interactive maps and the motion. Every page still works without it.
 - The logo is the Horizon mark (`horizon` in `templates/macros.html`): a sun rising over a horizon line,
   with three layers below. `assets/img/favicon.svg`, `apple-touch-icon.png` and `og-image.jpg` use it too.
-- Motion: on the first page of a visit the sun rises and the mark settles into the header; after that the
-  header sun rises as each page arrives. Pages change with a short rise (view transitions, where the
+- Motion: on the first page of a visit the sun rises and the mark settles into the header; after that its
+  stripes fan out when you point at it. Pages change with a short rise (view transitions, where the
   browser supports them) and a four-colour line runs along the top while the next page loads. As you
   scroll, sections fade up, titles rise word by word, figures count up and the maps colour in from east
   to west. Nothing is hidden without JavaScript, and it all switches off for visitors whose device asks

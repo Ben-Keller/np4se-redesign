@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set e = item %}
+{% set og_image = e.image %}
+{% set MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] %}
+{% block main %}
+<article class="detail">
+  <header class="wrap dhead">
+    {% set links = [('Activities and events', '/activities-and-events/')] %}
+    {% if 'Annual meeting' in e.types %}{% set links = links + [('Annual meeting', '/annual-meeting/')] %}{% elif 'Training' in e.types %}{% set links = links + [('Training', '/training/')] %}{% endif %}
+    {{ ui.crumb(links) }}
+    <h1 class="d2">{{ e.title }}</h1>
+    <p class="dmeta">{% if e.types %}<span>{{ e.types|join(', ') }}</span>{% endif %}<time datetime="{{ e.date_start }}">{{ e.date_display }}</time>{% if e.time %}<span>{{ e.time }}</span>{% endif %}{% if e.countries %}<span>{{ ui.country_links(e.countries) }}</span>{% endif %}</p>
+  </header>
+
+  <div class="wrap dgrid">
+    <div class="dmain">
+      {% if e.image %}{{ ui.ph(e.image, e.image_caption or '', e.image_caption or None, 'dimg', eager=True) }}{% endif %}
+      <div class="prose">{{ e.html }}</div>
+    </div>
+    <aside class="dside">
+      {% if e.summary_pub %}<a class="doc lead-doc" href="{{ e.summary_pub.url }}"><span>Read the summary</span><small>{{ e.summary_pub.type }}, {{ e.summary_pub.date_display }}</small></a>{% endif %}
+      {{ ui.docs(e.documents) }}
+      <dl class="kv">
+        <dt>Date</dt><dd>{{ e.date_display }}{% if e.past %} <span class="small">(past event)</span>{% endif %}</dd>
+        {% if e.time %}<dt>Start</dt><dd>{{ e.time }}</dd>{% endif %}
+        {% if e.types %}<dt>Format</dt><dd>{{ e.types|join(', ') }}</dd>{% endif %}
+        {% if e.countries %}<dt>Countries</dt><dd>{{ ui.country_links(e.countries) }}</dd>{% endif %}
+        {% if e.themes %}<dt>Themes</dt><dd>{{ ui.theme_chips(e.themes) }}</dd>{% endif %}
+        {% if e.topics %}<dt>Topics</dt><dd>{{ ui.topic_tags(e.topics) }}</dd>{% endif %}
+      </dl>
+    </aside>
+  </div>
+</article>
+
+{% set rel = related(e, 3) %}
+{% if rel %}
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Related', None, '/activities-and-events/', 'All events') }}
+    <div class="cards3">{% for r in rel %}{% if r.kind == 'publication' %}{{ ui.pub_card(r) }}{% else %}{{ ui.ev_card(r) }}{% endif %}{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

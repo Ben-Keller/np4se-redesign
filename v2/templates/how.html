@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as ui %}
+{% set H = P.how %}
+{% block main %}
+<div class="wrap phead">
+  <h1 class="d1">How we work</h1>
+  <p class="statement mt-m">{{ H.mission }}</p>
+  <p class="lead">{{ H.mission_text }}</p>
+</div>
+{{ ui.ph(H.banner, H.banner_alt, 'São Tomé e Príncipe', 'wide-ph', None, eager=True) }}
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, H.approach_title) }}
+    <div class="split top">
+      <p class="statement">{{ H.approach_intro }}</p>
+      <div class="deflist">
+        {% for a in H.approach %}<div><b>{{ a.label|sentence }}</b><p>{{ a.text }}</p></div>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band bold">
+  <div class="wrap split top">
+    <div class="duo">
+      {% for src in H.mission_images %}{{ ui.ph(src, H.mission_alts[loop.index0]) }}{% endfor %}
+    </div>
+    <div>
+      <h2 class="d2 sunrule">{{ H.difference_title|sentence }}</h2>
+      <p class="lead mt-m">{{ H.difference_intro|replace(':', '.') }}</p>
+      <div class="deflist mt-l">
+        {% for a in H.difference %}<div><b>{{ a.label|sentence }}</b><p>{{ a.text }}</p></div>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'What we do') }}
+    <div class="streams">
+      {% for w in H.workstreams %}
+      <div><h3>{{ w.title|sentence }}</h3><p>{{ w.text }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Our values') }}
+    <div class="values">
+      {% for v in H['values'] %}<div><b>{{ v.title }}</b><span>{{ v.text }}</span></div>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band pt-0">
+  <div class="wrap">
+    {{ ui.sec_head(None, 'Our history') }}
+    <div class="split top">
+      <ol class="tl">
+        {% for h in H.history %}
+        <li><span class="y num">{{ h.year }}</span><p>{{ h.text }}</p></li>
+        {% endfor %}
+      </ol>
+      {{ ui.ph(H.history_image, H.history_alt, None, 'hist') }}
+    </div>
+  </div>
+</section>
+
+<section class="band pt-0">
+  <div class="wrap cta-row">
+    <div><h2 class="d3">Impact</h2><p class="body mt-s">{{ P.impact.stats[1] }}</p></div>
+    <div class="btnrow"><a class="btn" href="/impact/">Impact</a><a class="btn line" href="/about-us/">Governance</a></div>
+  </div>
+</section>
+{% endblock %}
